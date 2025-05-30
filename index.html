@@ -6,53 +6,138 @@
     <title>Kyle's DreamJourney Tweaker</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> 
     <style>
+        /* --- CSS Variables for Theming --- */
+        :root {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #24243e;
+            --bg-tertiary: #1e1e36;
+            --bg-accent: #2a2a4a;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --text-highlight: #9bf6ff;
+            --text-muted: #8c8c8c;
+            --border-color: #3a3a5a;
+            --border-accent: #4a4a6a;
+            --slider-accent: #6a0dad;
+            --slider-thumb: #6a0dad;
+            --slider-thumb-hover: #800080;
+            --button-primary-bg: #6a0dad;
+            --button-primary-hover-bg: #800080;
+            --button-secondary-bg: #ffb74d;
+            --button-secondary-text: #1a1a2e;
+            --button-secondary-hover-bg: #ffa726;
+            --warning-recommendation-bg: #FFD700;
+            --warning-recommendation-text: #332e00;
+            --warning-critical-bg: #ff6b6b;
+            --warning-critical-text: #1a1a2e;
+            --alert-bg: #5c2525;
+            --alert-text: #ffcaca;
+            --alert-border: #a84f4f;
+            --positive-spin-text: #a6ffcb;
+            --tag-positive-bg: #2a5c3d;
+            --tag-positive-border: #38761d;
+            --tag-positive-text: #d9ead3;
+            --tag-negative-bg: #702828;
+            --tag-negative-border: #990000;
+            --tag-negative-text: #f4cccc;
+            --tag-neutral-bg: #33334f;
+            --tag-neutral-border: #4a4a6a;
+            --tag-neutral-text: #b0b0b0;
+            --tag-critical-warning-bg: #ff6b6b;
+            --tag-critical-warning-border: #e06666;
+            --tag-critical-warning-text: #1a1a2e;
+        }
+
+        body.light-theme {
+            --bg-primary: #f4f7f6;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #e9ecef;
+            --bg-accent: #e9f5fe;
+            --text-primary: #212529;
+            --text-secondary: #495057;
+            --text-highlight: #007bff;
+            --text-muted: #6c757d;
+            --border-color: #dee2e6;
+            --border-accent: #ced4da;
+            --slider-accent: #581c87; /* Darker purple for light theme */
+            --slider-thumb: #581c87;
+            --slider-thumb-hover: #4a148c;
+            --button-primary-bg: #581c87;
+            --button-primary-hover-bg: #4a148c;
+            --button-secondary-bg: #fd7e14; /* Orange */
+            --button-secondary-text: #ffffff;
+            --button-secondary-hover-bg: #e8590c;
+            --warning-recommendation-bg: #fff3cd;
+            --warning-recommendation-text: #664d03;
+            --warning-critical-bg: #f8d7da;
+            --warning-critical-text: #58151c;
+            --alert-bg: #f8d7da;
+            --alert-text: #58151c;
+            --alert-border: #f1aeb5;
+            --positive-spin-text: #198754; /* Green for positive spin */
+            --tag-positive-bg: #d1e7dd; --tag-positive-border: #a3cfbb; --tag-positive-text: #0f5132;
+            --tag-negative-bg: #f8d7da; --tag-negative-border: #f1aeb5; --tag-negative-text: #58151c;
+            --tag-neutral-bg: #e9ecef; --tag-neutral-border: #ced4da; --tag-neutral-text: #495057;
+            --tag-critical-warning-bg: #f8d7da; --tag-critical-warning-border: #f1aeb5; --tag-critical-warning-text: #58151c;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
-            padding: 10px; /* Default padding, adjusted for mobile below */
-            background-color: #1a1a2e; 
-            color: #e0e0e0; 
+            padding: 10px; 
+            background-color: var(--bg-primary); 
+            color: var(--text-primary); 
             display: flex;
             flex-direction: column;
             align-items: center;
             line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
         }
         .page-wrapper { 
             width: 100%;
             max-width: 1100px; 
         }
+        .theme-toggle-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 8px 12px;
+            background-color: var(--button-primary-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--border-accent);
+            border-radius: 6px;
+            cursor: pointer;
+            z-index: 1000;
+            font-size: 0.85em;
+        }
+        .theme-toggle-button:hover {
+            background-color: var(--button-primary-hover-bg);
+        }
+
+        /* ... other styles remain largely the same, but using CSS variables ... */
+        /* Example change: */
         .main-container {
             display: flex;
             flex-direction: row; 
             gap: 30px;
             width: 100%;
-            background-color: #24243e; 
+            background-color: var(--bg-secondary); 
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             padding: 25px; 
-            border: 1px solid #3a3a5a;
+            border: 1px solid var(--border-color);
             margin-bottom: 30px; 
         }
-        .controls-column {
-            flex: 1; 
-            min-width: 280px; 
-            max-width: 400px; 
-        }
-        .profile-column {
-            flex: 1.5; 
-            min-width: 320px; 
-        }
-
         h1 {
             text-align: center;
-            color: #9bf6ff; 
+            color: var(--text-highlight); 
             margin-bottom: 10px; 
             font-size: 1.8em; 
             font-weight: 600;
         }
-        .disclaimer-note {
+         .disclaimer-note {
             text-align: center;
-            color: #b0b0b0;
+            color: var(--text-secondary);
             font-size: 0.85em;
             font-style: italic;
             margin-bottom: 25px;
@@ -60,429 +145,216 @@
             margin-left: auto;
             margin-right: auto;
         }
-        .controls {
-            display: flex;
-            flex-direction: column;
-            gap: 25px; 
+        .control-group input[type="range"] {
+            accent-color: var(--slider-accent); 
+            background: var(--border-color); 
         }
-        .control-group {
-            display: flex;
-            flex-direction: column;
+        .control-group input[type="range"]::-webkit-slider-thumb {
+            background: var(--slider-thumb); 
+            border: 2px solid var(--bg-primary); 
         }
-        .control-group .label-line {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px; 
+        .control-group input[type="range"]::-moz-range-thumb {
+            background: var(--slider-thumb); 
+            border: 2px solid var(--bg-primary);
         }
+         .control-group input[type="range"]::-webkit-slider-thumb:hover {
+            background: var(--slider-thumb-hover); 
+        }
+        .control-group input[type="range"]::-moz-range-thumb:hover {
+            background: var(--slider-thumb-hover); 
+        }
+        .numerical-value-box {
+            background-color: var(--bg-tertiary); 
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        .numerical-value-box.recommendation-warning { 
+            background-color: var(--warning-recommendation-bg); 
+            color: var(--warning-recommendation-text); 
+        }
+        .numerical-value-box.critical-warning { 
+            color: var(--warning-critical-text); 
+            background-color: var(--warning-critical-bg); 
+        }
+        .slider-ends { color: var(--text-muted); }
+        .setting-description { color: var(--text-secondary); }
+        
+        .action-buttons button { 
+            background-color: var(--button-primary-bg); 
+            color: var(--text-primary);
+        }
+        .action-buttons button:hover {
+            background-color: var(--button-primary-hover-bg); 
+        }
+        #jump-to-troubleshooting-btn { 
+            background-color: var(--button-secondary-bg); 
+            color: var(--button-secondary-text); 
+        }
+        #jump-to-troubleshooting-btn:hover {
+            background-color: var(--button-secondary-hover-bg);
+        }
+
+        .description-box {
+            background-color: var(--bg-accent); 
+            border: 1px solid var(--border-accent);
+        }
+        .description-box h3 {
+            color: var(--text-highlight); 
+            border-bottom: 1px solid var(--border-accent);
+        }
+        #alert-section {
+            background-color: var(--alert-bg); 
+            color: var(--alert-text);
+            border: 1px solid var(--alert-border);
+        }
+        #alert-section strong { color: var(--alert-text); } /* Adjusted for better contrast on light theme */
+        #quick-vibe-check {
+            color: var(--text-secondary); 
+            background-color: var(--bg-tertiary);
+        }
+         #quick-vibe-check h3 { 
+            color: var(--text-secondary); 
+            border-color: var(--border-color);
+        }
+        .vibe-persona { color: var(--text-primary);  }
+        .vibe-outcome { color: var(--text-secondary); }
+        .profile-section { border-bottom: 1px dashed var(--border-color);  }
+        .profile-section strong { color: var(--text-primary); }
+        .profile-section span { color: var(--text-secondary); }
+        .positive-spin { color: var(--positive-spin-text); }
+
+        #ai-character-trait { background-color: var(--bg-tertiary); }
+        .trait-tag { border: 1px solid var(--border-accent); }
+        .trait-tag.positive { background-color: var(--tag-positive-bg); border-color: var(--tag-positive-border); color: var(--tag-positive-text);}
+        .trait-tag.negative { background-color: var(--tag-negative-bg); border-color: var(--tag-negative-border); color: var(--tag-negative-text);}
+        .trait-tag.neutral { background-color: var(--tag-neutral-bg); border-color: var(--tag-neutral-border); color: var(--tag-neutral-text);}
+        .trait-tag.critical-warning { background-color: var(--tag-critical-warning-bg); border-color: var(--tag-critical-warning-border); color: var(--tag-critical-warning-text);}
+
+        .tips-guide-container {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+        #tips-guide-content h1, #tips-guide-content h2, #tips-guide-content h3 { 
+            color: var(--text-highlight);
+            border-bottom: 1px solid var(--border-accent);
+        }
+        #tips-guide-content p { color: var(--text-primary); }
+        #tips-guide-content strong { color: var(--text-primary); }
+        #tips-guide-content code { 
+            background-color: var(--bg-tertiary);
+            color: var(--alert-text); /* Re-using alert text color for code */
+        }
+        #tips-guide-content pre { 
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+        }
+        .troubleshooting-table { border: 1px solid var(--border-accent) !important; }
+        .troubleshooting-table th, 
+        .troubleshooting-table td { border: 1px solid var(--border-accent) !important; }
+        .troubleshooting-table th {
+            background-color: var(--tag-neutral-bg) !important; 
+            color: var(--text-highlight);
+        }
+        .troubleshooting-table tr:nth-child(even) td { background-color: var(--bg-tertiary); }
+        #tips-guide-content p.jump-to-troubleshooting a,
+        #tips-guide-content p.jump-to-troubleshooting a:link,
+        #tips-guide-content p.jump-to-troubleshooting a:visited {
+            color: var(--button-secondary-bg) !important;
+        }
+        #tips-guide-content p.jump-to-troubleshooting a:hover,
+        #tips-guide-content p.jump-to-troubleshooting a:active {
+            color: var(--button-secondary-hover-bg) !important;
+        }
+        
+        /* Rest of the CSS from v13 (media queries, specific element styles etc.) should be here, adjusted to use variables if possible */
+        /* For brevity, I'm not repeating all identical CSS, only showing the theming structure and key changes. */
+        /* Please ensure all previous CSS is carried over and updated with CSS variables where appropriate. */
+        /* Example of a previously defined style that now uses variables: */
         .main-label { 
             font-weight: 600;
             font-size: 1.05em; 
-            color: #c5c6c7;
-        }
-        .qualitative-value { 
-             font-weight: normal;
-             font-style: italic;
-             font-size: 0.85em; 
-             color: #a9a9a9;
-        }
-        .control-group input[type="range"] {
-            width: 100%;
-            cursor: pointer;
-            accent-color: #6a0dad; 
-            background: #3a3a5a; 
-            border-radius: 5px;
-            height: 8px;
-            -webkit-appearance: none; 
-            appearance: none;
-        }
-        .control-group input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            background: #6a0dad; 
-            border-radius: 50%;
-            border: 2px solid #1a1a2e; 
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-        .control-group input[type="range"]::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            background: #6a0dad; 
-            border-radius: 50%;
-            border: 2px solid #1a1a2e;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-         .control-group input[type="range"]::-webkit-slider-thumb:hover {
-            background: #800080; 
-        }
-        .control-group input[type="range"]::-moz-range-thumb:hover {
-            background: #800080; 
-        }
-
-        .numerical-value-box {
-            background-color: #1e1e36; 
-            color: #e0e0e0;
-            padding: 5px 10px; 
-            border-radius: 6px;
-            font-size: 0.9em; 
-            text-align: center;
-            margin-top: 8px; 
-            border: 1px solid #3a3a5a;
-            width: 75px; 
-            margin-left: auto;
-            margin-right: auto; 
-            transition: background-color 0.3s ease, color 0.3s ease; 
-        }
-        .numerical-value-box.recommendation-warning { 
-            background-color: #FFD700; 
-            color: #332e00; 
-        }
-        .numerical-value-box.critical-warning { 
-            color: #1a1a2e; 
-            background-color: #ff6b6b; 
-            font-weight: bold;
+            color: var(--text-primary); /* Was #c5c6c7 */
         }
         .slider-ends {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75em; 
-            color: #8c8c8c; 
-            margin-top: 5px;
+            color: var(--text-muted); /* Was #8c8c8c */
         }
-        .setting-description {
-            font-size: 0.8em; 
-            color: #b0b0b0;
-            margin-top: 6px;
-            line-height: 1.4;
-            text-align: left;
-        }
-        
-        .action-buttons button { 
-            background-color: #6a0dad; 
-            color: #e0e0e0;
-            border: none;
-            padding: 10px 15px; 
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9em; 
-            font-weight: 500;
-            transition: background-color 0.2s ease;
-            display: block;
-            width: 90%; 
-            max-width: 280px; 
-            margin: 15px auto 0 auto; 
-        }
-        .action-buttons button:hover {
-            background-color: #800080; 
-        }
-        #toggle-guide-button { 
-            margin-top: 10px; 
-        }
-        #jump-to-troubleshooting-btn { 
-            background-color: #ffb74d; 
-            color: #1a1a2e; 
-            font-weight: 600;
-            margin: 20px auto; 
-            display: block; 
-            width: fit-content; 
-            padding: 8px 15px;
-        }
-        #jump-to-troubleshooting-btn:hover {
-            background-color: #ffa726;
-        }
+        /* Ensure all color, background-color, border-color are switched to vars */
+        .controls-column { flex: 1; min-width: 280px; max-width: 400px; }
+        .profile-column { flex: 1.5; min-width: 320px; }
+        h1 { text-align: center; color: var(--text-highlight); margin-bottom: 10px; font-size: 1.8em; font-weight: 600;}
+        .disclaimer-note { text-align: center; color: var(--text-secondary); font-size: 0.85em; font-style: italic; margin-bottom: 25px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .controls { display: flex; flex-direction: column; gap: 25px; }
+        .control-group { display: flex; flex-direction: column; }
+        .control-group .label-line { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .qualitative-value { font-weight: normal; font-style: italic; font-size: 0.85em; color: var(--text-secondary); }
+        .control-group input[type="range"] { width: 100%; cursor: pointer; background: var(--border-color); border-radius: 5px; height: 8px; -webkit-appearance: none; appearance: none; accent-color: var(--slider-accent); }
+        .control-group input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; background: var(--slider-thumb); border-radius: 50%; border: 2px solid var(--bg-primary); cursor: pointer; transition: background-color 0.2s ease; }
+        .control-group input[type="range"]::-moz-range-thumb { width: 20px; height: 20px; background: var(--slider-thumb); border-radius: 50%; border: 2px solid var(--bg-primary); cursor: pointer; transition: background-color 0.2s ease; }
+        .control-group input[type="range"]::-webkit-slider-thumb:hover { background: var(--slider-thumb-hover); }
+        .control-group input[type="range"]::-moz-range-thumb:hover { background: var(--slider-thumb-hover); }
+        .numerical-value-box { padding: 5px 10px; border-radius: 6px; font-size: 0.9em; text-align: center; margin-top: 8px; width: 75px; margin-left: auto; margin-right: auto; transition: background-color 0.3s ease, color 0.3s ease; background-color: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border-color); }
+        .numerical-value-box.recommendation-warning { background-color: var(--warning-recommendation-bg); color: var(--warning-recommendation-text); }
+        .numerical-value-box.critical-warning { color: var(--warning-critical-text); background-color: var(--warning-critical-bg); font-weight: bold; }
+        .setting-description { font-size: 0.8em; color: var(--text-secondary); margin-top: 6px; line-height: 1.4; text-align: left; }
+        .action-buttons button { border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-size: 0.9em; font-weight: 500; transition: background-color 0.2s ease; display: block; width: 90%; max-width: 280px; margin: 15px auto 0 auto; background-color: var(--button-primary-bg); color: var(--text-primary); }
+        .action-buttons button:hover { background-color: var(--button-primary-hover-bg); }
+        #toggle-guide-button { margin-top: 10px; }
+        #jump-to-troubleshooting-btn { font-weight: 600; margin: 20px auto; display: block; width: fit-content; padding: 8px 15px; background-color: var(--button-secondary-bg); color: var(--button-secondary-text); }
+        #jump-to-troubleshooting-btn:hover { background-color: var(--button-secondary-hover-bg); }
+        .description-box h3 { font-size: 1.25em; margin-bottom: 15px; border-bottom: 1px solid var(--border-accent); padding-bottom: 12px; text-align: center; margin-top: 0; color: var(--text-highlight); }
+        #alert-section { padding: 10px 15px; border-radius: 6px; margin-bottom: 15px; background-color: var(--alert-bg); color: var(--alert-text); border: 1px solid var(--alert-border); }
+        #alert-section strong { display: block; margin-bottom: 5px; color: var(--alert-text); } /* Adjusted for better contrast on light theme */
+        #alert-section.hidden { display: none; }
+        #alert-text ul { margin: 0; padding-left: 20px; }
+        #alert-text li { margin-bottom: 3px; }
+        #quick-vibe-check { font-size: 0.95em; text-align: center; margin-bottom: 15px; padding: 12px; border-radius: 6px; line-height: 1.5; background-color: var(--bg-tertiary); color: var(--text-secondary); }
+        #quick-vibe-check h3 { font-size: 1.05em; margin-top: 0; margin-bottom: 8px; padding-bottom: 5px; border-bottom-style: dashed; border-bottom-width: 1px; text-align: center; color: var(--text-secondary); border-color: var(--border-color); }
+        .vibe-emoji { font-size: 1.4em; display: block; margin-bottom: 5px; }
+        .vibe-persona { font-weight: bold; display: block; margin-bottom: 5px; font-size: 1em; color: var(--text-primary); }
+        .vibe-outcome { font-style: italic; font-size: 0.9em; color: var(--text-secondary); }
+        .profile-section { margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed var(--border-color); }
+        .profile-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .profile-section strong { font-weight: 600; display: block; margin-bottom: 4px; font-size: 1em; color: var(--text-primary); }
+        .profile-section .section-emoji { margin-right: 8px; font-size: 1.05em; }
+        .profile-section span { font-size: 0.9em; line-height: 1.5; text-align: left; color: var(--text-secondary); }
+        .positive-spin { font-style: italic; display: block; margin-top: 3px; font-size: 0.85em; color: var(--positive-spin-text); }
+        #ai-character-trait { text-align: center; margin-bottom: 15px; padding: 12px; border-radius: 8px; background-color: var(--bg-tertiary); }
+        #trait-icon { font-size: 2.5em; display: block; margin-bottom: 8px; }
+        #trait-tags-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+        .trait-tag { padding: 4px 10px; border-radius: 15px; font-size: 0.8em; color: var(--tag-neutral-text); background-color: var(--tag-neutral-bg); border: 1px solid var(--tag-neutral-border); }
+        .trait-tag.positive { color: var(--tag-positive-text); background-color: var(--tag-positive-bg); border: 1px solid var(--tag-positive-border); }
+        .trait-tag.negative { color: var(--tag-negative-text); background-color: var(--tag-negative-bg); border: 1px solid var(--tag-negative-border); }
+        .trait-tag.critical-warning { font-weight: bold; color: var(--tag-critical-warning-text); background-color: var(--tag-critical-warning-bg); border: 1px solid var(--tag-critical-warning-border); }
+        .tips-guide-container { border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); padding: 20px; margin-top: 30px; background-color: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); }
+        .tips-guide-container.hidden { display: none; }
+        #tips-guide-content h1, #tips-guide-content h2, #tips-guide-content h3 { border-bottom: 1px solid var(--border-accent); padding-bottom: 8px; margin-top: 18px; margin-bottom: 12px; color: var(--text-highlight); }
+        #tips-guide-content h1 { font-size: 1.5em; text-align: center; }
+        #tips-guide-content h2 { font-size: 1.3em; }
+        #tips-guide-content h3 { font-size: 1.15em; }
+        #tips-guide-content p { margin-bottom: 10px; line-height: 1.65; color: var(--text-primary); }
+        #tips-guide-content ul, #tips-guide-content ol { margin-left: 0px; margin-bottom: 12px; padding-left: 22px; }
+        #tips-guide-content li { margin-bottom: 6px; }
+        #tips-guide-content strong { font-weight: 600; color: var(--text-primary); }
+        #tips-guide-content code { padding: 2px 5px; border-radius: 4px; font-size: 0.9em; background-color: var(--bg-tertiary); color: var(--alert-text); }
+        #tips-guide-content pre { padding: 15px; border-radius: 6px; overflow-x: auto; background-color: var(--bg-tertiary); border: 1px solid var(--border-color); }
+        #tips-guide-content pre code { background-color: transparent; padding: 0; font-size: 0.9em; }
+        .troubleshooting-table { width: 100%; border-collapse: collapse !important; margin-top: 20px; margin-bottom: 25px; font-size: 0.9em; border: 1px solid var(--border-accent) !important; }
+        .troubleshooting-table th, .troubleshooting-table td { border: 1px solid var(--border-accent) !important; padding: 10px 12px; text-align: left; vertical-align: top; }
+        .troubleshooting-table th { font-weight: 600; background-color: var(--tag-neutral-bg) !important; color: var(--text-highlight); }
+        .troubleshooting-table tr:nth-child(even) td { background-color: var(--bg-tertiary); }
+        .troubleshooting-table td ul { margin: 5px 0 0 0; padding-left: 18px; }
+        .troubleshooting-table td ul li { margin-bottom: 4px; }
 
+        @media (max-width: 900px) { .main-container { flex-direction: column; max-width: 700px; } .controls-column, .profile-column { max-width: 100%; } .profile-column { margin-top: 30px; } }
+        @media (max-width: 600px) { body { padding: 10px 5px; } .page-wrapper { padding-left: 5px; padding-right: 5px; } .main-container { padding: 15px; gap: 20px; } h1 { font-size: 1.5em; } .main-label { font-size: 1em; } .description-box { padding: 15px; } .description-box h3 { font-size: 1.15em; } .profile-section strong { font-size: 0.95em; } .profile-section span { font-size: 0.85em; } #ai-character-trait { margin-bottom: 15px; padding: 10px; } #trait-icon { font-size: 2.2em; } .trait-tag { font-size: 0.75em; padding: 3px 8px; } .numerical-value-box { width: 65px; font-size: 0.85em; } #quick-vibe-check { font-size: 0.9em; } .tips-guide-container { padding: 15px; } .tips-guide-container h1 { font-size: 1.3em; } .tips-guide-container h2 { font-size: 1.15em; } .tips-guide-container h3 { font-size: 1.05em; } .troubleshooting-table th, .troubleshooting-table td { padding: 6px 8px; font-size: 0.8em; } .action-buttons button { width: 95%; max-width: none; font-size: 0.85em; padding: 8px 10px; } }
 
-        .description-box {
-            padding: 20px; 
-            background-color: #2a2a4a; 
-            border-radius: 12px;
-            border: 1px solid #4a4a6a;
-            height: 100%; 
-            display: flex;
-            flex-direction: column;
-        }
-        .description-box h3 {
-            margin-top: 0;
-            color: #9bf6ff; 
-            font-size: 1.25em; 
-            margin-bottom: 15px;
-            border-bottom: 1px solid #4a4a6a;
-            padding-bottom: 12px;
-            text-align: center;
-        }
-
-        #alert-section {
-            background-color: #5c2525; 
-            color: #ffcaca;
-            padding: 10px 15px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            border: 1px solid #a84f4f;
-        }
-        #alert-section strong {
-            color: #ffefef;
-            display: block; 
-            margin-bottom: 5px;
-        }
-        #alert-section.hidden {
-            display: none;
-        }
-        #alert-text ul {
-            margin: 0;
-            padding-left: 20px; 
-        }
-        #alert-text li {
-            margin-bottom: 3px;
-        }
-
-
-        #quick-vibe-check {
-            font-size: 0.95em; 
-            color: #b0e0e6; 
-            text-align: center; 
-            margin-bottom: 15px; 
-            padding: 12px;
-            background-color: #1e1e36;
-            border-radius: 6px;
-            line-height: 1.5;
-        }
-         #quick-vibe-check h3 { 
-            font-size: 1.05em; 
-            color: #b0e0e6; 
-            margin-top: 0;
-            margin-bottom: 8px;
-            padding-bottom: 5px;
-            border-bottom-style: dashed;
-            border-bottom-width: 1px;
-            border-color: #4a4a6a;
-            text-align: center; 
-        }
-        .vibe-emoji {
-            font-size: 1.4em; 
-            display: block; 
-            margin-bottom: 5px;
-        }
-        .vibe-persona { 
-            font-weight: bold;
-            color: #c0d0e0; 
-            display: block;
-            margin-bottom: 5px;
-            font-size: 1em; 
-        }
-        .vibe-outcome { 
-            font-style: italic;
-            font-size: 0.9em; 
-        }
-
-
-        .profile-section {
-            margin-bottom: 12px; 
-            padding-bottom: 8px; 
-            border-bottom: 1px dashed #3a3a5a; 
-        }
-        .profile-section:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        .profile-section strong { 
-            color: #d0d0d0; 
-            font-weight: 600;
-            display: block; 
-            margin-bottom: 4px; 
-            font-size: 1em; 
-        }
-        .profile-section .section-emoji { 
-            margin-right: 8px;
-            font-size: 1.05em; 
-        }
-        .profile-section span { 
-            color: #b0b0b0; 
-            font-size: 0.9em; 
-            line-height: 1.5; 
-            text-align: left; 
-        }
-        .positive-spin { 
-            color: #a6ffcb; 
-            font-style: italic;
-            display: block; 
-            margin-top: 3px; 
-            font-size: 0.85em; 
-        }
-
-        /* AI Character Trait Display */
-        #ai-character-trait {
-            text-align: center;
-            margin-bottom: 15px; 
-            padding: 12px; 
-            background-color: #1e1e36;
-            border-radius: 8px;
-        }
-        #trait-icon {
-            font-size: 2.5em; 
-            display: block;
-            margin-bottom: 8px;
-        }
-        #trait-tags-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 6px; 
-        }
-        .trait-tag {
-            color: #e0e0e0;
-            padding: 4px 10px; 
-            border-radius: 15px; 
-            font-size: 0.8em; 
-            border: 1px solid #4a4a6a;
-        }
-         .trait-tag.positive { background-color: #2a5c3d; border-color: #38761d; color: #d9ead3;}
-         .trait-tag.negative { background-color: #702828; border-color: #990000; color: #f4cccc;}
-         .trait-tag.neutral { background-color: #33334f; border-color: #4a4a6a; color: #b0b0b0;}
-         .trait-tag.critical-warning { background-color: #ff6b6b; color: #1a1a2e; font-weight: bold; border-color: #e06666;}
-
-
-        /* Styles for Rendered Markdown Guide */
-        .tips-guide-container {
-            background-color: #24243e;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            padding: 20px; 
-            border: 1px solid #3a3a5a;
-            margin-top: 30px; 
-            color: #e0e0e0;
-        }
-        .tips-guide-container.hidden { 
-            display: none;
-        }
-        #tips-guide-content h1, #tips-guide-content h2, #tips-guide-content h3 { 
-            color: #9bf6ff;
-            border-bottom: 1px solid #4a4a6a;
-            padding-bottom: 8px;
-            margin-top: 18px; 
-            margin-bottom: 12px; 
-        }
-        #tips-guide-content h1 { font-size: 1.5em; text-align: center;} 
-        #tips-guide-content h2 { font-size: 1.3em; } 
-        #tips-guide-content h3 { font-size: 1.15em; } 
-        #tips-guide-content p {
-            margin-bottom: 10px; 
-            line-height: 1.65; 
-            color: #c5c6c7;
-        }
-        #tips-guide-content ul, #tips-guide-content ol {
-            margin-left: 0px; 
-            margin-bottom: 12px; 
-            padding-left: 22px; 
-        }
-        #tips-guide-content li {
-            margin-bottom: 6px; 
-        }
-        #tips-guide-content strong { 
-            color: #e0e0e0;
-            font-weight: 600;
-        }
-        #tips-guide-content code { 
-            background-color: #1e1e36;
-            color: #ffcaca;
-            padding: 2px 5px;
-            border-radius: 4px;
-            font-size: 0.9em;
-        }
-        #tips-guide-content pre { 
-            background-color: #1e1e36;
-            padding: 15px;
-            border-radius: 6px;
-            overflow-x: auto;
-            border: 1px solid #3a3a5a;
-        }
-        #tips-guide-content pre code {
-            background-color: transparent;
-            padding: 0;
-            font-size: 0.9em;
-        }
-        
-        .troubleshooting-table { 
-            width: 100%;
-            border-collapse: collapse !important; 
-            margin-top: 20px;
-            margin-bottom: 25px;
-            font-size: 0.9em; 
-            border: 1px solid #5a5a7a !important; 
-        }
-        .troubleshooting-table th, 
-        .troubleshooting-table td {
-            border: 1px solid #5a5a7a !important; 
-            padding: 10px 12px;
-            text-align: left;
-            vertical-align: top;
-        }
-        .troubleshooting-table th {
-            background-color: #33334f !important; 
-            color: #9bf6ff;
-            font-weight: 600;
-        }
-        .troubleshooting-table tr:nth-child(even) td { 
-             background-color: #2c2c48; 
-        }
-        .troubleshooting-table td ul { 
-            margin: 5px 0 0 0;
-            padding-left: 18px;
-        }
-         .troubleshooting-table td ul li {
-            margin-bottom: 4px;
-        }
-
-
-         @media (max-width: 900px) { 
-            .main-container {
-                flex-direction: column;
-                max-width: 700px; 
-            }
-            .controls-column, .profile-column {
-                max-width: 100%; 
-            }
-            .profile-column {
-                 margin-top: 30px; 
-            }
-        }
-         @media (max-width: 600px) { /* Mobile specific adjustments */
-            body { padding: 10px 5px; } /* Reduce body padding further */
-            .page-wrapper {
-                padding-left: 5px; /* Add slight padding to page-wrapper if needed */
-                padding-right: 5px;
-            }
-            .main-container { 
-                padding: 15px; /* Reduce padding for main interactive area */
-                gap: 20px;
-            }
-            h1 { font-size: 1.5em; } 
-            .main-label { font-size: 1em; }
-            .description-box { padding: 15px; }
-            .description-box h3 { font-size: 1.15em; } 
-            .profile-section strong { font-size: 0.95em; } 
-            .profile-section span { font-size: 0.85em; } 
-            #ai-character-trait { margin-bottom: 15px; padding: 10px; }
-            #trait-icon { font-size: 2.2em; }
-            .trait-tag { font-size: 0.75em; padding: 3px 8px;} /* Slightly smaller tags */
-            .numerical-value-box { width: 65px; font-size: 0.85em;} /* Smaller numerical box */
-            #quick-vibe-check { font-size: 0.9em;}  
-            .tips-guide-container { padding: 15px; }
-            .tips-guide-container h1 { font-size: 1.3em; } 
-            .tips-guide-container h2 { font-size: 1.15em; } 
-            .tips-guide-container h3 { font-size: 1.05em; } 
-            .troubleshooting-table th, .troubleshooting-table td { padding: 6px 8px; font-size: 0.8em; } 
-            .action-buttons button { width: 95%; max-width: none; font-size: 0.85em; padding: 8px 10px;}
-        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="page-wrapper"> 
+        <button id="theme-toggle-button" class="theme-toggle-button">Switch Theme 🎨</button>
         <h1><span role="img" aria-label="Robot">🤖</span> Kyle's DreamJourney Tweaker <span role="img" aria-label="Robot">🤖</span></h1>
         <p class="disclaimer-note">Some models may vary and settings may have to be tweaked between models. Experiment to find what you like, or even adjust mid roleplay to change up the roleplay a bit!</p>
         
@@ -620,6 +492,7 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
         const resetButton = document.getElementById('reset-button');
         const toggleGuideButton = document.getElementById('toggle-guide-button'); 
         const jumpToTroubleshootingButton = document.getElementById('jump-to-troubleshooting-btn');
+        const themeToggleButton = document.getElementById('theme-toggle-button');
         
         const tempQualitativeText = document.getElementById('temp-qualitative-text');
         const tempNumericalValue = document.getElementById('temp-numerical-value');
@@ -727,21 +600,30 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
 
             // --- Enhanced Alert Section ---
             let alertMessages = [];
+            // Positive Spin Notes
+            let positiveSpins = [];
+
             if (temp < 0.3 && minP < 0.02) { 
                 alertMessages.push("Very low Temperature + very low Min P: Responses may become extremely dull, repetitive, overly simplistic, or get stuck in short loops. The AI has few ideas and no filter.");
             } else if (temp < 0.5 && minP > 0.3) {
                 alertMessages.push("Very low Temperature + high Min P: May result in extremely short, highly repetitive, or even no responses. Creativity is severely stifled.");
+                 positiveSpins.push("Bright Side: If you need an AI that *only* says one specific thing (and almost nothing else), this might be it.");
             } else if (temp < 0.6 && minP > 0.15 && minP > recRanges.minP.high) { 
                  alertMessages.push("Low Temperature + stricter Min P: Can limit creative options and lead to brief, overly focused replies.");
             }
+
             if (temp > 1.7 && minP < 0.03) {
                 alertMessages.push("Extremely high Temperature + very low Min P: Significantly increases the chance of nonsensical, off-topic, or highly chaotic and unpredictable responses.");
+                positiveSpins.push("Creative Use: Perfect for pure chaos, avant-garde poetry, or if you want the AI to generate completely unexpected, boundary-pushing ideas.");
             } else if (temp > 1.5 && minP < 0.05) {
                  alertMessages.push("High Temperature + permissive Min P: Can make responses less focused, more random, and potentially less coherent.");
+                 positiveSpins.push("Creative Use: Good for brainstorming a wide array of ideas, even if some are tangents.");
             }
+
             if (repPenNumericalContainer.classList.contains('critical-warning')) { 
                  if (repPen > 1.8) { 
                     alertMessages.push("Extremely high Repetition Penalty (>1.8): May make language sound unnatural, robotic, or force the use of very obscure words.");
+                    positiveSpins.push("Bright Side: You'll almost certainly get unique phrasing for every sentence!");
                  } else if (repPen > repPenCriticalWarningThreshold) { 
                     alertMessages.push("High Repetition Penalty (>" + repPenCriticalWarningThreshold.toFixed(1) + "): Can degrade response quality, making language feel forced or unnatural.");
                  }
@@ -759,7 +641,22 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
 
             if (alertMessages.length > 0) {
                 const uniqueAlertMessages = [...new Set(alertMessages)];
-                alertText.innerHTML = "<ul><li>" + uniqueAlertMessages.join("</li><li>") + "</li></ul>";
+                let alertHTML = "<ul>";
+                uniqueAlertMessages.forEach(msg => {
+                    alertHTML += `<li>${msg}</li>`;
+                    // Add corresponding positive spin if any
+                    if (msg.includes("Extremely high Temperature + very low Min P") && positiveSpins.find(s => s.includes("pure chaos"))) {
+                        alertHTML += `<li><em style="color: #a6ffcb; font-size:0.9em;">${positiveSpins.find(s => s.includes("pure chaos"))}</em></li>`;
+                    } else if (msg.includes("High Temperature + permissive Min P") && positiveSpins.find(s => s.includes("brainstorming a wide array"))) {
+                        alertHTML += `<li><em style="color: #a6ffcb; font-size:0.9em;">${positiveSpins.find(s => s.includes("brainstorming a wide array"))}</em></li>`;
+                    } else if (msg.includes("Extremely high Repetition Penalty") && positiveSpins.find(s => s.includes("unique phrasing"))) {
+                         alertHTML += `<li><em style="color: #a6ffcb; font-size:0.9em;">${positiveSpins.find(s => s.includes("unique phrasing"))}</em></li>`;
+                    } else if (msg.includes("Very low Temperature + high Min P") && positiveSpins.find(s => s.includes("one specific thing"))) {
+                         alertHTML += `<li><em style="color: #a6ffcb; font-size:0.9em;">${positiveSpins.find(s => s.includes("one specific thing"))}</em></li>`;
+                    }
+                });
+                alertHTML += "</ul>";
+                alertText.innerHTML = alertHTML;
                 alertSection.classList.remove('hidden');
             } else {
                 alertSection.classList.add('hidden');
@@ -769,36 +666,49 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
             let currentTraitIcon = "⚖️"; 
             let currentTraitTags = [];
 
-            if (alertMessages.length > 0) {
+            if (alertMessages.length > 0 && !(temp < 0.4 && minP < 0.03)) { // Don't override for just low/low stuck state
                 currentTraitIcon = "⚠️";
                 currentTraitTags.push({text: "Extreme Settings!", type: "critical-warning"});
-                currentTraitTags.push({text: "See Alerts Above", type: "critical-warning"});
+                currentTraitTags.push({text: "See Alerts", type: "critical-warning"}); // Shortened
             } else {
-                if (temp > 1.7) { currentTraitIcon = "🔥"; currentTraitTags.push({text: "Wildly Creative", type: "positive"}); currentTraitTags.push({text: "Highly Unpredictable", type: "neutral"});}
-                else if (temp > 1.2) { currentTraitIcon = "✨"; currentTraitTags.push({text: "Creative Spark", type: "positive"}); }
+                // Temperature-driven traits
+                if (temp > 1.7) { currentTraitIcon = "🔥"; currentTraitTags.push({text: "Wildly Creative", type: "positive"}); currentTraitTags.push({text: "Unpredictable", type: "neutral"});}
+                else if (temp > 1.2) { currentTraitIcon = "✨"; currentTraitTags.push({text: "Creative", type: "positive"}); }
                 else if (temp < 0.4) { currentTraitIcon = "🧊"; currentTraitTags.push({text: "Very Rigid", type: "negative"}); currentTraitTags.push({text: "Deterministic", type: "neutral"});}
                 else if (temp < 0.7) { currentTraitIcon = "🧐"; currentTraitTags.push({text: "Predictable", type: "neutral"}); }
                 else { currentTraitTags.push({text: "Balanced Ideas", type: "neutral"}); }
 
-                let minPEffectiveThresholdStrict = 0.12 + (temp - 0.8) * 0.05; 
-                let minPEffectiveThresholdExtreme = 0.2 + (temp - 0.8) * 0.1;
+                // Min P-driven traits 
+                let minPEffectiveThresholdStrict = 0.1 + (temp - 0.8) * 0.08; // Higher temp allows slightly higher "strict" MinP
+                let minPEffectiveThresholdExtreme = 0.18 + (temp - 0.8) * 0.12;
 
-                if (minP > Math.max(0.3, minPEffectiveThresholdExtreme)) { currentTraitIcon = (currentTraitIcon === "⚖️" || currentTraitIcon === "⚠️" ? "🚧" : currentTraitIcon) ; currentTraitTags.push({text: "Extreme Filter", type: "negative"}); currentTraitTags.push({text: "Risks No Output", type: "negative"});}
-                else if (minP > Math.max(0.15, minPEffectiveThresholdStrict)) { currentTraitTags.push({text: "Strict Filter", type: "negative"}); }
-                else if (minP < 0.03) { currentTraitTags.push({text: "Very Loose Filter", type: "neutral"}); }
-                else { currentTraitTags.push({text: "Moderate Filter", type: "neutral"});}
+                if (minP > Math.max(0.25, minPEffectiveThresholdExtreme) && minP > 0.1) { // MinP is definitively high
+                    currentTraitIcon = (currentTraitIcon === "⚖️" || currentTraitIcon === "⚠️" ? "🚧" : currentTraitIcon) ; currentTraitTags.push({text: "Extreme Filter", type: "negative"}); if(minP > 0.4) currentTraitTags.push({text: "Risks No Output", type: "negative"});
+                } else if (minP > Math.max(0.1, minPEffectiveThresholdStrict) && minP <=0.25) { // Stricter based on temp
+                    currentTraitTags.push({text: "Strict Filter", type: "negative"}); 
+                } else if (minP < 0.03) { 
+                    currentTraitTags.push({text: "Very Loose Filter", type: "neutral"}); 
+                } else { 
+                    currentTraitTags.push({text: "Moderate Filter", type: "neutral"});
+                }
                 
+                // Rep Pen-driven traits
                 if (repPen > 1.7) { currentTraitTags.push({text: "Forced Novelty", type: "negative"}); }
                 else if (repPen > 1.4) { currentTraitTags.push({text: "Varied Phrasing", type: "positive"});}
                 else if (repPen === 1.0 ) { currentTraitTags.push({text: "Allows Repetition", type: "neutral"});}
                 else { currentTraitTags.push({text: "Reduces Repetition", type: "neutral"});}
 
-                if (currentTraitTags.length === 0 || (currentTraitTags.length === 3 && currentTraitTags.every(t=>t.type === 'neutral'))) { 
-                    currentTraitTags = [{text: "Balanced Overall", type: "neutral"}]; 
+                currentTraitTags = [...new Set(currentTraitTags.map(tag => JSON.stringify(tag)))].map(s => JSON.parse(s)); // Remove duplicates
+
+                if (currentTraitTags.length === 0 || (currentTraitTags.length >= 3 && currentTraitTags.every(t=>t.type === 'neutral'))) { 
+                     currentTraitTags = [{text: "Balanced Overall", type: "neutral"}]; 
+                     currentTraitIcon = "⚖️"; // Ensure balanced icon if tags are all neutral
+                } else if (currentTraitTags.length > 3) {
+                    currentTraitTags = currentTraitTags.slice(0,3); // Max 3 tags
                 }
             }
             traitIconElement.textContent = currentTraitIcon;
-            traitTagsContainerElement.innerHTML = currentTraitTags.slice(0, 3).map(tag => `<span class="trait-tag ${tag.type}">${tag.text}</span>`).join('');
+            traitTagsContainerElement.innerHTML = currentTraitTags.map(tag => `<span class="trait-tag ${tag.type}">${tag.text}</span>`).join('');
 
 
             // --- Quick Vibe Check (Persona-based) ---
@@ -811,14 +721,21 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                 vibePersona = "The Overwhelmed AI";
                 vibeOutcome = "Is struggling with these extreme settings! Check the alerts above for potential issues like broken responses or unexpected chaos.";
             } else if (temp < 0.4 && minP < 0.03) { 
-                 vibePersona = "The Stuck Record"; vibeOutcome = "Might say very little, or the same simple things over and over. Very rigid."; vibeEmoji = "🧱";
+                 vibePersona = "The Stuck Record"; vibeOutcome = "Might say very little, or the same simple things over and over. Very rigid and potentially dull."; vibeEmoji = "🧱";
             } else if (temp < 0.5 && minP > 0.2) { vibePersona = "The Silent Planner"; vibeOutcome = "Is thinking very hard but might not say much due to strict idea filtering. Expect short or no replies."; vibeEmoji = "🤫";}
             else if (temp > 1.6 && minP < 0.03) { vibePersona = "The Wild Brainstormer"; vibeOutcome = "Is throwing out tons of unpredictable ideas! Expect a chaotic but potentially very novel experience."; vibeEmoji = "🤪";}
             else if (temp > 1.3 && minP < 0.05) { vibePersona = "The Adventurous Explorer"; vibeOutcome = "Loves to explore novel ideas with a relaxed filter. Expect diverse and surprising turns."; vibeEmoji = "🗺️";}
             else if (temp < 0.7 && minP > 0.12) { vibePersona = "The Precise Scholar"; vibeOutcome = "Delivers focused, logical, and carefully chosen words. Very controlled."; vibeEmoji = "🧐";}
-            else if (temp >= 0.7 && temp <= 1.2 && minP >= 0.04 && minP <= 0.1) { vibePersona = "The Engaging Collaborator"; vibeOutcome = "Aims for a great balance of creativity and coherence. Ideal for most roleplay!"; vibeEmoji = "👍";}
+            // More granular "balanced" states
+            else if (temp >= 0.7 && temp <= 0.9 && minP >= 0.04 && minP <= 0.1) { vibePersona = "The Methodical Storyteller"; vibeOutcome = "Crafts responses with care, leaning towards consistency but open to some creativity."; vibeEmoji = "✍️";}
+            else if (temp > 0.9 && temp <= 1.2 && minP >= 0.04 && minP <= 0.1) { vibePersona = "The Engaging Collaborator"; vibeOutcome = "Aims for a great balance of creativity and coherence. Ideal for most roleplay!"; vibeEmoji = "👍";}
+            else if (temp > 0.9 && temp <= 1.2 && minP < 0.04) { vibePersona = "The Flexible Friend"; vibeOutcome = "Balanced creativity with a very open filter, allowing many ideas through."; vibeEmoji = "😊";}
+             else if (temp > 0.9 && temp <= 1.2 && minP > 0.1 && minP <=0.15) { vibePersona = "The Focused Creator"; vibeOutcome = "Generates creative ideas but keeps them tightly relevant and well-filtered."; vibeEmoji = "🎯";}
             else { vibePersona = "The Balanced Storyteller"; vibeOutcome = "Offers a mix of predictability and creativity, generally staying on track."; vibeEmoji = "⚖️";} 
             
+            // Capitalize first letter of vibeOutcome
+            vibeOutcome = vibeOutcome.charAt(0).toUpperCase() + vibeOutcome.slice(1);
+
             if (alertMessages.length === 0 && repPen > 1.5) {
                  if (repPen > 1.7) vibeOutcome += " Dialogue will be *forced* to be unique, possibly sounding unnatural.";
                  else vibeOutcome += " Dialogue will be actively varied, sometimes sounding a bit formal.";
@@ -831,18 +748,18 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
             // --- Detailed Profile Sections (More Reactive to Extremes, direct language) ---
             let varianceDesc = ""; 
             if (temp > 1.8) varianceDesc = "<span class='section-emoji'>💥</span>Off the Charts: Expect extremely random and novel outputs. The AI is basically freestyling. <span class='positive-spin'>Perfect for pure brainstorming or maximum surprise!</span>";
-            else if (temp > 1.5) varianceDesc = "<span class='section-emoji'>🔥</span>Very High: Highly diverse and surprising responses. The AI will explore many unusual paths. <span class='positive-spin'>Great for breaking creative ruts.</span>";
-            else if (temp > 1.2) varianceDesc = "<span class='section-emoji'>✨</span>High: Responses will often be surprising and different. Good for unexpected plot twists.";
-            else if (temp >= 0.7) varianceDesc = "<span class='section-emoji'>⚖️</span>Moderate: A good mix of consistency and new ideas. Keeps things interesting but generally on track.";
-            else if (temp >= 0.4) varianceDesc = "<span class='section-emoji'>🧐</span>Low: Expect very similar and predictable responses. Good for strict consistency, little surprise.";
-            else varianceDesc = "<span class='section-emoji'>🧊</span>Extremely Low: Responses will be almost identical and highly deterministic. Can feel robotic or stuck. <span class='positive-spin'>Useful for very specific, controlled outputs if it doesn't get stuck.</span>";
+            else if (temp > 1.5) varianceDesc = "<span class='section-emoji'>🔥</span>Very High: Highly diverse and surprising responses. The AI will explore many unusual paths. <span class='positive-spin'>Great for breaking creative ruts or if you want the AI to truly shock you.</span>";
+            else if (temp > 1.2) varianceDesc = "<span class='section-emoji'>✨</span>High: Responses will often be surprising and different each time. Good for unexpected plot twists or when you want the AI to take more initiative.";
+            else if (temp >= 0.7) varianceDesc = "<span class='section-emoji'>⚖️</span>Moderate: A good mix of consistency and new ideas. Keeps things interesting but generally on track. The AI will explore a bit.";
+            else if (temp >= 0.4) varianceDesc = "<span class='section-emoji'>🧐</span>Low: Expect very similar and predictable responses. Good for strict consistency, but little surprise. The AI prefers familiar paths.";
+            else varianceDesc = "<span class='section-emoji'>🧊</span>Extremely Low: Responses will be almost identical and highly deterministic. Minimal to no variation. Can feel robotic or stuck. <span class='positive-spin'>Useful for very specific, controlled outputs if it doesn't get stuck, or for a very stoic character.</span>";
             varianceText.innerHTML = varianceDesc;
 
             let coherenceDesc = ""; 
             if (minP > 0.5) coherenceDesc = "<span class='section-emoji'>🚫</span>Critically Low: Min P is so high it's likely filtering out almost all words, leading to broken, nonsensical, or no responses at all.";
             else if (temp > 1.5 && minP < 0.03) coherenceDesc = "<span class='section-emoji'>🤪</span>Very Low: Extreme creativity and virtually no filter mean a high chance of nonsensical, random, or completely off-topic outputs. Expect chaos!";
-            else if (temp > 1.2 && minP < 0.05) coherenceDesc = "<span class='section-emoji'>🤯</span>Lower: With high creativity and a very loose filter, responses might often drift, become illogical, or lose the plot more easily.";
-            else if (temp < 0.4 && minP < 0.03) coherenceDesc = "<span class='section-emoji'>🧱</span>Rigidly Focused & Potentially Stuck: While technically coherent on its narrow path, it may get stuck in loops or produce overly simplistic, repetitive text.";
+            else if (temp > 1.2 && minP < 0.05) coherenceDesc = "<span class='section-emoji'>🤯</span>Lower: With high creativity and a very loose filter, responses might often drift, become illogical, or lose the plot more easily. Can be fun for randomness.";
+            else if (temp < 0.4 && minP < 0.03) coherenceDesc = "<span class='section-emoji'>🧱</span>Rigidly Focused & Potentially Stuck: While technically coherent on its narrow path, it may get stuck in loops or produce overly simplistic, repetitive text. Can be very dull.";
             else if (temp < 0.5 && minP > 0.15) coherenceDesc = "<span class='section-emoji'>🚧</span>Artificially Constrained: May seem coherent but could be very short or fail due to extreme filtering. Output might feel 'strangled'.";
             else if (temp < 0.7 && minP > 0.1) coherenceDesc = "<span class='section-emoji'>🎯</span>Very High: Responses should be very logical, focused, and directly relevant. Unlikely to go off-topic.";
             else if (minP > 0.2 && temp > 1.2) coherenceDesc = "<span class='section-emoji'>⁉️</span>Potentially Conflicting: High creativity clashes with strict filtering, which may produce sparse, odd, or short results.";
@@ -877,13 +794,7 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
             
             if (guideContentElement && markdownTemplate && typeof marked !== 'undefined') { 
                 let markdownContent = markdownTemplate.textContent;
-                let mainGuideHtml = marked.parse(markdownContent.split('<div id="troubleshooting-section-anchor"></div>')[0]);
-                let afterAnchorHtmlParts = markdownContent.split('<div id="troubleshooting-section-anchor"></div>');
-                let afterAnchorHtml = "";
-                if (afterAnchorHtmlParts.length > 1) {
-                    afterAnchorHtml = marked.parse(afterAnchorHtmlParts[1]); // Parse the "Happy Shaping..." part
-                }
-
+                
                 const troubleshootingTableHTML = `
                     <div id="troubleshooting-section-anchor"></div>
                     <h2>Common Issues & Troubleshooting Tips</h2>
@@ -929,17 +840,20 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                             </tr>
                         </tbody>
                     </table>
-                    ${afterAnchorHtml} 
                 `; 
-                guideContentElement.innerHTML = mainGuideHtml + troubleshootingTableHTML;
+                
+                // Parse the main markdown, then append the HTML table and the rest of the markdown
+                let markdownParts = markdownContent.split('<div id="troubleshooting-section-anchor"></div>');
+                let mainGuideHtml = marked.parse(markdownParts[0]);
+                let afterAnchorHtml = "";
+                if (markdownParts.length > 1) {
+                    afterAnchorHtml = marked.parse(markdownParts[1]); 
+                }
+                guideContentElement.innerHTML = mainGuideHtml + troubleshootingTableHTML + afterAnchorHtml;
 
             } else if (guideContentElement && markdownTemplate) {
                 guideContentElement.innerHTML = '<h2>Tips & Troubleshooting Guide (Raw Markdown - Marked.js failed to load)</h2><pre>' + markdownTemplate.textContent + '</pre>';
                 console.error("Marked.js library FAILED to load. Displaying raw Markdown for guide.");
-            } else {
-                if (!guideContentElement) console.error("Could not find guide content div with ID 'tips-guide-content'.");
-                if (!markdownTemplate) console.error("Could not find markdown template script with ID 'markdown-template'.");
-                if (typeof marked === 'undefined') console.error("Marked.js library is undefined when trying to parse guide.");
             }
             
             if(toggleGuideButton) {
@@ -949,6 +863,9 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                         toggleGuideButton.textContent = isHidden ? "AI Troubles? Show Guide" : "Hide Guide";
                         if (jumpToTroubleshootingButton) {
                             jumpToTroubleshootingButton.style.display = isHidden ? 'none' : 'block';
+                        }
+                        if (!isHidden && document.getElementById('troubleshooting-section-anchor')) { // If showing guide, make jump button work
+                             // No auto-scroll here, user clicks separate button to jump
                         }
                     }
                 });
@@ -965,7 +882,7 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                             if (troubleshootingAnchor) {
                                 troubleshootingAnchor.scrollIntoView({ behavior: 'smooth' });
                             }
-                        }, 0);
+                        }, 100); // Small delay to ensure section is visible
                     } else if (troubleshootingAnchor) {
                          troubleshootingAnchor.scrollIntoView({ behavior: 'smooth' });
                     }
