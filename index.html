@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kyle's DJ AI Response Shaper</title>
+    <title>Kyle's DreamJourney Tweaker</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> 
     <style>
         body {
@@ -379,7 +379,7 @@
         }
         #tips-guide-content a:hover {
             text-decoration: underline;
-            color: #ffa726; /* Slightly darker orange on hover */
+            color: #ffa726; 
         }
         .jump-to-troubleshooting { 
             display: block;
@@ -393,19 +393,20 @@
             border-collapse: collapse;
             margin-top: 15px;
             margin-bottom: 20px;
+            font-size: 0.9em; /* Slightly smaller font for table content */
         }
         #tips-guide-content th, #tips-guide-content td {
-            border: 1px solid #4a4a6a;
+            border: 1px solid #4a4a6a; /* Cell borders */
             padding: 10px 12px;
             text-align: left;
             vertical-align: top;
         }
         #tips-guide-content th {
-            background-color: #33334f;
+            background-color: #33334f; /* Darker header background */
             color: #9bf6ff;
             font-weight: 600;
         }
-        #tips-guide-content td ul { /* For lists within table cells */
+        #tips-guide-content td ul { 
             margin: 5px 0 0 0;
             padding-left: 18px;
         }
@@ -439,7 +440,7 @@
             .tips-guide-container h1 { font-size: 1.4em; }
             .tips-guide-container h2 { font-size: 1.2em; }
             .tips-guide-container h3 { font-size: 1.1em; }
-            #tips-guide-content th, #tips-guide-content td { padding: 6px 8px; font-size: 0.9em; }
+            #tips-guide-content th, #tips-guide-content td { padding: 6px 8px; font-size: 0.85em; } /* Smaller table text on mobile */
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -601,20 +602,28 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
         const repPenNumericalContainer = document.getElementById('repPen-numerical-container');
         const repPenNumericalValue = document.getElementById('repPen-numerical-value');
 
-        const miniCompassCells = [
+        // Trait Display Elements (no longer used, can be removed if not repurposed)
+        // const traitIconElement = document.getElementById('trait-icon'); 
+        // const traitTagsContainerElement = document.getElementById('trait-tags-container');
+
+        // Vibe Check Elements
+        const quickVibeCheckElement = document.getElementById('quick-vibe-check'); 
+
+        // Detailed Profile Elements
+        const alertSection = document.getElementById('alert-section');
+        const alertText = document.getElementById('alert-text'); 
+        const overallStyleText = document.getElementById('overall-style-text'); 
+        const varianceText = document.getElementById('variance-text');
+        const coherenceText = document.getElementById('coherence-text');
+        const adherenceText = document.getElementById('adherence-text');
+        const repetitionText = document.getElementById('repetition-text');
+        
+        const miniCompassCells = [ // Still used for the mini-compass visual
             document.getElementById('cell-00'), document.getElementById('cell-01'), document.getElementById('cell-02'),
             document.getElementById('cell-10'), document.getElementById('cell-11'), document.getElementById('cell-12'),
             document.getElementById('cell-20'), document.getElementById('cell-21'), document.getElementById('cell-22')
         ];
 
-        const alertSection = document.getElementById('alert-section');
-        const alertText = document.getElementById('alert-text'); 
-        const quickVibeCheckText = document.getElementById('quick-vibe-check'); 
-        const overallStyleText = document.getElementById('overall-style-text');
-        const varianceText = document.getElementById('variance-text');
-        const coherenceText = document.getElementById('coherence-text');
-        const adherenceText = document.getElementById('adherence-text');
-        const repetitionText = document.getElementById('repetition-text');
 
         const tempEffectiveMinPPlotDomain = [0.0, 0.2]; 
 
@@ -748,61 +757,74 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                 miniCompassCells[activeCellIndex].classList.add('active');
             }
             
-            overallStyleText.classList.remove('problematic');
-            if (alertMessages.length > 0) {
-                overallStyleText.textContent = "Style: Extreme Settings (See Alerts!)";
-                overallStyleText.classList.add('problematic');
-            } else {
-                const tempStyles = ["Predictable", "Balanced", "Creative"];
-                const minPStyles = ["Flexible", "Focused", "Precise"]; 
-                overallStyleText.textContent = `Style: ${tempStyles[tempCategory]} & ${minPStyles[minPCategory]}`;
-            }
+            overallStyleText.classList.remove('problematic'); // This was for overall-style-text, which is no longer used.
+                                                            // The new trait display handles its own problematic state if needed.
 
-            // --- Quick Vibe Check (with Analogies & Summary) ---
-            let vibeAnalogy = "";
-            let vibeSummary = "";
+            // --- AI Character Trait Display (Replaces Overall Style Text) ---
+            let currentTraitIcon = "⚖️"; 
+            let currentTraitTags = [];
+
+            if (alertMessages.length > 0) {
+                currentTraitIcon = "⚠️";
+                currentTraitTags.push({text: "Extreme Settings!", type: "critical-warning"});
+                currentTraitTags.push({text: "See Alerts Above", type: "critical-warning"});
+            } else {
+                // Temperature-driven traits
+                if (temp > 1.7) { currentTraitIcon = "🔥"; currentTraitTags.push({text: "Wildly Creative", type: "positive"}); currentTraitTags.push({text: "Highly Unpredictable", type: "neutral"});}
+                else if (temp > 1.2) { currentTraitIcon = "✨"; currentTraitTags.push({text: "Creative Spark", type: "positive"}); }
+                else if (temp < 0.4) { currentTraitIcon = "🧊"; currentTraitTags.push({text: "Very Rigid", type: "negative"}); currentTraitTags.push({text: "Deterministic", type: "neutral"});}
+                else if (temp < 0.7) { currentTraitIcon = "🧐"; currentTraitTags.push({text: "Predictable", type: "neutral"}); }
+                else { currentTraitTags.push({text: "Balanced Ideas", type: "neutral"}); }
+
+                // Min P-driven traits
+                if (minP > 0.4) { currentTraitIcon = (currentTraitIcon === "⚖️" || currentTraitIcon === "⚠️" ? "🚧" : currentTraitIcon) ; currentTraitTags.push({text: "Extreme Filter", type: "negative"}); currentTraitTags.push({text: "Risks No Output", type: "negative"});}
+                else if (minP > 0.2) { currentTraitTags.push({text: "Strict Filter", type: "negative"}); }
+                else if (minP < 0.03) { currentTraitTags.push({text: "Very Loose Filter", type: "neutral"}); }
+                else { currentTraitTags.push({text: "Moderate Filter", type: "neutral"});}
+                
+                // Rep Pen-driven traits
+                if (repPen > 1.7) { currentTraitTags.push({text: "Forced Novelty", type: "negative"}); }
+                else if (repPen > 1.4) { currentTraitTags.push({text: "Varied Phrasing", type: "positive"});}
+                else if (repPen === 1.0 ) { currentTraitTags.push({text: "Allows Repetition", type: "neutral"});}
+                else { currentTraitTags.push({text: "Reduces Repetition", type: "neutral"});}
+
+                if (currentTraitTags.length === 0) { // Fallback if no specific tags hit
+                    currentTraitTags.push({text: "Balanced Overall", type: "neutral"});
+                }
+            }
+            // Ensure traitIconElement and traitTagsContainerElement are defined if they are used.
+            // These were commented out in the previous version, assuming they were removed.
+            // If they are back in the HTML, uncomment these lines:
+            // traitIconElement.textContent = currentTraitIcon;
+            // traitTagsContainerElement.innerHTML = currentTraitTags.slice(0, 4).map(tag => `<span class="trait-tag ${tag.type}">${tag.text}</span>`).join('');
+
+
+            // --- Quick Vibe Check (Persona-based) ---
+            let vibePersona = "";
+            let vibeOutcome = "";
             let vibeEmoji = "🤔"; 
 
-            if (temp < 0.4) vibeAnalogy = "Brainstormer: Ultra-focused, laser beam on one idea.";
-            else if (temp < 0.7) vibeAnalogy = "Brainstormer: Focused, explores a few related ideas.";
-            else if (temp <= 0.9) vibeAnalogy = "Brainstormer: Methodical, carefully considers known ideas, with a few new sparks.";
-            else if (temp <= 1.2) vibeAnalogy = "Brainstormer: Balanced, good mix of familiar & fresh ideas, open to suggestions.";
-            else if (temp <= 1.6) vibeAnalogy = "Brainstormer: Adventurous, often brings in novel & diverse ideas, explores widely.";
-            else vibeAnalogy = "Brainstormer: Wild & Unbound! Expect a flood of unexpected, unusual, and highly diverse ideas!";
-
-            if (minP < 0.02 && temp > 1.0) vibeAnalogy += " Filter: Practically off! Almost every idea, no matter how wild, gets through.";
-            else if (minP < 0.04) vibeAnalogy += " Filter: Very Permissive, letting most ideas pass, including many experimental ones.";
-            else if (minP <= 0.1) vibeAnalogy += " Filter: Balanced, catches obvious misfires but allows good creative range and some unique thoughts.";
-            else if (minP <= 0.2) vibeAnalogy += " Filter: Strict, prefers safer, more probable ideas, trims many of the more 'out-there' options.";
-            else vibeAnalogy += " Filter: Extremely Strict, very few ideas pass its high bar, risking little to no output or very generic choices.";
-            
-            if (repPen === 1.0) vibeAnalogy += " Polisher: Off - dialogue will include natural, human-like repetition.";
-            else if (repPen <= 1.2) vibeAnalogy += " Polisher: Gentle - encourages slight phrasing variety.";
-            else if (repPen <= 1.5) vibeAnalogy += " Polisher: Active - works to make speech fresh by pushing for varied wording.";
-            else vibeAnalogy += " Polisher: Intense - strongly forces new phrasing (may sound unnatural).";
-            
             if (alertMessages.length > 0) {
                 vibeEmoji = "⚠️"; 
-                vibeSummary = "Heads up! These settings might lead to some tricky or unexpected responses (see alerts above).";
+                vibePersona = "The Overwhelmed AI";
+                vibeOutcome = "is struggling with these extreme settings! Check the alerts above for potential issues like broken responses or unexpected chaos.";
             } else if (temp < 0.4 && minP < 0.03) { 
-                 vibeSummary = "Roleplay might feel very rigid and possibly repetitive or stuck."; vibeEmoji = "🧱";
-            } else if (tempCategory === 0 && minPCategory === 2) { vibeSummary = "Roleplay will be highly controlled & specific, possibly terse."; vibeEmoji = "🧐";}
-            else if (tempCategory === 2 && minPCategory === 0) { vibeSummary = "Expect wild & unpredictable roleplay – great for chaos!"; vibeEmoji = "🤪";}
-            else if (tempCategory === 0 && minPCategory === 0) { vibeSummary = "Consistent roleplay, but can explore a bit."; vibeEmoji = "🙂";}
-            else if (tempCategory === 2 && minPCategory === 2) { vibeSummary = "Inventive & sharp ideas delivered with precision."; vibeEmoji = "💡";}
-            else if (tempCategory === 1 && minPCategory === 1) { vibeSummary = "Engaging & coherent – a sweet spot for roleplay."; vibeEmoji = "👍";}
-            else if (tempCategory === 1 && minPCategory === 0) { vibeSummary = "Balanced creativity with freedom to explore."; vibeEmoji = "😊";}
-            else if (tempCategory === 1 && minPCategory === 2) { vibeSummary = "Balanced but very focused; reliable for specific scenes."; vibeEmoji = "🎯";}
-            else if (tempCategory === 0 && minPCategory === 1) { vibeSummary = "Predictable & focused, good for straightforward interactions."; vibeEmoji = "📝";}
-            else if (tempCategory === 2 && minPCategory === 1) { vibeSummary = "Creative & focused, for imaginative but on-topic responses."; vibeEmoji = "✨";}
-            else {vibeSummary = "A balanced mix of creativity and coherence."; vibeEmoji = "⚖️";} 
+                 vibePersona = "The Stuck Record"; vibeOutcome = "might say very little, or the same simple things over and over. Very rigid."; vibeEmoji = "🧱";
+            } else if (temp < 0.5 && minP > 0.2) { vibePersona = "The Silent Planner"; vibeOutcome = "is thinking very hard but might not say much due to strict idea filtering. Expect short or no replies."; vibeEmoji = "🤫";}
+            else if (temp > 1.6 && minP < 0.03) { vibePersona = "The Wild Brainstormer"; vibeOutcome = "is throwing out tons of unpredictable ideas! Expect a chaotic but potentially very novel experience."; vibeEmoji = "🤪";}
+            else if (temp > 1.3 && minP < 0.05) { vibePersona = "The Adventurous Explorer"; vibeOutcome = "loves to explore novel ideas with a relaxed filter. Expect diverse and surprising turns."; vibeEmoji = "🗺️";}
+            else if (temp < 0.7 && minP > 0.12) { vibePersona = "The Precise Scholar"; vibeOutcome = "delivers focused, logical, and carefully chosen words. Very controlled."; vibeEmoji = "🧐";}
+            else if (temp >= 0.7 && temp <= 1.2 && minP >= 0.04 && minP <= 0.1) { vibePersona = "The Engaging Collaborator"; vibeOutcome = "aims for a great balance of creativity and coherence. Ideal for most roleplay!"; vibeEmoji = "👍";}
+            else { vibePersona = "The Balanced Storyteller"; vibeOutcome = "offers a mix of predictability and creativity, generally staying on track."; vibeEmoji = "⚖️";} 
             
-            if (alertMessages.length === 0 && repPen > 1.4) { 
-                if (repPen <= 1.7) vibeSummary += " Dialogue will actively avoid repeats, sometimes sounding more formal.";
-                else vibeSummary += " Dialogue might sound forced or unnatural due to extreme avoidance of repeats.";
+            if (alertMessages.length === 0 && repPen > 1.5) {
+                 if (repPen > 1.7) vibeOutcome += " Dialogue will be *forced* to be unique, possibly sounding unnatural.";
+                 else vibeOutcome += " Dialogue will be actively varied, sometimes sounding a bit formal.";
+            } else if (alertMessages.length === 0 && repPen === 1.0 && temp <=1.2) {
+                vibeOutcome += " Natural dialogue repetition is likely.";
             }
             
-            quickVibeCheckText.innerHTML = `<span class="vibe-emoji" role="img" aria-label="Vibe Emoji">${vibeEmoji}</span><div><span class="vibe-analogy">${vibeAnalogy}</span><span class="vibe-summary">${vibeSummary}</span></div>`;
+            quickVibeCheckElement.innerHTML = `<span class="vibe-emoji" role="img" aria-label="Vibe Emoji">${vibeEmoji}</span><div><span class="vibe-persona">${vibePersona}</span><span class="vibe-outcome">${vibeOutcome}</span></div>`;
 
             // --- Detailed Profile Sections (More Reactive to Extremes, direct language) ---
             let varianceDesc = ""; 
@@ -862,7 +884,7 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                 if (typeof marked === 'undefined') console.warn("Marked.js library not loaded.");
             }
             
-            applyDefaults(); // Call applyDefaults after DOM is ready and guide is potentially rendered
+            applyDefaults(); 
         });
 
         tempSlider.addEventListener('input', updateUI);
@@ -870,7 +892,6 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
         repPenSlider.addEventListener('input', updateUI);
         resetButton.addEventListener('click', applyDefaults);
         
-        // applyDefaults(); // Moved to DOMContentLoaded
     </script>
 </body>
 </html>
