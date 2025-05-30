@@ -179,8 +179,8 @@
         .action-buttons button:hover {
             background-color: #800080; 
         }
-        #toggle-guide-button { /* Specific style for the new button if needed */
-            margin-top: 10px; /* Less margin than reset */
+        #toggle-guide-button { 
+            margin-top: 10px; 
         }
 
 
@@ -231,14 +231,14 @@
         #quick-vibe-check {
             font-size: 1.0em; 
             color: #b0e0e6; 
-            text-align: center; /* Centered vibe check */
+            text-align: center; 
             margin-bottom: 15px; 
             padding: 12px;
             background-color: #1e1e36;
             border-radius: 6px;
             line-height: 1.5;
         }
-         #quick-vibe-check h3 { /* Vibe Check Subheader */
+         #quick-vibe-check h3 { 
             font-size: 1.1em; 
             color: #b0e0e6; 
             margin-top: 0;
@@ -250,7 +250,7 @@
             text-align: center; 
         }
         .vibe-emoji {
-            font-size: 1.5em; /* Larger emoji */
+            font-size: 1.5em; 
             display: block; 
             margin-bottom: 5px;
         }
@@ -284,7 +284,7 @@
             margin-bottom: 5px; 
             font-size: 1.05em;
         }
-        .profile-section .section-emoji { /* For emojis in detailed sections */
+        .profile-section .section-emoji { 
             margin-right: 8px;
             font-size: 1.1em;
         }
@@ -393,21 +393,26 @@
             padding: 0;
             font-size: 0.9em;
         }
-        #tips-guide-content a { 
-            color: #ffb74d; /* Orange for the jump link */
+        /* Specific styling for the jump link */
+        #tips-guide-content p.jump-to-troubleshooting a { 
+            color: #ffb74d !important; /* Orange color, !important to override general a if needed */
             text-decoration: none;
             font-weight: 500;
         }
+        #tips-guide-content p.jump-to-troubleshooting a:hover {
+            text-decoration: underline;
+            color: #ffa726 !important; 
+        }
+        /* General link styling within the guide (if any other links are added) */
+        #tips-guide-content a {
+            color: #87CEFA; 
+            text-decoration: none;
+        }
         #tips-guide-content a:hover {
             text-decoration: underline;
-            color: #ffa726; 
         }
-        .jump-to-troubleshooting { 
-            display: block;
-            text-align: center;
-            margin: 10px 0 20px 0;
-            font-size: 0.95em;
-        }
+
+        /* Table styles for Troubleshooting */
         #tips-guide-content table {
             width: 100%;
             border-collapse: collapse;
@@ -416,13 +421,13 @@
             font-size: 0.9em; 
         }
         #tips-guide-content th, #tips-guide-content td {
-            border: 1px solid #4a4a6a; 
+            border: 1px solid #4a4a6a !important; /* Ensure borders are visible */
             padding: 10px 12px;
             text-align: left;
             vertical-align: top;
         }
         #tips-guide-content th {
-            background-color: #33334f; 
+            background-color: #33334f !important; /* Ensure header bg */
             color: #9bf6ff;
             font-weight: 600;
         }
@@ -759,7 +764,7 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                 alertSection.classList.add('hidden');
             }
             
-            // --- AI Character Trait Display (Replaces Overall Style Text) ---
+            // --- AI Character Trait Display ---
             let currentTraitIcon = "⚖️"; 
             let currentTraitTags = [];
 
@@ -768,15 +773,13 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                 currentTraitTags.push({text: "Extreme Settings!", type: "critical-warning"});
                 currentTraitTags.push({text: "See Alerts Above", type: "critical-warning"});
             } else {
-                // Temperature-driven traits
                 if (temp > 1.7) { currentTraitIcon = "🔥"; currentTraitTags.push({text: "Wildly Creative", type: "positive"}); currentTraitTags.push({text: "Highly Unpredictable", type: "neutral"});}
                 else if (temp > 1.2) { currentTraitIcon = "✨"; currentTraitTags.push({text: "Creative Spark", type: "positive"}); }
                 else if (temp < 0.4) { currentTraitIcon = "🧊"; currentTraitTags.push({text: "Very Rigid", type: "negative"}); currentTraitTags.push({text: "Deterministic", type: "neutral"});}
                 else if (temp < 0.7) { currentTraitIcon = "🧐"; currentTraitTags.push({text: "Predictable", type: "neutral"}); }
                 else { currentTraitTags.push({text: "Balanced Ideas", type: "neutral"}); }
 
-                // Min P-driven traits (with Temp influence)
-                let minPEffectiveThresholdStrict = 0.12 + (temp - 0.8) * 0.05; // Higher temp allows slightly higher "strict" MinP
+                let minPEffectiveThresholdStrict = 0.12 + (temp - 0.8) * 0.05; 
                 let minPEffectiveThresholdExtreme = 0.2 + (temp - 0.8) * 0.1;
 
                 if (minP > Math.max(0.3, minPEffectiveThresholdExtreme)) { currentTraitIcon = (currentTraitIcon === "⚖️" || currentTraitIcon === "⚠️" ? "🚧" : currentTraitIcon) ; currentTraitTags.push({text: "Extreme Filter", type: "negative"}); currentTraitTags.push({text: "Risks No Output", type: "negative"});}
@@ -784,18 +787,17 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                 else if (minP < 0.03) { currentTraitTags.push({text: "Very Loose Filter", type: "neutral"}); }
                 else { currentTraitTags.push({text: "Moderate Filter", type: "neutral"});}
                 
-                // Rep Pen-driven traits
                 if (repPen > 1.7) { currentTraitTags.push({text: "Forced Novelty", type: "negative"}); }
                 else if (repPen > 1.4) { currentTraitTags.push({text: "Varied Phrasing", type: "positive"});}
                 else if (repPen === 1.0 ) { currentTraitTags.push({text: "Allows Repetition", type: "neutral"});}
                 else { currentTraitTags.push({text: "Reduces Repetition", type: "neutral"});}
 
                 if (currentTraitTags.length === 0 || (currentTraitTags.length === 3 && currentTraitTags.every(t=>t.type === 'neutral'))) { 
-                    currentTraitTags = [{text: "Balanced Overall", type: "neutral"}]; // Ensure at least one tag
+                    currentTraitTags = [{text: "Balanced Overall", type: "neutral"}]; 
                 }
             }
             traitIconElement.textContent = currentTraitIcon;
-            traitTagsContainerElement.innerHTML = currentTraitTags.slice(0, 3).map(tag => `<span class="trait-tag ${tag.type}">${tag.text}</span>`).join(''); // Max 3 tags
+            traitTagsContainerElement.innerHTML = currentTraitTags.slice(0, 3).map(tag => `<span class="trait-tag ${tag.type}">${tag.text}</span>`).join('');
 
 
             // --- Quick Vibe Check (Persona-based) ---
@@ -806,7 +808,7 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
             if (alertMessages.length > 0) {
                 vibeEmoji = "⚠️"; 
                 vibePersona = "The Overwhelmed AI";
-                vibeOutcome = "is struggling with these extreme settings! Check the alerts above for potential issues like broken responses or unexpected chaos.";
+                vibeOutcome = "Is struggling with these extreme settings! Check the alerts above for potential issues like broken responses or unexpected chaos.";
             } else if (temp < 0.4 && minP < 0.03) { 
                  vibePersona = "The Stuck Record"; vibeOutcome = "Might say very little, or the same simple things over and over. Very rigid."; vibeEmoji = "🧱";
             } else if (temp < 0.5 && minP > 0.2) { vibePersona = "The Silent Planner"; vibeOutcome = "Is thinking very hard but might not say much due to strict idea filtering. Expect short or no replies."; vibeEmoji = "🤫";}
@@ -863,7 +865,7 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
             let repDesc = ""; 
             if (repPen === 1.0) repDesc = "<span class='section-emoji'>💬</span>Neutral: Allows natural repetition. Words/phrases might repeat if common or contextually fitting.";
             else if (repPen <= 1.4) repDesc = "<span class='section-emoji'>🍃</span>Reduced: Gently discourages obvious repetition, making dialogue feel fresher and more varied.";
-            else if (repPen <= 1.7) repDesc = "<span class='section-emoji'>✍️</span>Strongly Reduced: Actively avoids repeating words, pushing for unique vocabulary. <span class='positive-spin'>Can result in more eloquent or distinct character voices.</span>";
+            else if (repPen <= 1.7) repDesc = "<span class='section-emoji'>✍️</span>Strongly Reduced: Actively avoids repeating words, pushing for more unique vocabulary. <span class='positive-spin'>Can result in more eloquent or distinct character voices.</span>";
             else repDesc = `<span class='section-emoji'>🚫</span>Extremely Reduced: Forces highly unique phrasing. Language might become unnatural or use rare words to avoid any repetition.`;
             repetitionText.innerHTML = repDesc;
         }
@@ -879,11 +881,11 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                 console.warn("Marked.js library not loaded or an issue occurred. Displaying raw Markdown in #tips-guide-container.");
             }
             
-            // Toggle Guide Button
             if(toggleGuideButton) {
                 toggleGuideButton.addEventListener('click', () => {
                     if(guideContainerDiv) {
                         guideContainerDiv.classList.toggle('hidden');
+                        toggleGuideButton.textContent = guideContainerDiv.classList.contains('hidden') ? "AI Troubles? Show Guide" : "Hide Guide";
                     }
                 });
             }
