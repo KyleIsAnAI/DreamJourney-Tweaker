@@ -342,14 +342,14 @@
             color: #c5c6c7;
         }
         #tips-guide-content ul, #tips-guide-content ol {
-            margin-left: 0px; /* Adjusted for better alignment with h3 */
+            margin-left: 0px; 
             margin-bottom: 15px;
-            padding-left: 25px; /* Indent list items */
+            padding-left: 25px; 
         }
         #tips-guide-content li {
             margin-bottom: 8px;
         }
-        #tips-guide-content strong { /* Bolding within the guide */
+        #tips-guide-content strong { 
             color: #e0e0e0;
             font-weight: 600;
         }
@@ -372,19 +372,45 @@
             padding: 0;
             font-size: 0.9em;
         }
-        #tips-guide-content a { /* Style for the jump link */
-            color: #87CEFA; 
+        #tips-guide-content a { 
+            color: #ffb74d; /* Orange for the jump link */
             text-decoration: none;
             font-weight: 500;
         }
         #tips-guide-content a:hover {
             text-decoration: underline;
+            color: #ffa726; /* Slightly darker orange on hover */
         }
-        .jump-to-troubleshooting { /* Class for the jump link */
+        .jump-to-troubleshooting { 
             display: block;
             text-align: center;
             margin: 10px 0 20px 0;
             font-size: 0.95em;
+        }
+        /* Table styles for Troubleshooting */
+        #tips-guide-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+        #tips-guide-content th, #tips-guide-content td {
+            border: 1px solid #4a4a6a;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        #tips-guide-content th {
+            background-color: #33334f;
+            color: #9bf6ff;
+            font-weight: 600;
+        }
+        #tips-guide-content td ul { /* For lists within table cells */
+            margin: 5px 0 0 0;
+            padding-left: 18px;
+        }
+         #tips-guide-content td ul li {
+            margin-bottom: 4px;
         }
 
 
@@ -413,6 +439,7 @@
             .tips-guide-container h1 { font-size: 1.4em; }
             .tips-guide-container h2 { font-size: 1.2em; }
             .tips-guide-container h3 { font-size: 1.1em; }
+            #tips-guide-content th, #tips-guide-content td { padding: 6px 8px; font-size: 0.9em; }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -520,7 +547,7 @@ Imagine your AI is a creative chef preparing a dish (the response):
     * **High Temp (e.g., >1.2):** A culinary daredevil! Expect exotic, unexpected ingredients. Could be brilliant or bizarre!
 
 * **Min P: The "Quality Control" Inspector 🧐**
-    * **What it is:** After the chef (Temperature) brainstorms ingredients, Min P sets a minimum "acceptability" score. Ingredients below this are discarded.
+    * **What it is:** After the chef (Temperature) brainstorms ingredients, Min P sets a minimum "acceptability" score (probability). Ingredients below this are discarded.
     * **Low Min P (e.g., 0.0-0.04):** Very lenient inspector, most ingredients pass, even if questionable.
     * **Medium Min P (e.g., 0.04-0.1 - Recommended):** Good judgment, discards unsuitable ingredients but allows quality options.
     * **High Min P (e.g., >0.1):** Extremely strict, only "safest" ingredients. Too high, and the chef has nothing to cook with!
@@ -537,51 +564,21 @@ Imagine your AI is a creative chef preparing a dish (the response):
 * **One Knob at a Time:** Adjust one setting at a time to clearly see its effect.
 * **Small Increments:** Small changes can have big impacts.
 * **Context Matters:** "Perfect" settings change with character, scene, or style. Tweak mid-RP!
-* **Model Differences:** Different AI models respond differently. Use this Shaper as a guide, but trust your experience.
+* **Model Differences:** Remember the disclaimer! Different AI models respond differently. Use this Shaper as a guide, but trust your experience.
 
 ---
 <h2 id="troubleshooting-section-anchor">Common Issues & Troubleshooting Tips</h2>
 
 Here are some common scenarios and simplified fixes. The "Kyle's DJ AI Setting Playground" tool helps visualize these interactions.
 
-* **Problem:** AI is too repetitive or looping.
-    * **Primary Suspect:** Repetition Penalty too low (especially 1.0).
-    * **Quick Fixes:**
-        * Gradually increase **Repetition Penalty** (e.g., to 1.05, 1.1, 1.15).
-        * If Temp is very low (<0.5), also slightly increase **Temperature**.
-
-* **Problem:** AI is talking nonsense/gibberish, or very off-topic.
-    * **Primary Suspects:** Temperature too high, AND/OR Min P too low.
-    * **Quick Fixes:**
-        * Slightly decrease **Temperature**.
-        * If still an issue, slightly increase **Min P**.
-        * Avoid Temp >1.7 with Min P <0.03 for coherence.
-
-* **Problem:** AI is too boring/predictable, lacks creativity.
-    * **Primary Suspects:** Temperature too low, AND/OR Min P too high.
-    * **Quick Fixes:**
-        * Gradually increase **Temperature**.
-        * If Temp is moderate, try slightly decreasing **Min P**.
-        * Ensure Repetition Penalty isn't too high (>1.6).
-
-* **Problem:** AI isn't following prompt well / poor adherence.
-    * **Primary Suspects:** Temperature too high, OR Min P too low.
-    * **Quick Fixes:**
-        * Decrease **Temperature**.
-        * Slightly increase **Min P**.
-        * If Rep Pen is very high (>1.7) and prompt needs repeated keywords, consider lowering Rep Pen.
-
-* **Problem:** AI responses are too short / stops mid-thought.
-    * **Primary Suspects:** Min P too high, OR very low Temp + high Min P.
-    * **Quick Fixes:**
-        * Significantly decrease **Min P**.
-        * If Temp is very low (<0.4), also increase **Temperature** a bit.
-        * Check if Rep Pen is extremely high (>1.8).
-
-* **Problem:** AI's language feels forced, unnatural, or uses weird words.
-    * **Primary Suspect:** Repetition Penalty is too high.
-    * **Quick Fixes:**
-        * Decrease **Repetition Penalty** (e.g., from 1.8 towards 1.4).
+| Problem                                                      | Primary Suspect(s)                                  | Quick Fixes                                                                                                                                                              |
+| :----------------------------------------------------------- | :-------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **AI is too repetitive or looping.** | Repetition Penalty too low (especially 1.0).              | • Gradually increase **Repetition Penalty** (e.g., to 1.05, 1.1, 1.15).<br />• If Temp is very low (<0.5), also slightly increase **Temperature**.                                                     |
+| **AI is talking nonsense/gibberish, or very off-topic.** | Temperature too high, AND/OR Min P too low.         | • Slightly decrease **Temperature**.<br />• If still an issue, slightly increase **Min P**.<br />• Avoid Temp >1.7 with Min P <0.03 for coherence.                               |
+| **AI is too boring/predictable, lacks creativity.** | Temperature too low, AND/OR Min P too high.         | • Gradually increase **Temperature**.<br />• If Temp is moderate, try slightly decreasing **Min P**.<br />• Ensure Repetition Penalty isn't too high (>1.6).                     |
+| **AI isn't following prompt well / poor adherence.** | Temperature too high, OR Min P too low.             | • Decrease **Temperature**.<br />• Slightly increase **Min P**.<br />• If Rep Pen is very high (>1.7) and prompt needs repeated keywords, consider lowering Rep Pen.            |
+| **AI responses are too short / stops mid-thought.** | Min P too high, OR very low Temp + high Min P.      | • Significantly decrease **Min P**.<br />• If Temp is very low (<0.4), also increase **Temperature** a bit.<br />• Check if Rep Pen is extremely high (>1.8).                   |
+| **AI's language feels forced, unnatural, or uses weird words.** | Repetition Penalty is too high.                     | • Decrease **Repetition Penalty** (e.g., from 1.8 towards 1.4).                                                                                                          |
 
 Happy Shaping, and may your AI Chef cook up some amazing stories!
     </script>
@@ -850,7 +847,6 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
             repetitionText.innerHTML = repDesc;
         }
         
-        // Ensure the DOM is ready before trying to get the element for the guide
         document.addEventListener('DOMContentLoaded', (event) => {
             const guideContainerDiv = document.getElementById('tips-guide-container'); 
             const markdownTemplate = document.getElementById('markdown-template'); 
@@ -865,6 +861,8 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                 if (!markdownTemplate) console.error("Could not find markdown template script with ID 'markdown-template'.");
                 if (typeof marked === 'undefined') console.warn("Marked.js library not loaded.");
             }
+            
+            applyDefaults(); // Call applyDefaults after DOM is ready and guide is potentially rendered
         });
 
         tempSlider.addEventListener('input', updateUI);
@@ -872,7 +870,7 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
         repPenSlider.addEventListener('input', updateUI);
         resetButton.addEventListener('click', applyDefaults);
         
-        applyDefaults(); 
+        // applyDefaults(); // Moved to DOMContentLoaded
     </script>
 </body>
 </html>
