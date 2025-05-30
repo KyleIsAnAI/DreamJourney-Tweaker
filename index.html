@@ -231,21 +231,32 @@
             background-color: #1e1e36;
             border-radius: 6px;
             line-height: 1.5;
-            border-bottom: 1px solid #3a3a5a; 
+            /* border-bottom: 1px solid #3a3a5a; /* Removed separator to integrate with Trait */
+        }
+         #quick-vibe-check h3 { /* Vibe Check Subheader */
+            font-size: 1.1em; 
+            color: #b0e0e6; /* Match text color */
+            margin-top: 0;
+            margin-bottom: 8px;
+            padding-bottom: 5px;
+            border-bottom-style: dashed;
+            border-bottom-width: 1px;
+            border-color: #4a4a6a;
+            text-align: left;
         }
         .vibe-emoji {
             font-size: 1.3em; 
             margin-right: 10px;
             vertical-align: middle;
         }
-        .vibe-analogy {
-            font-style: italic;
+        .vibe-persona { /* Changed from analogy */
+            font-weight: bold;
             color: #c0d0e0; 
             display: block;
             margin-bottom: 5px;
         }
-        .vibe-summary {
-            font-weight: 500;
+        .vibe-outcome { /* Changed from summary */
+            font-style: italic;
         }
 
 
@@ -280,41 +291,37 @@
             font-size: 0.9em;
         }
 
-
-        .overall-style-container {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px; 
-            padding: 8px; 
+        /* AI Character Trait Display */
+        #ai-character-trait {
+            text-align: center;
+            margin-bottom: 20px; /* Space before Vibe Check */
+            padding: 15px;
             background-color: #1e1e36;
             border-radius: 8px;
         }
-        .mini-compass {
-            display: grid;
-            grid-template-columns: repeat(3, 25px); 
-            grid-template-rows: repeat(3, 25px);
-            gap: 2px; 
+        #trait-icon {
+            font-size: 2.8em; 
+            display: block;
+            margin-bottom: 10px;
+        }
+        #trait-tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+        }
+        .trait-tag {
+            color: #e0e0e0;
+            padding: 5px 12px;
+            border-radius: 15px; 
+            font-size: 0.85em;
             border: 1px solid #4a4a6a;
-            margin-right: 15px;
-            background-color: #1a1a2e; 
         }
-        .mini-compass-cell {
-            background-color: #33334f; 
-            transition: background-color 0.3s ease;
-            border-radius: 2px; 
-        }
-        .mini-compass-cell.active {
-            background-color: #6a0dad; 
-        }
-        #overall-style-text {
-            font-size: 1.05em; 
-            font-weight: 600;
-            color: #9bf6ff; 
-        }
-        #overall-style-text.problematic {
-            color: #ff8787; 
-            font-style: italic;
-        }
+         .trait-tag.positive { background-color: #2a5c3d; border-color: #38761d; color: #d9ead3;}
+         .trait-tag.negative { background-color: #702828; border-color: #990000; color: #f4cccc;}
+         .trait-tag.neutral { background-color: #33334f; border-color: #4a4a6a; color: #b0b0b0;}
+         .trait-tag.critical-warning { background-color: #ff6b6b; color: #1a1a2e; font-weight: bold; border-color: #e06666;}
+
 
         /* Styles for Rendered Markdown Guide */
         .tips-guide-container {
@@ -373,7 +380,7 @@
             font-size: 0.9em;
         }
         #tips-guide-content a { 
-            color: #ffb74d; /* Orange for the jump link */
+            color: #ffb74d; 
             text-decoration: none;
             font-weight: 500;
         }
@@ -387,22 +394,21 @@
             margin: 10px 0 20px 0;
             font-size: 0.95em;
         }
-        /* Table styles for Troubleshooting */
         #tips-guide-content table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 15px;
             margin-bottom: 20px;
-            font-size: 0.9em; /* Slightly smaller font for table content */
+            font-size: 0.9em; 
         }
         #tips-guide-content th, #tips-guide-content td {
-            border: 1px solid #4a4a6a; /* Cell borders */
+            border: 1px solid #4a4a6a; 
             padding: 10px 12px;
             text-align: left;
             vertical-align: top;
         }
         #tips-guide-content th {
-            background-color: #33334f; /* Darker header background */
+            background-color: #33334f; 
             color: #9bf6ff;
             font-weight: 600;
         }
@@ -433,14 +439,15 @@
             .description-box h3 { font-size: 1.2em; }
             .profile-section strong { font-size: 1em; }
             .profile-section span { font-size: 0.9em; }
-            .overall-style-container { flex-direction: column; align-items: center; gap: 12px; text-align: center;}
-            .mini-compass { margin-right: 0; }
+            #ai-character-trait { margin-bottom: 15px; }
+            #trait-icon { font-size: 2.2em; }
+            .trait-tag { font-size: 0.8em; padding: 3px 8px;}
             .numerical-value-box { width: 70px; font-size: 0.9em;}
             #quick-vibe-check { font-size: 0.95em;} 
             .tips-guide-container h1 { font-size: 1.4em; }
             .tips-guide-container h2 { font-size: 1.2em; }
             .tips-guide-container h3 { font-size: 1.1em; }
-            #tips-guide-content th, #tips-guide-content td { padding: 6px 8px; font-size: 0.85em; } /* Smaller table text on mobile */
+            #tips-guide-content th, #tips-guide-content td { padding: 6px 8px; font-size: 0.85em; } 
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -502,22 +509,23 @@
                         <strong>Potential Issue Alert:</strong>
                         <div id="alert-text"></div> 
                     </div>
-                    <div id="quick-vibe-check">
-                        <span class="vibe-emoji" role="img" aria-label="Vibe Emoji">🤔</span>
-                        <div>
-                            <span class="vibe-analogy">Analogy: Casting a net...</span>
-                            <span class="vibe-summary">Outcome: Balanced and engaging.</span>
+
+                    <div id="ai-character-trait"> 
+                        <span id="trait-icon" role="img" aria-label="Trait Icon">⚖️</span>
+                        <div id="trait-tags-container">
+                            {/* Tags injected by JS */}
                         </div>
                     </div>
                     
-                    <div class="overall-style-container">
-                        <div class="mini-compass" aria-hidden="true">
-                            <div class="mini-compass-cell" id="cell-00"></div> <div class="mini-compass-cell" id="cell-01"></div> <div class="mini-compass-cell" id="cell-02"></div>
-                            <div class="mini-compass-cell" id="cell-10"></div> <div class="mini-compass-cell" id="cell-11"></div> <div class="mini-compass-cell" id="cell-12"></div>
-                            <div class="mini-compass-cell" id="cell-20"></div> <div class="mini-compass-cell" id="cell-21"></div> <div class="mini-compass-cell" id="cell-22"></div>
+                    <div id="quick-vibe-check">
+                        <h3>Vibe Check:</h3>
+                        <span class="vibe-emoji" role="img" aria-label="Vibe Emoji">🤔</span>
+                        <div>
+                            <span class="vibe-persona">The Balanced Storyteller...</span>
+                            <span class="vibe-outcome">aims for engaging and coherent roleplay.</span>
                         </div>
-                        <div id="overall-style-text">Overall Style: Balanced & Focused</div>
                     </div>
+                                    
                     <div class="profile-section"><strong>Variance (Idea Pool):</strong> <span id="variance-text">Moderate</span></div>
                     <div class="profile-section"><strong>Coherence & Focus (Idea Selection):</strong> <span id="coherence-text">Good</span></div>
                     <div class="profile-section"><strong>Prompt Adherence (Following the Scene):</strong> <span id="adherence-text">Balanced</span></div>
@@ -602,9 +610,9 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
         const repPenNumericalContainer = document.getElementById('repPen-numerical-container');
         const repPenNumericalValue = document.getElementById('repPen-numerical-value');
 
-        // Trait Display Elements (no longer used, can be removed if not repurposed)
-        // const traitIconElement = document.getElementById('trait-icon'); 
-        // const traitTagsContainerElement = document.getElementById('trait-tags-container');
+        // Trait Display Elements
+        const traitIconElement = document.getElementById('trait-icon'); 
+        const traitTagsContainerElement = document.getElementById('trait-tags-container');
 
         // Vibe Check Elements
         const quickVibeCheckElement = document.getElementById('quick-vibe-check'); 
@@ -612,17 +620,14 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
         // Detailed Profile Elements
         const alertSection = document.getElementById('alert-section');
         const alertText = document.getElementById('alert-text'); 
-        const overallStyleText = document.getElementById('overall-style-text'); 
+        // const overallStyleText = document.getElementById('overall-style-text'); // No longer directly used for main style text
         const varianceText = document.getElementById('variance-text');
         const coherenceText = document.getElementById('coherence-text');
         const adherenceText = document.getElementById('adherence-text');
         const repetitionText = document.getElementById('repetition-text');
         
-        const miniCompassCells = [ // Still used for the mini-compass visual
-            document.getElementById('cell-00'), document.getElementById('cell-01'), document.getElementById('cell-02'),
-            document.getElementById('cell-10'), document.getElementById('cell-11'), document.getElementById('cell-12'),
-            document.getElementById('cell-20'), document.getElementById('cell-21'), document.getElementById('cell-22')
-        ];
+        // Mini-compass removed from this version's logic, but kept in HTML for now if we bring it back
+        // const miniCompassCells = [ ... ];
 
 
         const tempEffectiveMinPPlotDomain = [0.0, 0.2]; 
@@ -742,25 +747,7 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                 alertSection.classList.add('hidden');
             }
             
-            // --- Mini-Compass & Overall Style (with override for alerts) ---
-            let tempCategory = 1; 
-            if (temp < 0.7) tempCategory = 0; 
-            else if (temp > 1.2) tempCategory = 2; 
-            const effectiveMinPForStyle = Math.min(minP, tempEffectiveMinPPlotDomain[1]);
-            let minPCategory = 1; 
-            if (effectiveMinPForStyle < 0.05) minPCategory = 0; 
-            else if (effectiveMinPForStyle > 0.12) minPCategory = 2;  
-            
-            miniCompassCells.forEach(cell => cell.classList.remove('active'));
-            const activeCellIndex = tempCategory * 3 + minPCategory; 
-            if (miniCompassCells[activeCellIndex]) {
-                miniCompassCells[activeCellIndex].classList.add('active');
-            }
-            
-            overallStyleText.classList.remove('problematic'); // This was for overall-style-text, which is no longer used.
-                                                            // The new trait display handles its own problematic state if needed.
-
-            // --- AI Character Trait Display (Replaces Overall Style Text) ---
+            // --- AI Character Trait Display ---
             let currentTraitIcon = "⚖️"; 
             let currentTraitTags = [];
 
@@ -788,15 +775,12 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                 else if (repPen === 1.0 ) { currentTraitTags.push({text: "Allows Repetition", type: "neutral"});}
                 else { currentTraitTags.push({text: "Reduces Repetition", type: "neutral"});}
 
-                if (currentTraitTags.length === 0) { // Fallback if no specific tags hit
+                if (currentTraitTags.length === 0) { 
                     currentTraitTags.push({text: "Balanced Overall", type: "neutral"});
                 }
             }
-            // Ensure traitIconElement and traitTagsContainerElement are defined if they are used.
-            // These were commented out in the previous version, assuming they were removed.
-            // If they are back in the HTML, uncomment these lines:
-            // traitIconElement.textContent = currentTraitIcon;
-            // traitTagsContainerElement.innerHTML = currentTraitTags.slice(0, 4).map(tag => `<span class="trait-tag ${tag.type}">${tag.text}</span>`).join('');
+            traitIconElement.textContent = currentTraitIcon;
+            traitTagsContainerElement.innerHTML = currentTraitTags.slice(0, 4).map(tag => `<span class="trait-tag ${tag.type}">${tag.text}</span>`).join('');
 
 
             // --- Quick Vibe Check (Persona-based) ---
