@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kyle's DJ AI Setting Playground</title>
+    <title>Kyle's DJ AI Response Shaper</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> 
     <style>
         body {
@@ -326,7 +326,7 @@
             margin-top: 30px; 
             color: #e0e0e0;
         }
-        #tips-guide-content h1, #tips-guide-content h2, #tips-guide-content h3 { /* Added h1 for main title */
+        #tips-guide-content h1, #tips-guide-content h2, #tips-guide-content h3 { 
             color: #9bf6ff;
             border-bottom: 1px solid #4a4a6a;
             padding-bottom: 8px;
@@ -342,14 +342,14 @@
             color: #c5c6c7;
         }
         #tips-guide-content ul, #tips-guide-content ol {
-            margin-left: 20px;
+            margin-left: 0px; /* Adjusted for better alignment with h3 */
             margin-bottom: 15px;
-            padding-left: 20px;
+            padding-left: 25px; /* Indent list items */
         }
         #tips-guide-content li {
             margin-bottom: 8px;
         }
-        #tips-guide-content strong {
+        #tips-guide-content strong { /* Bolding within the guide */
             color: #e0e0e0;
             font-weight: 600;
         }
@@ -372,12 +372,19 @@
             padding: 0;
             font-size: 0.9em;
         }
-        #tips-guide-content a {
+        #tips-guide-content a { /* Style for the jump link */
             color: #87CEFA; 
             text-decoration: none;
+            font-weight: 500;
         }
         #tips-guide-content a:hover {
             text-decoration: underline;
+        }
+        .jump-to-troubleshooting { /* Class for the jump link */
+            display: block;
+            text-align: center;
+            margin: 10px 0 20px 0;
+            font-size: 0.95em;
         }
 
 
@@ -412,7 +419,7 @@
 </head>
 <body>
     <div class="page-wrapper"> 
-        <h1><span role="img" aria-label="Robot">🤖</span> Kyle's DJ AI Setting Playground <span role="img" aria-label="Robot">🤖</span></h1>
+        <h1><span role="img" aria-label="Robot">🤖</span> Kyle's DreamJourney Tweaker <span role="img" aria-label="Robot">🤖</span></h1>
         <p class="disclaimer-note">Some models may vary and settings may have to be tweaked between models. Experiment to find what you like, or even adjust mid roleplay to change up the roleplay a bit!</p>
         
         <div class="main-container">
@@ -500,78 +507,81 @@
 
 Welcome, Dreamjourneyer! Understanding how Temperature, Min P, and Repetition Penalty work together can greatly enhance your AI roleplaying experience. This guide offers some tips and troubleshooting advice using the "AI Chef" analogy. Think of it like tuning an instrument or seasoning a dish – small adjustments can make a big difference!
 
+<p class="jump-to-troubleshooting"><a href="#troubleshooting-section-anchor">Having Issues? Jump to Troubleshooting Tips 👇</a></p>
+
 ## The Core Settings: The AI Chef Analogy 🍳🤖
 
 Imagine your AI is a creative chef preparing a dish (the response):
 
 * **Temperature: The "Adventure" Dial 🔥**
     * **What it is:** Controls how risky or creative the chef is with ingredients (words/ideas).
-    * **Low Temp (e.g., 0.1-0.7):** The chef sticks to classic, well-known recipes and common ingredients. The dish will be predictable, focused, and familiar. Like a very precise recipe follower.
-    * **Medium Temp (e.g., 0.7-1.2 - Recommended):** The chef is feeling inspired! They'll use reliable recipes but might add a creative twist or a less common (but still fitting) ingredient. The dish is balanced and engaging.
-    * **High Temp (e.g., >1.2):** The chef is a culinary daredevil! They're throwing in exotic, unexpected ingredients and inventing new combinations on the fly. The dish could be brilliantly unique or a bit of a bizarre, possibly inedible, mess!
+    * **Low Temp (e.g., 0.1-0.7):** The chef sticks to classic, well-known recipes. The dish is predictable and focused.
+    * **Medium Temp (e.g., 0.7-1.2 - Recommended):** The chef is inspired, using reliable recipes but adding a creative twist. Balanced and engaging.
+    * **High Temp (e.g., >1.2):** A culinary daredevil! Expect exotic, unexpected ingredients. Could be brilliant or bizarre!
 
 * **Min P: The "Quality Control" Inspector 🧐**
-    * **What it is:** After the chef (Temperature) has brainstormed a list of potential ingredients (words), Min P acts like a quality inspector. It sets a minimum "acceptability" score (probability). Any ingredient falling below this score is discarded.
-    * **Low Min P (e.g., 0.0-0.04):** The inspector is very lenient, letting almost every ingredient pass, even if some are a bit questionable or don't quite fit the recipe.
-    * **Medium Min P (e.g., 0.04-0.1 - Recommended):** The inspector has good judgment, discarding obviously unsuitable ingredients but allowing a good range of quality options that still fit the dish.
-    * **High Min P (e.g., >0.1):** The inspector is extremely strict, only allowing the absolute highest-quality, most common, or "safest" ingredients. Too high (e.g., >0.2 or much higher depending on Temp), and they might discard so much that the chef has nothing left to cook with, or only one very bland ingredient.
+    * **What it is:** After the chef (Temperature) brainstorms ingredients, Min P sets a minimum "acceptability" score. Ingredients below this are discarded.
+    * **Low Min P (e.g., 0.0-0.04):** Very lenient inspector, most ingredients pass, even if questionable.
+    * **Medium Min P (e.g., 0.04-0.1 - Recommended):** Good judgment, discards unsuitable ingredients but allows quality options.
+    * **High Min P (e.g., >0.1):** Extremely strict, only "safest" ingredients. Too high, and the chef has nothing to cook with!
 
 * **Repetition Penalty: The "Variety" Rule 🔄**
-    * **What it is:** This rule tells the chef how much to avoid using the same ingredient or cooking technique (words/phrases) over and over again. (Note: 1.0 usually means it's disabled/neutral).
-    * **Disabled/Low (1.0):** The chef doesn't mind using a favorite ingredient multiple times if it fits. The dish might have recurring, familiar flavors (words/phrases).
-    * **Medium (e.g., 1.01-1.4 - Recommended):** The chef tries to vary ingredients and techniques to keep the dish interesting, avoiding obvious repetition of the exact same flavor notes too close together.
-    * **High (e.g., >1.4):** The chef is *obsessed* with novelty, going to great lengths to avoid any repeated ingredient, even if it means using a strange substitute or making the dish taste a bit forced or unnatural. Too high (>1.7), and the dish might become an unpalatable collection of "unique" but clashing flavors.
-
-## Common Issues & Troubleshooting Tips
-
-Here are some common scenarios and how you might adjust settings. Remember to make small changes and observe the effect! The "Kyle's DJ AI Setting Playground" tool can help you understand these interactions visually.
-
-**1. Issue: My AI is too repetitive, looping, or saying the same things.**
-    * **Primary Suspect:** Repetition Penalty is too low (especially if it's at 1.0).
-    * **Try This:**
-        * Gradually increase **Repetition Penalty** (e.g., from 1.0 to 1.05, then 1.1, 1.15). The recommended range for some effect is often 1.0-1.4.
-        * If Temperature is very low (<0.5), the AI chef has fewer initial ingredients to choose from, making repetition more likely. Consider slightly increasing **Temperature** to give the chef more options to work with, alongside a slightly increased Repetition Penalty.
-
-**2. Issue: My AI is talking nonsense, gibberish, or is very off-topic.**
-    * **Primary Suspects:** Temperature is too high, AND/OR Min P is too low. The chef is too adventurous and quality control is asleep!
-    * **Try This:**
-        * First, try slightly decreasing **Temperature** (e.g., from 1.5 to 1.3, then 1.1). This makes the chef less of a daredevil.
-        * If still problematic, slightly increase **Min P** (e.g., from 0.02 to 0.05, then 0.08). This makes the quality inspector a bit stricter on the ingredients chosen from the (potentially still wide) list.
-        * Avoid combining extremely high Temperature (>1.7) with very low Min P (<0.03) if you want coherent, on-topic responses.
-
-**3. Issue: My AI is too boring, predictable, or lacks creativity.**
-    * **Primary Suspects:** Temperature is too low, AND/OR Min P is too high. The chef is playing it too safe, or the inspector is too picky.
-    * **Try This:**
-        * Gradually increase **Temperature** (e.g., from 0.7 to 0.9, then 1.1). Encourage the chef to be more adventurous!
-        * If Temperature is already moderate, try slightly decreasing **Min P** (e.g., from 0.1 to 0.07, then 0.05), making the quality inspector more permissive of creative (but still decent) ingredients.
-        * Ensure Repetition Penalty isn't so high (>1.6) that it's stifling natural expression by making the chef avoid common words.
-
-**4. Issue: My AI isn't following my prompt well / poor adherence.**
-    * **Primary Suspects:** Temperature is too high (chef is ignoring the recipe card), or Min P is too low (inspector lets unrelated ingredients into the dish).
-    * **Try This:**
-        * Decrease **Temperature**. Lower temperatures generally make the AI stick closer to the provided context/recipe.
-        * Slightly increase **Min P**. This can help filter out more divergent ideas that Temperature might have surfaced.
-        * If Repetition Penalty is extremely high (>1.7), the chef might struggle to use specific keywords from your prompt if they need to be repeated. Consider lowering it slightly in such cases.
-
-**5. Issue: AI responses are too short, or it stops generating mid-thought.**
-    * **Primary Suspects:** Min P is too high (inspector discards *everything*), OR a combination of very low Temperature and high Min P (chef has few ideas, inspector discards most of them).
-    * **Try This:**
-        * Significantly decrease **Min P**. If the quality inspector is too strict, no ingredients make the cut.
-        * If Temperature is very low (<0.4), try increasing it a bit (e.g., to 0.6-0.8) to give the chef more initial ideas to work with.
-        * Check if Repetition Penalty is extremely high (>1.8), as this could also make it hard to find *any* non-repeating word to say.
-
-**6. Issue: AI's language feels forced, unnatural, or uses weird words.**
-    * **Primary Suspect:** Repetition Penalty is too high. The chef is trying too hard to make every ingredient unique.
-    * **Try This:**
-        * Decrease **Repetition Penalty** (e.g., from 1.8 down to 1.5, then 1.3). When the "Variety" rule is too aggressive, naturalness is sacrificed.
+    * **What it is:** Tells the chef how much to avoid using the same ingredient/technique repeatedly (1.0 is neutral/disabled).
+    * **Disabled/Low (1.0):** Chef doesn't mind reusing favorite ingredients. Dish might have recurring flavors.
+    * **Medium (e.g., 1.01-1.4 - Recommended):** Chef varies ingredients to keep the dish interesting.
+    * **High (e.g., >1.4):** Chef is *obsessed* with novelty, sometimes using strange substitutes or making the dish taste forced. Too high (>1.7) can lead to unpalatable results.
 
 ## General Advice for Your Culinary AI Adventure
 
-* **Start with Defaults:** The "Reset to Defaults" button in the Shaper tool (Temp: 0.8, Min P: 0.06, Rep Pen: 1.08) is often a good starting point for balanced roleplay.
-* **One Knob at a Time:** When experimenting, try adjusting only one setting at a time to clearly see its effect.
+* **Start with Defaults:** Use the "Reset to Defaults" button (Temp: 0.8, Min P: 0.06, Rep Pen: 1.08) as a good baseline.
+* **One Knob at a Time:** Adjust one setting at a time to clearly see its effect.
 * **Small Increments:** Small changes can have big impacts.
-* **Context Matters:** The "perfect" settings can change based on the specific character, scene, or desired style of roleplay. Don't be afraid to tweak mid-RP!
-* **Model Differences:** Remember the disclaimer! Different AI models might respond differently. Use the Shaper as a guide, but trust your experience with specific models on Dreamjourney.
+* **Context Matters:** "Perfect" settings change with character, scene, or style. Tweak mid-RP!
+* **Model Differences:** Different AI models respond differently. Use this Shaper as a guide, but trust your experience.
+
+---
+<h2 id="troubleshooting-section-anchor">Common Issues & Troubleshooting Tips</h2>
+
+Here are some common scenarios and simplified fixes. The "Kyle's DJ AI Setting Playground" tool helps visualize these interactions.
+
+* **Problem:** AI is too repetitive or looping.
+    * **Primary Suspect:** Repetition Penalty too low (especially 1.0).
+    * **Quick Fixes:**
+        * Gradually increase **Repetition Penalty** (e.g., to 1.05, 1.1, 1.15).
+        * If Temp is very low (<0.5), also slightly increase **Temperature**.
+
+* **Problem:** AI is talking nonsense/gibberish, or very off-topic.
+    * **Primary Suspects:** Temperature too high, AND/OR Min P too low.
+    * **Quick Fixes:**
+        * Slightly decrease **Temperature**.
+        * If still an issue, slightly increase **Min P**.
+        * Avoid Temp >1.7 with Min P <0.03 for coherence.
+
+* **Problem:** AI is too boring/predictable, lacks creativity.
+    * **Primary Suspects:** Temperature too low, AND/OR Min P too high.
+    * **Quick Fixes:**
+        * Gradually increase **Temperature**.
+        * If Temp is moderate, try slightly decreasing **Min P**.
+        * Ensure Repetition Penalty isn't too high (>1.6).
+
+* **Problem:** AI isn't following prompt well / poor adherence.
+    * **Primary Suspects:** Temperature too high, OR Min P too low.
+    * **Quick Fixes:**
+        * Decrease **Temperature**.
+        * Slightly increase **Min P**.
+        * If Rep Pen is very high (>1.7) and prompt needs repeated keywords, consider lowering Rep Pen.
+
+* **Problem:** AI responses are too short / stops mid-thought.
+    * **Primary Suspects:** Min P too high, OR very low Temp + high Min P.
+    * **Quick Fixes:**
+        * Significantly decrease **Min P**.
+        * If Temp is very low (<0.4), also increase **Temperature** a bit.
+        * Check if Rep Pen is extremely high (>1.8).
+
+* **Problem:** AI's language feels forced, unnatural, or uses weird words.
+    * **Primary Suspect:** Repetition Penalty is too high.
+    * **Quick Fixes:**
+        * Decrease **Repetition Penalty** (e.g., from 1.8 towards 1.4).
 
 Happy Shaping, and may your AI Chef cook up some amazing stories!
     </script>
@@ -842,13 +852,12 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
         
         // Ensure the DOM is ready before trying to get the element for the guide
         document.addEventListener('DOMContentLoaded', (event) => {
-            const guideContainerDiv = document.getElementById('tips-guide-container'); // Corrected to use the container ID
+            const guideContainerDiv = document.getElementById('tips-guide-container'); 
             const markdownTemplate = document.getElementById('markdown-template'); 
             
             if (guideContainerDiv && markdownTemplate && typeof marked !== 'undefined') { 
-                guideContainerDiv.innerHTML = marked.parse(markdownTemplate.textContent); // Parse and inject
+                guideContainerDiv.innerHTML = marked.parse(markdownTemplate.textContent); 
             } else if (guideContainerDiv && markdownTemplate) {
-                // Fallback if marked.js fails to load, just show preformatted text
                 guideContainerDiv.innerHTML = '<h2>Tips & Troubleshooting Guide (Raw Markdown - Marked.js failed to load)</h2><pre>' + markdownTemplate.textContent + '</pre>';
                 console.warn("Marked.js library not loaded or an issue occurred. Displaying raw Markdown in #tips-guide-container.");
             } else {
@@ -863,7 +872,7 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
         repPenSlider.addEventListener('input', updateUI);
         resetButton.addEventListener('click', applyDefaults);
         
-        applyDefaults(); // Call to set initial UI based on defaults
+        applyDefaults(); 
     </script>
 </body>
 </html>
