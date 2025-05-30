@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kyle's DreamJourney Tweaker</title> <style>
+    <title>Kyle's DJ AI Setting Playground</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> <style>
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
@@ -15,17 +16,22 @@
             align-items: center;
             line-height: 1.6;
         }
+        .page-wrapper { /* New wrapper for all content */
+            width: 100%;
+            max-width: 1100px; /* Max width for the entire page content */
+        }
         .main-container {
             display: flex;
             flex-direction: row; 
             gap: 30px;
             width: 100%;
-            max-width: 1100px; 
+            /* max-width: 1100px; /* Moved to page-wrapper */
             background-color: #24243e; 
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             padding: 25px 35px 35px 35px;
             border: 1px solid #3a3a5a;
+            margin-bottom: 30px; /* Space before tips guide */
         }
         .controls-column {
             flex: 1; 
@@ -43,7 +49,6 @@
             margin-bottom: 10px; 
             font-size: 1.9em;
             font-weight: 600;
-            width: 100%; 
         }
         .disclaimer-note {
             text-align: center;
@@ -311,6 +316,70 @@
             font-style: italic;
         }
 
+        /* Styles for Rendered Markdown Guide */
+        .tips-guide-container {
+            background-color: #24243e;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 25px 35px;
+            border: 1px solid #3a3a5a;
+            margin-top: 30px; /* Space above the guide */
+            color: #e0e0e0;
+        }
+        #tips-guide-content h1, #tips-guide-content h2, #tips-guide-content h3 {
+            color: #9bf6ff;
+            border-bottom: 1px solid #4a4a6a;
+            padding-bottom: 8px;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+        #tips-guide-content h1 { font-size: 1.6em; }
+        #tips-guide-content h2 { font-size: 1.4em; }
+        #tips-guide-content h3 { font-size: 1.2em; }
+        #tips-guide-content p {
+            margin-bottom: 12px;
+            line-height: 1.7;
+            color: #c5c6c7;
+        }
+        #tips-guide-content ul, #tips-guide-content ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+        #tips-guide-content li {
+            margin-bottom: 8px;
+        }
+        #tips-guide-content strong {
+            color: #e0e0e0;
+            font-weight: 600;
+        }
+        #tips-guide-content code { /* Inline code */
+            background-color: #1e1e36;
+            color: #ffcaca;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        #tips-guide-content pre { /* Code blocks */
+            background-color: #1e1e36;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            border: 1px solid #3a3a5a;
+        }
+        #tips-guide-content pre code {
+            background-color: transparent;
+            padding: 0;
+            font-size: 0.9em;
+        }
+        #tips-guide-content a {
+            color: #87CEFA; /* Light Sky Blue for links */
+            text-decoration: none;
+        }
+        #tips-guide-content a:hover {
+            text-decoration: underline;
+        }
+
 
          @media (max-width: 900px) { 
             .main-container {
@@ -334,89 +403,176 @@
             .mini-compass { margin-right: 0; }
             .numerical-value-box { width: 70px; font-size: 0.9em;}
             #quick-vibe-check { font-size: 0.95em;} 
+            .tips-guide-container h1 { font-size: 1.4em; }
+            .tips-guide-container h2 { font-size: 1.2em; }
+            .tips-guide-container h3 { font-size: 1.1em; }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1><span role="img" aria-label="Robot">🤖</span> Kyle's DreamJourney Tweaker <span role="img" aria-label="Robot">🤖</span></h1> <p class="disclaimer-note">Some models may vary and settings may have to be tweaked between models. Experiment to find what you like, or even adjust mid roleplay to change up the roleplay a bit!</p>
-    
-    <div class="main-container">
-        <div class="controls-column">
-            <div class="controls">
-                <div class="control-group">
-                    <div class="label-line">
-                        <span class="main-label">Temperature</span>
-                        <span id="temp-qualitative-text" class="qualitative-value">Balanced</span>
+    <div class="page-wrapper"> <h1><span role="img" aria-label="Robot">🤖</span> Kyle's DJ AI Setting Playground <span role="img" aria-label="Robot">🤖</span></h1>
+        <p class="disclaimer-note">Some models may vary and settings may have to be tweaked between models. Experiment to find what you like, or even adjust mid roleplay to change up the roleplay a bit!</p>
+        
+        <div class="main-container">
+            <div class="controls-column">
+                <div class="controls">
+                    <div class="control-group">
+                        <div class="label-line">
+                            <span class="main-label">Temperature</span>
+                            <span id="temp-qualitative-text" class="qualitative-value">Balanced</span>
+                        </div>
+                        <input type="range" id="temp-slider" min="0.1" max="2.0" step="0.01" value="0.8">
+                        <div class="numerical-value-box" id="temp-numerical-container"><span id="temp-numerical-value">0.80</span></div>
+                        <div class="slider-ends">
+                            <span>Predictable</span> <span>Creative</span>
+                        </div>
+                        <p class="setting-description">Controls response creativity/randomness. Lower (0.1-0.7) is predictable. Recommended: 0.7-1.2 for balance. Higher (>1.2) is very creative/surprising.</p> 
                     </div>
-                    <input type="range" id="temp-slider" min="0.1" max="2.0" step="0.01" value="0.8">
-                    <div class="numerical-value-box" id="temp-numerical-container"><span id="temp-numerical-value">0.80</span></div>
-                    <div class="slider-ends">
-                        <span>Predictable</span> <span>Creative</span>
+                    <div class="control-group">
+                         <div class="label-line">
+                            <span class="main-label">Repetition Penalty</span>
+                            <span id="repPen-qualitative-text" class="qualitative-value">Balanced</span>
+                        </div>
+                        <input type="range" id="repPen-slider" min="1.0" max="2.0" step="0.01" value="1.08">
+                        <div class="numerical-value-box" id="repPen-numerical-container"><span id="repPen-numerical-value">1.08</span></div>
+                         <div class="slider-ends">
+                            <span>Disabled (1.0)</span> 
+                            <span>Strongly Avoids (2.0)</span>
+                        </div>
+                         <p class="setting-description">Discourages repeating words. 1.0 is neutral. Recommended: 1.0-1.4 for balanced control. Higher (>1.7) can degrade quality.</p> 
                     </div>
-                    <p class="setting-description">Controls response creativity/randomness. Lower (0.1-0.7) is predictable. Recommended: 0.7-1.2 for balance. Higher (>1.2) is very creative/surprising.</p> 
+                    <div class="control-group">
+                         <div class="label-line">
+                            <span class="main-label">Min P</span>
+                            <span id="minP-qualitative-text" class="qualitative-value">Balanced</span>
+                        </div>
+                        <input type="range" id="minP-slider" min="0.0" max="1.0" step="0.001" value="0.06">
+                        <div class="numerical-value-box" id="minP-numerical-container"><span id="minP-numerical-value">0.06</span></div> 
+                         <div class="slider-ends">
+                            <span>Permissive (0.0)</span>
+                            <span>Very Strict (1.0)</span>
+                        </div>
+                        <p class="setting-description">Filters unlikely words. Higher values are more restrictive. Recommended: 0.04-0.1. Set to 0 to disable.</p>
+                    </div>
                 </div>
-                <div class="control-group">
-                     <div class="label-line">
-                        <span class="main-label">Repetition Penalty</span>
-                        <span id="repPen-qualitative-text" class="qualitative-value">Balanced</span>
+                <button id="reset-button">Reset to Defaults</button>
+            </div>
+
+            <div class="profile-column">
+                <div class="description-box">
+                    <h3>Roleplay & Response Profile</h3>
+                    <div id="alert-section" class="hidden">
+                        <strong>Potential Issue Alert:</strong>
+                        <div id="alert-text"></div> 
                     </div>
-                    <input type="range" id="repPen-slider" min="1.0" max="2.0" step="0.01" value="1.08">
-                    <div class="numerical-value-box" id="repPen-numerical-container"><span id="repPen-numerical-value">1.08</span></div>
-                     <div class="slider-ends">
-                        <span>Disabled (1.0)</span> 
-                        <span>Strongly Avoids (2.0)</span>
+                    <div id="quick-vibe-check">
+                        <span class="vibe-emoji" role="img" aria-label="Vibe Emoji">🤔</span>
+                        <div>
+                            <span class="vibe-analogy">Analogy: Casting a net...</span>
+                            <span class="vibe-summary">Outcome: Balanced and engaging.</span>
+                        </div>
                     </div>
-                     <p class="setting-description">Discourages repeating words. 1.0 is neutral. Recommended: 1.0-1.4 for balanced control. Higher (>1.7) can degrade quality.</p> 
-                </div>
-                <div class="control-group">
-                     <div class="label-line">
-                        <span class="main-label">Min P</span>
-                        <span id="minP-qualitative-text" class="qualitative-value">Balanced</span>
+                    
+                    <div class="overall-style-container">
+                        <div class="mini-compass" aria-hidden="true">
+                            <div class="mini-compass-cell" id="cell-00"></div> <div class="mini-compass-cell" id="cell-01"></div> <div class="mini-compass-cell" id="cell-02"></div>
+                            <div class="mini-compass-cell" id="cell-10"></div> <div class="mini-compass-cell" id="cell-11"></div> <div class="mini-compass-cell" id="cell-12"></div>
+                            <div class="mini-compass-cell" id="cell-20"></div> <div class="mini-compass-cell" id="cell-21"></div> <div class="mini-compass-cell" id="cell-22"></div>
+                        </div>
+                        <div id="overall-style-text">Overall Style: Balanced & Focused</div>
                     </div>
-                    <input type="range" id="minP-slider" min="0.0" max="1.0" step="0.001" value="0.06">
-                    <div class="numerical-value-box" id="minP-numerical-container"><span id="minP-numerical-value">0.06</span></div> 
-                     <div class="slider-ends">
-                        <span>Permissive (0.0)</span>
-                        <span>Very Strict (1.0)</span>
-                    </div>
-                    <p class="setting-description">Filters unlikely words. Higher values are more restrictive. Recommended: 0.04-0.1. Set to 0 to disable.</p>
+                    <div class="profile-section"><strong>Variance (Idea Pool):</strong> <span id="variance-text">Moderate</span></div>
+                    <div class="profile-section"><strong>Coherence & Focus (Idea Selection):</strong> <span id="coherence-text">Good</span></div>
+                    <div class="profile-section"><strong>Prompt Adherence (Following the Scene):</strong> <span id="adherence-text">Balanced</span></div>
+                    <div class="profile-section"><strong>Word Choice & Tone (Dialogue Polish):</strong> <span id="repetition-text">Natural</span></div>
                 </div>
             </div>
-            <button id="reset-button">Reset to Defaults</button>
         </div>
 
-        <div class="profile-column">
-            <div class="description-box">
-                <h3>Roleplay & Response Profile</h3>
-                <div id="alert-section" class="hidden">
-                    <strong>Potential Issue Alert:</strong>
-                    <div id="alert-text"></div> 
-                </div>
-                <div id="quick-vibe-check">
-                    <span class="vibe-emoji" role="img" aria-label="Vibe Emoji">🤔</span>
-                    <div>
-                        <span class="vibe-analogy">Analogy: Casting a net...</span>
-                        <span class="vibe-summary">Outcome: Balanced and engaging.</span>
-                    </div>
-                </div>
-                
-                <div class="overall-style-container">
-                    <div class="mini-compass" aria-hidden="true">
-                        <div class="mini-compass-cell" id="cell-00"></div> <div class="mini-compass-cell" id="cell-01"></div> <div class="mini-compass-cell" id="cell-02"></div>
-                        <div class="mini-compass-cell" id="cell-10"></div> <div class="mini-compass-cell" id="cell-11"></div> <div class="mini-compass-cell" id="cell-12"></div>
-                        <div class="mini-compass-cell" id="cell-20"></div> <div class="mini-compass-cell" id="cell-21"></div> <div class="mini-compass-cell" id="cell-22"></div>
-                    </div>
-                    <div id="overall-style-text">Overall Style: Balanced & Focused</div>
-                </div>
-                <div class="profile-section"><strong>Variance (Idea Pool):</strong> <span id="variance-text">Moderate</span></div>
-                <div class="profile-section"><strong>Coherence & Focus (Idea Selection):</strong> <span id="coherence-text">Good</span></div>
-                <div class="profile-section"><strong>Prompt Adherence (Following the Scene):</strong> <span id="adherence-text">Balanced</span></div>
-                <div class="profile-section"><strong>Word Choice & Tone (Dialogue Polish):</strong> <span id="repetition-text">Natural</span></div>
-            </div>
-        </div>
+        <div id="tips-guide-container" class="tips-guide-container"> </div>
     </div>
 
+    <script type="text/template" id="markdown-template">
+# Kyle's DJ AI Setting Tips & Troubleshooting Guide
+
+Welcome, Dreamjourneyer! Understanding how Temperature, Min P, and Repetition Penalty work together can greatly enhance your AI roleplaying experience. This guide offers some tips and troubleshooting advice using the "AI Chef" analogy. Think of it like tuning an instrument or seasoning a dish – small adjustments can make a big difference!
+
+## The Core Settings: The AI Chef Analogy 🍳🤖
+
+Imagine your AI is a creative chef preparing a dish (the response):
+
+* **Temperature: The "Adventure" Dial 🔥**
+    * **What it is:** Controls how risky or creative the chef is with ingredients (words/ideas).
+    * **Low Temp (e.g., 0.1-0.7):** The chef sticks to classic, well-known recipes and common ingredients. The dish will be predictable, focused, and familiar. Like a very precise recipe follower.
+    * **Medium Temp (e.g., 0.7-1.2 - Recommended):** The chef is feeling inspired! They'll use reliable recipes but might add a creative twist or a less common (but still fitting) ingredient. The dish is balanced and engaging.
+    * **High Temp (e.g., >1.2):** The chef is a culinary daredevil! They're throwing in exotic, unexpected ingredients and inventing new combinations on the fly. The dish could be brilliantly unique or a bit of a bizarre, possibly inedible, mess!
+
+* **Min P: The "Quality Control" Inspector 🧐**
+    * **What it is:** After the chef (Temperature) has brainstormed a list of potential ingredients (words), Min P acts like a quality inspector. It sets a minimum "acceptability" score (probability). Any ingredient falling below this score is discarded.
+    * **Low Min P (e.g., 0.0-0.04):** The inspector is very lenient, letting almost every ingredient pass, even if some are a bit questionable or don't quite fit the recipe.
+    * **Medium Min P (e.g., 0.04-0.1 - Recommended):** The inspector has good judgment, discarding obviously unsuitable ingredients but allowing a good range of quality options that still fit the dish.
+    * **High Min P (e.g., >0.1):** The inspector is extremely strict, only allowing the absolute highest-quality, most common, or "safest" ingredients. Too high (e.g., >0.2 or much higher depending on Temp), and they might discard so much that the chef has nothing left to cook with, or only one very bland ingredient.
+
+* **Repetition Penalty: The "Variety" Rule 🔄**
+    * **What it is:** This rule tells the chef how much to avoid using the same ingredient or cooking technique (words/phrases) over and over again. (Note: 1.0 usually means it's disabled/neutral).
+    * **Disabled/Low (1.0):** The chef doesn't mind using a favorite ingredient multiple times if it fits. The dish might have recurring, familiar flavors (words/phrases).
+    * **Medium (e.g., 1.01-1.4 - Recommended):** The chef tries to vary ingredients and techniques to keep the dish interesting, avoiding obvious repetition of the exact same flavor notes too close together.
+    * **High (e.g., >1.4):** The chef is *obsessed* with novelty, going to great lengths to avoid any repeated ingredient, even if it means using a strange substitute or making the dish taste a bit forced or unnatural. Too high (>1.7), and the dish might become an unpalatable collection of "unique" but clashing flavors.
+
+## Common Issues & Troubleshooting Tips
+
+Here are some common scenarios and how you might adjust settings. Remember to make small changes and observe the effect! The "Kyle's DJ AI Response Shaper" tool can help you understand these interactions visually.
+
+**1. Issue: My AI is too repetitive, looping, or saying the same things.**
+    * **Primary Suspect:** Repetition Penalty is too low (especially if it's at 1.0).
+    * **Try This:**
+        * Gradually increase **Repetition Penalty** (e.g., from 1.0 to 1.05, then 1.1, 1.15). The recommended range for some effect is often 1.0-1.4.
+        * If Temperature is very low (<0.5), the AI chef has fewer initial ingredients to choose from, making repetition more likely. Consider slightly increasing **Temperature** to give the chef more options to work with, alongside a slightly increased Repetition Penalty.
+
+**2. Issue: My AI is talking nonsense, gibberish, or is very off-topic.**
+    * **Primary Suspects:** Temperature is too high, AND/OR Min P is too low. The chef is too adventurous and quality control is asleep!
+    * **Try This:**
+        * First, try slightly decreasing **Temperature** (e.g., from 1.5 to 1.3, then 1.1). This makes the chef less of a daredevil.
+        * If still problematic, slightly increase **Min P** (e.g., from 0.02 to 0.05, then 0.08). This makes the quality inspector a bit stricter on the ingredients chosen from the (potentially still wide) list.
+        * Avoid combining extremely high Temperature (>1.7) with very low Min P (<0.03) if you want coherent, on-topic responses.
+
+**3. Issue: My AI is too boring, predictable, or lacks creativity.**
+    * **Primary Suspects:** Temperature is too low, AND/OR Min P is too high. The chef is playing it too safe, or the inspector is too picky.
+    * **Try This:**
+        * Gradually increase **Temperature** (e.g., from 0.7 to 0.9, then 1.1). Encourage the chef to be more adventurous!
+        * If Temperature is already moderate, try slightly decreasing **Min P** (e.g., from 0.1 to 0.07, then 0.05), making the quality inspector more permissive of creative (but still decent) ingredients.
+        * Ensure Repetition Penalty isn't so high (>1.6) that it's stifling natural expression by making the chef avoid common words.
+
+**4. Issue: My AI isn't following my prompt well / poor adherence.**
+    * **Primary Suspects:** Temperature is too high (chef is ignoring the recipe card), or Min P is too low (inspector lets unrelated ingredients into the dish).
+    * **Try This:**
+        * Decrease **Temperature**. Lower temperatures generally make the AI stick closer to the provided context/recipe.
+        * Slightly increase **Min P**. This can help filter out more divergent ideas that Temperature might have surfaced.
+        * If Repetition Penalty is extremely high (>1.7), the chef might struggle to use specific keywords from your prompt if they need to be repeated. Consider lowering it slightly in such cases.
+
+**5. Issue: AI responses are too short, or it stops generating mid-thought.**
+    * **Primary Suspects:** Min P is too high (inspector discards *everything*), OR a combination of very low Temperature and high Min P (chef has few ideas, inspector discards most of them).
+    * **Try This:**
+        * Significantly decrease **Min P**. If the quality inspector is too strict, no ingredients make the cut.
+        * If Temperature is very low (<0.4), try increasing it a bit (e.g., to 0.6-0.8) to give the chef more initial ideas to work with.
+        * Check if Repetition Penalty is extremely high (>1.8), as this could also make it hard to find *any* non-repeating word to say.
+
+**6. Issue: AI's language feels forced, unnatural, or uses weird words.**
+    * **Primary Suspect:** Repetition Penalty is too high. The chef is trying too hard to make every ingredient unique.
+    * **Try This:**
+        * Decrease **Repetition Penalty** (e.g., from 1.8 down to 1.5, then 1.3). When the "Variety" rule is too aggressive, naturalness is sacrificed.
+
+## General Advice for Your Culinary AI Adventure
+
+* **Start with Defaults:** The "Reset to Defaults" button in the Shaper tool (Temp: 0.8, Min P: 0.06, Rep Pen: 1.08) is often a good starting point for balanced roleplay.
+* **One Knob at a Time:** When experimenting, try adjusting only one setting at a time to clearly see its effect.
+* **Small Increments:** Small changes can have big impacts.
+* **Context Matters:** The "perfect" settings can change based on the specific character, scene, or desired style of roleplay. Don't be afraid to tweak mid-RP!
+* **Model Differences:** Remember the disclaimer! Different AI models might respond differently. Use the Shaper as a guide, but trust your experience with specific models on Dreamjourney.
+
+Happy Shaping, and may your AI Chef cook up some amazing stories!
+    </script>
     <script>
         const tempSlider = document.getElementById('temp-slider');
         const minPSlider = document.getElementById('minP-slider');
@@ -597,33 +753,29 @@
             let vibeSummary = "";
             let vibeEmoji = "🤔"; 
 
-            // Temperature Analogy (Idea Brainstormer / Spotlight) - More Granular
-            if (temp < 0.4) vibeAnalogy = "Brainstormer: Ultra-focused, laser beam on one idea.";
-            else if (temp < 0.7) vibeAnalogy = "Brainstormer: Focused, explores a few related ideas.";
-            else if (temp <= 0.9) vibeAnalogy = "Brainstormer: Slightly focused, mostly known ideas with a few new sparks.";
-            else if (temp <= 1.2) vibeAnalogy = "Brainstormer: Balanced, good mix of familiar & fresh ideas.";
-            else if (temp <= 1.6) vibeAnalogy = "Brainstormer: Expansive, often brings in novel & diverse ideas.";
-            else vibeAnalogy = "Brainstormer: Wild & vast, expect a flood of unexpected & unusual ideas!";
+            if (temp < 0.4) vibeAnalogy = "Brainstormer: Ultra-focused, like a laser on a single thought.";
+            else if (temp < 0.7) vibeAnalogy = "Brainstormer: Focused, like a tight spotlight on core ideas.";
+            else if (temp <= 0.9) vibeAnalogy = "Brainstormer: Methodical, carefully considers known ideas, with a few new sparks.";
+            else if (temp <= 1.2) vibeAnalogy = "Brainstormer: Balanced, good mix of familiar & fresh ideas, open to suggestions.";
+            else if (temp <= 1.6) vibeAnalogy = "Brainstormer: Adventurous, often brings in novel & diverse ideas, explores widely.";
+            else vibeAnalogy = "Brainstormer: Wild & Unbound! Expect a flood of unexpected, unusual, and highly diverse ideas!";
 
-            // Min P Analogy (Quality Control Filter)
-            if (minP < 0.02 && temp > 1.0) vibeAnalogy += " Filter: Practically off! Almost every idea, no matter how wild, gets through.";
-            else if (minP < 0.04) vibeAnalogy += " Filter: Very loose, lets most ideas pass, including many rough/unusual ones.";
-            else if (minP <= 0.1) vibeAnalogy += " Filter: Decent, catches obvious misfires but allows good creative range.";
-            else if (minP <= 0.2) vibeAnalogy += " Filter: Quite strict, prefers safer, more probable ideas, trims unique ones.";
-            else vibeAnalogy += " Filter: Extremely strict, risks very few (or no) ideas passing its high bar.";
+            if (minP < 0.02 && temp > 1.0) vibeAnalogy += " Filter: Practically off! Most ideas get through, no matter how wild.";
+            else if (minP < 0.04) vibeAnalogy += " Filter: Very Permissive, letting most ideas pass, including many experimental ones.";
+            else if (minP <= 0.1) vibeAnalogy += " Filter: Balanced, catches obvious misfires but allows good creative range and some unique thoughts.";
+            else if (minP <= 0.2) vibeAnalogy += " Filter: Strict, prefers safer, more probable ideas, trims many of the more 'out-there' options.";
+            else vibeAnalogy += " Filter: Extremely Strict, very few ideas pass its high bar, risking little to no output or very generic choices.";
             
-            // Rep Pen Analogy (Dialogue Polisher)
-            if (repPen === 1.0) vibeAnalogy += " Polisher: Off - dialogue may repeat naturally.";
-            else if (repPen <= 1.2) vibeAnalogy += " Polisher: Gentle - encourages slight phrasing variety.";
-            else if (repPen <= 1.5) vibeAnalogy += " Polisher: Active - pushes for varied wording, keeping speech fresh.";
-            else vibeAnalogy += " Polisher: Intense - strongly forces new phrasing (may sound unnatural).";
+            if (repPen === 1.0) vibeAnalogy += " Polisher: Off - dialogue will include natural, human-like repetition.";
+            else if (repPen <= 1.2) vibeAnalogy += " Polisher: Gentle - subtly encourages varied phrasing for a bit more polish.";
+            else if (repPen <= 1.5) vibeAnalogy += " Polisher: Active - works to make speech fresh by pushing for varied wording.";
+            else vibeAnalogy += " Polisher: Intense - strongly forces new phrasing, which might make dialogue sound unique or sometimes unnatural.";
             
-            // Roleplay Summary based on categories & alerts
             if (alertMessages.length > 0) {
                 vibeEmoji = "⚠️"; 
                 vibeSummary = "Heads up! These settings might lead to some tricky or unexpected responses (see alerts above).";
             } else if (temp < 0.4 && minP < 0.03) { 
-                 vibeSummary = "Roleplay might feel very rigid, predictable, and possibly repetitive or stuck."; vibeEmoji = "🧱";
+                 vibeSummary = "Roleplay might feel very rigid and possibly repetitive or stuck."; vibeEmoji = "🧱";
             } else if (tempCategory === 0 && minPCategory === 2) { vibeSummary = "Roleplay will be highly controlled & specific, possibly terse."; vibeEmoji = "🧐";}
             else if (tempCategory === 2 && minPCategory === 0) { vibeSummary = "Expect wild & unpredictable roleplay – great for chaos!"; vibeEmoji = "🤪";}
             else if (tempCategory === 0 && minPCategory === 0) { vibeSummary = "Consistent roleplay, but can explore a bit."; vibeEmoji = "🙂";}
@@ -635,10 +787,9 @@
             else if (tempCategory === 2 && minPCategory === 1) { vibeSummary = "Creative & focused, for imaginative but on-topic responses."; vibeEmoji = "✨";}
             else {vibeSummary = "A balanced mix of creativity and coherence."; vibeEmoji = "⚖️";} 
             
-            if (alertMessages.length === 0 && repPen > 1.5 && repPen <= 1.7) { 
-                vibeSummary += " Dialogue will be strongly varied, sometimes feeling a bit formal.";
-            } else if (alertMessages.length === 0 && repPen > 1.7) {
-                 vibeSummary += " Dialogue might sound forced or unnatural due to extreme avoidance of repeats.";
+            if (alertMessages.length === 0 && repPen > 1.4) { // Add rep pen nuance to summary if no critical alerts
+                if (repPen <= 1.7) vibeSummary += " Dialogue will actively avoid repeats, sometimes sounding more formal.";
+                else vibeSummary += " Dialogue might sound forced or unnatural due to extreme avoidance of repeats.";
             }
             
             quickVibeCheckText.innerHTML = `<span class="vibe-emoji" role="img" aria-label="Vibe Emoji">${vibeEmoji}</span><div><span class="vibe-analogy">${vibeAnalogy}</span><span class="vibe-summary">${vibeSummary}</span></div>`;
@@ -662,11 +813,13 @@
             else if (temp < 0.7 && minP > 0.1) coherenceDesc = "Very High: Responses should be very logical, focused, and directly relevant. Unlikely to go off-topic.";
             else if (minP > 0.2 && temp > 1.2) coherenceDesc = "Potentially Conflicting: High creativity (from Temp) clashes with strict filtering (from Min P), which may produce sparse, odd, or short results.";
             else coherenceDesc = "Good: Generally sensible and stays on topic. Reliable for storytelling and consistent character interactions.";
-            if (repPen > 1.6) coherenceDesc += " (Note: Very high Repetition Penalty can also make responses feel less natural or coherent due to forced word choices.)"
+            if (repPen > 1.6 && !(temp > 1.2 && minP < 0.05) ) { // Avoid double-messaging if already chaotic
+                 coherenceDesc += " (Note: Very high Repetition Penalty can also make responses feel less natural or coherent due to forced word choices.)"
+            }
             coherenceText.innerHTML = coherenceDesc;
 
             let adherenceDesc = ""; 
-            if (temp < 0.4 && minP < 0.03) adherenceDesc = "Literal & Potentially Unresponsive: AI will attempt to adhere but may only grasp the most basic interpretation and get stuck or provide minimal output due to limited options.";
+            if (temp < 0.4 && minP < 0.03) adherenceDesc = "Literal & Potentially Unresponsive: AI will attempt to adhere but may only grasp the most basic interpretation and get stuck or provide minimal output.";
             else if (temp < 0.5 && minP > 0.1) adherenceDesc = "Extremely Strong: The AI will be rigidly bound to your prompt and character. Almost no creative deviation. Very robotic.";
             else if (temp < 0.7 && minP > 0.08) adherenceDesc = "Very Strong: The AI will stick closely to your instructions and character details. Little deviation, good for precise control.";
             else if (temp <= 1.0 && minP >= 0.05) adherenceDesc = "Strong: Follows instructions well, with minor creative interpretations fitting the context. Reliable for character voice.";
@@ -679,7 +832,7 @@
             let repDesc = ""; 
             if (repPen === 1.0) repDesc = "Neutral: Allows natural repetition. Words/phrases might repeat if common or contextually fitting. Characters might have 'catchphrases'.";
             else if (repPen <= 1.4) repDesc = "Reduced: Gently discourages obvious repetition, making dialogue feel fresher and more varied. Good for most uses.";
-            else if (repPen <= 1.7) repDesc = "Strongly Reduced: Actively avoids repeating words, pushing for more unique vocabulary. <span class='positive-spin'>Can result in more eloquent or distinct character voices.</span>";
+            else if (repPen <= 1.7) repDesc = "Strongly Reduced: Actively avoids repeating words, pushing for unique vocabulary. <span class='positive-spin'>Can result in more eloquent or distinct character voices.</span>";
             else repDesc = `Extremely Reduced: Forces highly unique phrasing. Language might become unnatural or use rare words to avoid any repetition. This can make common expressions or character quirks difficult for the AI.`;
             repetitionText.innerHTML = repDesc;
         }
