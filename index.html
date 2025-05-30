@@ -161,7 +161,7 @@
             text-align: left;
         }
         
-        #reset-button {
+        .action-buttons button { 
             background-color: #6a0dad; 
             color: #e0e0e0;
             border: none;
@@ -172,11 +172,17 @@
             font-weight: 500;
             transition: background-color 0.2s ease;
             display: block;
-            margin: 25px auto 0 auto; 
+            width: 80%; 
+            max-width: 250px; 
+            margin: 15px auto 0 auto; 
         }
-        #reset-button:hover {
+        .action-buttons button:hover {
             background-color: #800080; 
         }
+        #toggle-guide-button { /* Specific style for the new button if needed */
+            margin-top: 10px; /* Less margin than reset */
+        }
+
 
         .description-box {
             padding: 25px;
@@ -225,38 +231,39 @@
         #quick-vibe-check {
             font-size: 1.0em; 
             color: #b0e0e6; 
-            text-align: left; 
+            text-align: center; /* Centered vibe check */
             margin-bottom: 15px; 
             padding: 12px;
             background-color: #1e1e36;
             border-radius: 6px;
             line-height: 1.5;
-            /* border-bottom: 1px solid #3a3a5a; /* Removed separator to integrate with Trait */
         }
          #quick-vibe-check h3 { /* Vibe Check Subheader */
             font-size: 1.1em; 
-            color: #b0e0e6; /* Match text color */
+            color: #b0e0e6; 
             margin-top: 0;
             margin-bottom: 8px;
             padding-bottom: 5px;
             border-bottom-style: dashed;
             border-bottom-width: 1px;
             border-color: #4a4a6a;
-            text-align: left;
+            text-align: center; 
         }
         .vibe-emoji {
-            font-size: 1.3em; 
-            margin-right: 10px;
-            vertical-align: middle;
+            font-size: 1.5em; /* Larger emoji */
+            display: block; 
+            margin-bottom: 5px;
         }
-        .vibe-persona { /* Changed from analogy */
+        .vibe-persona { 
             font-weight: bold;
             color: #c0d0e0; 
             display: block;
             margin-bottom: 5px;
+            font-size: 1.05em;
         }
-        .vibe-outcome { /* Changed from summary */
+        .vibe-outcome { 
             font-style: italic;
+            font-size: 0.95em;
         }
 
 
@@ -277,6 +284,10 @@
             margin-bottom: 5px; 
             font-size: 1.05em;
         }
+        .profile-section .section-emoji { /* For emojis in detailed sections */
+            margin-right: 8px;
+            font-size: 1.1em;
+        }
         .profile-section span { 
             color: #b0b0b0; 
             font-size: 0.95em;
@@ -294,7 +305,7 @@
         /* AI Character Trait Display */
         #ai-character-trait {
             text-align: center;
-            margin-bottom: 20px; /* Space before Vibe Check */
+            margin-bottom: 20px; 
             padding: 15px;
             background-color: #1e1e36;
             border-radius: 8px;
@@ -332,6 +343,9 @@
             border: 1px solid #3a3a5a;
             margin-top: 30px; 
             color: #e0e0e0;
+        }
+        .tips-guide-container.hidden { 
+            display: none;
         }
         #tips-guide-content h1, #tips-guide-content h2, #tips-guide-content h3 { 
             color: #9bf6ff;
@@ -380,7 +394,7 @@
             font-size: 0.9em;
         }
         #tips-guide-content a { 
-            color: #ffb74d; 
+            color: #ffb74d; /* Orange for the jump link */
             text-decoration: none;
             font-weight: 500;
         }
@@ -499,7 +513,10 @@
                         <p class="setting-description">Filters unlikely words. Higher values are more restrictive. Recommended: 0.04-0.1. Set to 0 to disable.</p>
                     </div>
                 </div>
-                <button id="reset-button">Reset to Defaults</button>
+                <div class="action-buttons"> 
+                    <button id="reset-button">Reset to Defaults</button>
+                    <button id="toggle-guide-button">AI Troubles? Show/Hide Guide</button> 
+                </div>
             </div>
 
             <div class="profile-column">
@@ -526,15 +543,15 @@
                         </div>
                     </div>
                                     
-                    <div class="profile-section"><strong>Variance (Idea Pool):</strong> <span id="variance-text">Moderate</span></div>
-                    <div class="profile-section"><strong>Coherence & Focus (Idea Selection):</strong> <span id="coherence-text">Good</span></div>
-                    <div class="profile-section"><strong>Prompt Adherence (Following the Scene):</strong> <span id="adherence-text">Balanced</span></div>
-                    <div class="profile-section"><strong>Word Choice & Tone (Dialogue Polish):</strong> <span id="repetition-text">Natural</span></div>
+                    <div class="profile-section"><strong><span class="section-emoji" role="img" aria-label="Idea Pool">💡</span> Variance (Idea Pool):</strong> <span id="variance-text">Moderate</span></div>
+                    <div class="profile-section"><strong><span class="section-emoji" role="img" aria-label="Focus">🎯</span> Coherence & Focus (Idea Selection):</strong> <span id="coherence-text">Good</span></div>
+                    <div class="profile-section"><strong><span class="section-emoji" role="img" aria-label="Guide">🗺️</span> Prompt Adherence (Following the Scene):</strong> <span id="adherence-text">Balanced</span></div>
+                    <div class="profile-section"><strong><span class="section-emoji" role="img" aria-label="Dialogue">💬</span> Word Choice & Tone (Dialogue Polish):</strong> <span id="repetition-text">Natural</span></div>
                 </div>
             </div>
         </div>
 
-        <div id="tips-guide-container" class="tips-guide-container">
+        <div id="tips-guide-container" class="tips-guide-container hidden"> 
             </div>
     </div>
 
@@ -597,6 +614,7 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
         const minPSlider = document.getElementById('minP-slider');
         const repPenSlider = document.getElementById('repPen-slider');
         const resetButton = document.getElementById('reset-button');
+        const toggleGuideButton = document.getElementById('toggle-guide-button'); 
         
         const tempQualitativeText = document.getElementById('temp-qualitative-text');
         const tempNumericalValue = document.getElementById('temp-numerical-value');
@@ -610,25 +628,19 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
         const repPenNumericalContainer = document.getElementById('repPen-numerical-container');
         const repPenNumericalValue = document.getElementById('repPen-numerical-value');
 
-        // Trait Display Elements
         const traitIconElement = document.getElementById('trait-icon'); 
         const traitTagsContainerElement = document.getElementById('trait-tags-container');
 
-        // Vibe Check Elements
         const quickVibeCheckElement = document.getElementById('quick-vibe-check'); 
 
-        // Detailed Profile Elements
         const alertSection = document.getElementById('alert-section');
         const alertText = document.getElementById('alert-text'); 
-        // const overallStyleText = document.getElementById('overall-style-text'); // No longer directly used for main style text
         const varianceText = document.getElementById('variance-text');
         const coherenceText = document.getElementById('coherence-text');
         const adherenceText = document.getElementById('adherence-text');
         const repetitionText = document.getElementById('repetition-text');
         
-        // Mini-compass removed from this version's logic, but kept in HTML for now if we bring it back
-        // const miniCompassCells = [ ... ];
-
+        const guideContainerDiv = document.getElementById('tips-guide-container'); 
 
         const tempEffectiveMinPPlotDomain = [0.0, 0.2]; 
 
@@ -747,7 +759,7 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                 alertSection.classList.add('hidden');
             }
             
-            // --- AI Character Trait Display ---
+            // --- AI Character Trait Display (Replaces Overall Style Text) ---
             let currentTraitIcon = "⚖️"; 
             let currentTraitTags = [];
 
@@ -763,9 +775,12 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                 else if (temp < 0.7) { currentTraitIcon = "🧐"; currentTraitTags.push({text: "Predictable", type: "neutral"}); }
                 else { currentTraitTags.push({text: "Balanced Ideas", type: "neutral"}); }
 
-                // Min P-driven traits
-                if (minP > 0.4) { currentTraitIcon = (currentTraitIcon === "⚖️" || currentTraitIcon === "⚠️" ? "🚧" : currentTraitIcon) ; currentTraitTags.push({text: "Extreme Filter", type: "negative"}); currentTraitTags.push({text: "Risks No Output", type: "negative"});}
-                else if (minP > 0.2) { currentTraitTags.push({text: "Strict Filter", type: "negative"}); }
+                // Min P-driven traits (with Temp influence)
+                let minPEffectiveThresholdStrict = 0.12 + (temp - 0.8) * 0.05; // Higher temp allows slightly higher "strict" MinP
+                let minPEffectiveThresholdExtreme = 0.2 + (temp - 0.8) * 0.1;
+
+                if (minP > Math.max(0.3, minPEffectiveThresholdExtreme)) { currentTraitIcon = (currentTraitIcon === "⚖️" || currentTraitIcon === "⚠️" ? "🚧" : currentTraitIcon) ; currentTraitTags.push({text: "Extreme Filter", type: "negative"}); currentTraitTags.push({text: "Risks No Output", type: "negative"});}
+                else if (minP > Math.max(0.15, minPEffectiveThresholdStrict)) { currentTraitTags.push({text: "Strict Filter", type: "negative"}); }
                 else if (minP < 0.03) { currentTraitTags.push({text: "Very Loose Filter", type: "neutral"}); }
                 else { currentTraitTags.push({text: "Moderate Filter", type: "neutral"});}
                 
@@ -775,12 +790,12 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                 else if (repPen === 1.0 ) { currentTraitTags.push({text: "Allows Repetition", type: "neutral"});}
                 else { currentTraitTags.push({text: "Reduces Repetition", type: "neutral"});}
 
-                if (currentTraitTags.length === 0) { 
-                    currentTraitTags.push({text: "Balanced Overall", type: "neutral"});
+                if (currentTraitTags.length === 0 || (currentTraitTags.length === 3 && currentTraitTags.every(t=>t.type === 'neutral'))) { 
+                    currentTraitTags = [{text: "Balanced Overall", type: "neutral"}]; // Ensure at least one tag
                 }
             }
             traitIconElement.textContent = currentTraitIcon;
-            traitTagsContainerElement.innerHTML = currentTraitTags.slice(0, 4).map(tag => `<span class="trait-tag ${tag.type}">${tag.text}</span>`).join('');
+            traitTagsContainerElement.innerHTML = currentTraitTags.slice(0, 3).map(tag => `<span class="trait-tag ${tag.type}">${tag.text}</span>`).join(''); // Max 3 tags
 
 
             // --- Quick Vibe Check (Persona-based) ---
@@ -793,13 +808,13 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                 vibePersona = "The Overwhelmed AI";
                 vibeOutcome = "is struggling with these extreme settings! Check the alerts above for potential issues like broken responses or unexpected chaos.";
             } else if (temp < 0.4 && minP < 0.03) { 
-                 vibePersona = "The Stuck Record"; vibeOutcome = "might say very little, or the same simple things over and over. Very rigid."; vibeEmoji = "🧱";
-            } else if (temp < 0.5 && minP > 0.2) { vibePersona = "The Silent Planner"; vibeOutcome = "is thinking very hard but might not say much due to strict idea filtering. Expect short or no replies."; vibeEmoji = "🤫";}
-            else if (temp > 1.6 && minP < 0.03) { vibePersona = "The Wild Brainstormer"; vibeOutcome = "is throwing out tons of unpredictable ideas! Expect a chaotic but potentially very novel experience."; vibeEmoji = "🤪";}
-            else if (temp > 1.3 && minP < 0.05) { vibePersona = "The Adventurous Explorer"; vibeOutcome = "loves to explore novel ideas with a relaxed filter. Expect diverse and surprising turns."; vibeEmoji = "🗺️";}
-            else if (temp < 0.7 && minP > 0.12) { vibePersona = "The Precise Scholar"; vibeOutcome = "delivers focused, logical, and carefully chosen words. Very controlled."; vibeEmoji = "🧐";}
-            else if (temp >= 0.7 && temp <= 1.2 && minP >= 0.04 && minP <= 0.1) { vibePersona = "The Engaging Collaborator"; vibeOutcome = "aims for a great balance of creativity and coherence. Ideal for most roleplay!"; vibeEmoji = "👍";}
-            else { vibePersona = "The Balanced Storyteller"; vibeOutcome = "offers a mix of predictability and creativity, generally staying on track."; vibeEmoji = "⚖️";} 
+                 vibePersona = "The Stuck Record"; vibeOutcome = "Might say very little, or the same simple things over and over. Very rigid."; vibeEmoji = "🧱";
+            } else if (temp < 0.5 && minP > 0.2) { vibePersona = "The Silent Planner"; vibeOutcome = "Is thinking very hard but might not say much due to strict idea filtering. Expect short or no replies."; vibeEmoji = "🤫";}
+            else if (temp > 1.6 && minP < 0.03) { vibePersona = "The Wild Brainstormer"; vibeOutcome = "Is throwing out tons of unpredictable ideas! Expect a chaotic but potentially very novel experience."; vibeEmoji = "🤪";}
+            else if (temp > 1.3 && minP < 0.05) { vibePersona = "The Adventurous Explorer"; vibeOutcome = "Loves to explore novel ideas with a relaxed filter. Expect diverse and surprising turns."; vibeEmoji = "🗺️";}
+            else if (temp < 0.7 && minP > 0.12) { vibePersona = "The Precise Scholar"; vibeOutcome = "Delivers focused, logical, and carefully chosen words. Very controlled."; vibeEmoji = "🧐";}
+            else if (temp >= 0.7 && temp <= 1.2 && minP >= 0.04 && minP <= 0.1) { vibePersona = "The Engaging Collaborator"; vibeOutcome = "Aims for a great balance of creativity and coherence. Ideal for most roleplay!"; vibeEmoji = "👍";}
+            else { vibePersona = "The Balanced Storyteller"; vibeOutcome = "Offers a mix of predictability and creativity, generally staying on track."; vibeEmoji = "⚖️";} 
             
             if (alertMessages.length === 0 && repPen > 1.5) {
                  if (repPen > 1.7) vibeOutcome += " Dialogue will be *forced* to be unique, possibly sounding unnatural.";
@@ -808,48 +823,48 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                 vibeOutcome += " Natural dialogue repetition is likely.";
             }
             
-            quickVibeCheckElement.innerHTML = `<span class="vibe-emoji" role="img" aria-label="Vibe Emoji">${vibeEmoji}</span><div><span class="vibe-persona">${vibePersona}</span><span class="vibe-outcome">${vibeOutcome}</span></div>`;
+            quickVibeCheckElement.innerHTML = `<h3>Vibe Check:</h3><span class="vibe-emoji" role="img" aria-label="Vibe Emoji">${vibeEmoji}</span><div><span class="vibe-persona">${vibePersona}</span><span class="vibe-outcome">${vibeOutcome}</span></div>`;
 
             // --- Detailed Profile Sections (More Reactive to Extremes, direct language) ---
             let varianceDesc = ""; 
-            if (temp > 1.8) varianceDesc = "Off the Charts: Expect extremely random and novel outputs. The AI is basically freestyling with a massive pool of ideas. <span class='positive-spin'>Perfect for pure brainstorming or maximum surprise!</span>";
-            else if (temp > 1.5) varianceDesc = "Very High: Highly diverse and surprising responses. The AI will explore many unusual paths and generate very unique content. <span class='positive-spin'>Great for breaking creative ruts or if you want the AI to truly shock you.</span>";
-            else if (temp > 1.2) varianceDesc = "High: Responses will often be surprising and different each time. Good for unexpected plot twists or when you want the AI to take more initiative.";
-            else if (temp >= 0.7) varianceDesc = "Moderate: A good mix of consistency and new ideas. Keeps things interesting but generally on track. The AI will explore a bit.";
-            else if (temp >= 0.4) varianceDesc = "Low: Expect very similar and predictable responses. Good for strict consistency, but little surprise. The AI prefers familiar paths.";
-            else varianceDesc = "Extremely Low: Responses will be almost identical and highly deterministic. Minimal to no variation. Can feel robotic or stuck. <span class='positive-spin'>Useful for very specific, controlled outputs if it doesn't get stuck, or for a very stoic character.</span>";
+            if (temp > 1.8) varianceDesc = "<span class='section-emoji'>💥</span>Off the Charts: Expect extremely random and novel outputs. The AI is basically freestyling. <span class='positive-spin'>Perfect for pure brainstorming or maximum surprise!</span>";
+            else if (temp > 1.5) varianceDesc = "<span class='section-emoji'>🔥</span>Very High: Highly diverse and surprising responses. The AI will explore many unusual paths. <span class='positive-spin'>Great for breaking creative ruts.</span>";
+            else if (temp > 1.2) varianceDesc = "<span class='section-emoji'>✨</span>High: Responses will often be surprising and different. Good for unexpected plot twists.";
+            else if (temp >= 0.7) varianceDesc = "<span class='section-emoji'>⚖️</span>Moderate: A good mix of consistency and new ideas. Keeps things interesting but generally on track.";
+            else if (temp >= 0.4) varianceDesc = "<span class='section-emoji'>🧐</span>Low: Expect very similar and predictable responses. Good for strict consistency, little surprise.";
+            else varianceDesc = "<span class='section-emoji'>🧊</span>Extremely Low: Responses will be almost identical and highly deterministic. Can feel robotic or stuck. <span class='positive-spin'>Useful for very specific, controlled outputs if it doesn't get stuck.</span>";
             varianceText.innerHTML = varianceDesc;
 
             let coherenceDesc = ""; 
-            if (minP > 0.5) coherenceDesc = "Critically Low: Min P is so high it's likely filtering out almost all words, leading to broken, nonsensical, or no responses at all.";
-            else if (temp > 1.5 && minP < 0.03) coherenceDesc = "Very Low: Extreme creativity and virtually no filter mean a high chance of nonsensical, random, or completely off-topic outputs. Expect chaos and a wild ride!";
-            else if (temp > 1.2 && minP < 0.05) coherenceDesc = "Lower: With high creativity and a very loose filter, responses might often drift, become illogical, or lose the plot more easily. Can be fun for randomness.";
-            else if (temp < 0.4 && minP < 0.03) coherenceDesc = "Rigidly Focused & Potentially Stuck: While technically coherent on its narrow path, it may get stuck in loops or produce overly simplistic, repetitive text due to extremely limited options. Can be very dull.";
-            else if (temp < 0.5 && minP > 0.15) coherenceDesc = "Artificially Constrained: May seem coherent but could be very short, stuck in loops, or fail due to extreme filtering of very few initial options. Output might feel 'strangled'.";
-            else if (temp < 0.7 && minP > 0.1) coherenceDesc = "Very High: Responses should be very logical, focused, and directly relevant. Unlikely to go off-topic.";
-            else if (minP > 0.2 && temp > 1.2) coherenceDesc = "Potentially Conflicting: High creativity (from Temp) clashes with strict filtering (from Min P), which may produce sparse, odd, or short results.";
-            else coherenceDesc = "Good: Generally sensible and stays on topic. Reliable for storytelling and consistent character interactions.";
+            if (minP > 0.5) coherenceDesc = "<span class='section-emoji'>🚫</span>Critically Low: Min P is so high it's likely filtering out almost all words, leading to broken, nonsensical, or no responses at all.";
+            else if (temp > 1.5 && minP < 0.03) coherenceDesc = "<span class='section-emoji'>🤪</span>Very Low: Extreme creativity and virtually no filter mean a high chance of nonsensical, random, or completely off-topic outputs. Expect chaos!";
+            else if (temp > 1.2 && minP < 0.05) coherenceDesc = "<span class='section-emoji'>🤯</span>Lower: With high creativity and a very loose filter, responses might often drift, become illogical, or lose the plot more easily.";
+            else if (temp < 0.4 && minP < 0.03) coherenceDesc = "<span class='section-emoji'>🧱</span>Rigidly Focused & Potentially Stuck: While technically coherent on its narrow path, it may get stuck in loops or produce overly simplistic, repetitive text.";
+            else if (temp < 0.5 && minP > 0.15) coherenceDesc = "<span class='section-emoji'>🚧</span>Artificially Constrained: May seem coherent but could be very short or fail due to extreme filtering. Output might feel 'strangled'.";
+            else if (temp < 0.7 && minP > 0.1) coherenceDesc = "<span class='section-emoji'>🎯</span>Very High: Responses should be very logical, focused, and directly relevant. Unlikely to go off-topic.";
+            else if (minP > 0.2 && temp > 1.2) coherenceDesc = "<span class='section-emoji'>⁉️</span>Potentially Conflicting: High creativity clashes with strict filtering, which may produce sparse, odd, or short results.";
+            else coherenceDesc = "<span class='section-emoji'>✅</span>Good: Generally sensible and stays on topic. Reliable for storytelling and consistent character interactions.";
             if (repPen > 1.6 && !(temp > 1.2 && minP < 0.05) ) { 
                  coherenceDesc += " (Note: Very high Repetition Penalty can also make responses feel less natural or coherent due to forced word choices.)"
             }
             coherenceText.innerHTML = coherenceDesc;
 
             let adherenceDesc = ""; 
-            if (temp < 0.4 && minP < 0.03) adherenceDesc = "Literal & Potentially Unresponsive: AI will attempt to adhere but may only grasp the most basic interpretation and get stuck or provide minimal output.";
-            else if (temp < 0.5 && minP > 0.1) adherenceDesc = "Extremely Strong: The AI will be rigidly bound to your prompt and character. Almost no creative deviation. Very robotic.";
-            else if (temp < 0.7 && minP > 0.08) adherenceDesc = "Very Strong: The AI will stick closely to your instructions and character details. Little deviation, good for precise control.";
-            else if (temp <= 1.0 && minP >= 0.05) adherenceDesc = "Strong: Follows instructions well, with minor creative interpretations fitting the context. Reliable for character voice.";
-            else if (temp > 1.6 || minP < 0.02) adherenceDesc = "Extremely Loose: The AI will likely disregard large parts of your prompt, following its own highly random path. <span class='positive-spin'>Can lead to completely unexpected scenarios!</span>";
-            else if (temp > 1.2 || minP < 0.04) adherenceDesc = "Loose: Expect free interpretation of your prompt. The AI may deviate significantly. <span class='positive-spin'>Good for letting the AI take the lead.</span>";
-            else adherenceDesc = "Balanced: Follows your lead but adds its own creative touches to enhance the roleplay.";
+            if (temp < 0.4 && minP < 0.03) adherenceDesc = "<span class='section-emoji'>⛓️</span>Literal & Potentially Unresponsive: AI will attempt to adhere but may only grasp the most basic interpretation and get stuck.";
+            else if (temp < 0.5 && minP > 0.1) adherenceDesc = "<span class='section-emoji'>🤖</span>Extremely Strong: The AI will be rigidly bound to your prompt and character. Almost no creative deviation. Very robotic.";
+            else if (temp < 0.7 && minP > 0.08) adherenceDesc = "<span class='section-emoji'>👍</span>Very Strong: The AI will stick closely to your instructions and character details. Little deviation.";
+            else if (temp <= 1.0 && minP >= 0.05) adherenceDesc = "<span class='section-emoji'>👌</span>Strong: Follows instructions well, with minor creative interpretations fitting the context.";
+            else if (temp > 1.6 || minP < 0.02) adherenceDesc = "<span class='section-emoji'>🎢</span>Extremely Loose: The AI will likely disregard large parts of your prompt, following its own highly random path. <span class='positive-spin'>Can lead to completely unexpected scenarios!</span>";
+            else if (temp > 1.2 || minP < 0.04) adherenceDesc = "<span class='section-emoji'>🌬️</span>Loose: Expect free interpretation of your prompt. The AI may deviate significantly. <span class='positive-spin'>Good for letting the AI take the lead.</span>";
+            else adherenceDesc = "<span class='section-emoji'>🤝</span>Balanced: Follows your lead but adds its own creative touches to enhance the roleplay.";
             if (repPen > 1.7) adherenceDesc += " (Note: Extreme Repetition Penalty might make it hard for the AI to use specific keywords if your prompt requires them to be repeated.)";
             adherenceText.innerHTML = adherenceDesc;
             
             let repDesc = ""; 
-            if (repPen === 1.0) repDesc = "Neutral: Allows natural repetition. Words/phrases might repeat if common or contextually fitting. Characters might have 'catchphrases'.";
-            else if (repPen <= 1.4) repDesc = "Reduced: Gently discourages obvious repetition, making dialogue feel fresher and more varied. Good for most uses.";
-            else if (repPen <= 1.7) repDesc = "Strongly Reduced: Actively avoids repeating words, pushing for more unique vocabulary. <span class='positive-spin'>Can result in more eloquent or distinct character voices.</span>";
-            else repDesc = `Extremely Reduced: Forces highly unique phrasing. Language might become unnatural or use rare words to avoid any repetition. This can make common expressions or character quirks difficult for the AI.`;
+            if (repPen === 1.0) repDesc = "<span class='section-emoji'>💬</span>Neutral: Allows natural repetition. Words/phrases might repeat if common or contextually fitting.";
+            else if (repPen <= 1.4) repDesc = "<span class='section-emoji'>🍃</span>Reduced: Gently discourages obvious repetition, making dialogue feel fresher and more varied.";
+            else if (repPen <= 1.7) repDesc = "<span class='section-emoji'>✍️</span>Strongly Reduced: Actively avoids repeating words, pushing for unique vocabulary. <span class='positive-spin'>Can result in more eloquent or distinct character voices.</span>";
+            else repDesc = `<span class='section-emoji'>🚫</span>Extremely Reduced: Forces highly unique phrasing. Language might become unnatural or use rare words to avoid any repetition.`;
             repetitionText.innerHTML = repDesc;
         }
         
@@ -862,12 +877,16 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
             } else if (guideContainerDiv && markdownTemplate) {
                 guideContainerDiv.innerHTML = '<h2>Tips & Troubleshooting Guide (Raw Markdown - Marked.js failed to load)</h2><pre>' + markdownTemplate.textContent + '</pre>';
                 console.warn("Marked.js library not loaded or an issue occurred. Displaying raw Markdown in #tips-guide-container.");
-            } else {
-                if (!guideContainerDiv) console.error("Could not find guide container div with ID 'tips-guide-container'.");
-                if (!markdownTemplate) console.error("Could not find markdown template script with ID 'markdown-template'.");
-                if (typeof marked === 'undefined') console.warn("Marked.js library not loaded.");
             }
             
+            // Toggle Guide Button
+            if(toggleGuideButton) {
+                toggleGuideButton.addEventListener('click', () => {
+                    if(guideContainerDiv) {
+                        guideContainerDiv.classList.toggle('hidden');
+                    }
+                });
+            }
             applyDefaults(); 
         });
 
