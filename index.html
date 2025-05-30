@@ -9,7 +9,7 @@
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 10px; /* Default padding, adjusted for mobile below */
             background-color: #1a1a2e; 
             color: #e0e0e0; 
             display: flex;
@@ -29,25 +29,25 @@
             background-color: #24243e; 
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            padding: 25px 35px 35px 35px;
+            padding: 25px; 
             border: 1px solid #3a3a5a;
             margin-bottom: 30px; 
         }
         .controls-column {
             flex: 1; 
-            min-width: 300px; 
+            min-width: 280px; 
             max-width: 400px; 
         }
         .profile-column {
             flex: 1.5; 
-            min-width: 350px; 
+            min-width: 320px; 
         }
 
         h1 {
             text-align: center;
             color: #9bf6ff; 
             margin-bottom: 10px; 
-            font-size: 1.9em;
+            font-size: 1.8em; 
             font-weight: 600;
         }
         .disclaimer-note {
@@ -63,7 +63,7 @@
         .controls {
             display: flex;
             flex-direction: column;
-            gap: 28px; 
+            gap: 25px; 
         }
         .control-group {
             display: flex;
@@ -73,17 +73,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px; 
         }
         .main-label { 
             font-weight: 600;
-            font-size: 1.1em; 
+            font-size: 1.05em; 
             color: #c5c6c7;
         }
         .qualitative-value { 
              font-weight: normal;
              font-style: italic;
-             font-size: 0.9em;
+             font-size: 0.85em; 
              color: #a9a9a9;
         }
         .control-group input[type="range"] {
@@ -241,7 +241,7 @@
 
 
         #quick-vibe-check {
-            font-size: 0.95em; /* Adjusted */
+            font-size: 0.95em; 
             color: #b0e0e6; 
             text-align: center; 
             margin-bottom: 15px; 
@@ -251,7 +251,7 @@
             line-height: 1.5;
         }
          #quick-vibe-check h3 { 
-            font-size: 1.05em; /* Adjusted */
+            font-size: 1.05em; 
             color: #b0e0e6; 
             margin-top: 0;
             margin-bottom: 8px;
@@ -262,7 +262,7 @@
             text-align: center; 
         }
         .vibe-emoji {
-            font-size: 1.4em; /* Adjusted */
+            font-size: 1.4em; 
             display: block; 
             margin-bottom: 5px;
         }
@@ -271,11 +271,11 @@
             color: #c0d0e0; 
             display: block;
             margin-bottom: 5px;
-            font-size: 1em; /* Adjusted */
+            font-size: 1em; 
         }
         .vibe-outcome { 
             font-style: italic;
-            font-size: 0.9em; /* Adjusted */
+            font-size: 0.9em; 
         }
 
 
@@ -450,24 +450,33 @@
                  margin-top: 30px; 
             }
         }
-         @media (max-width: 600px) {
-            body { padding: 10px; } 
-            .main-container { padding: 15px;}
+         @media (max-width: 600px) { /* Mobile specific adjustments */
+            body { padding: 10px 5px; } /* Reduce body padding further */
+            .page-wrapper {
+                padding-left: 5px; /* Add slight padding to page-wrapper if needed */
+                padding-right: 5px;
+            }
+            .main-container { 
+                padding: 15px; /* Reduce padding for main interactive area */
+                gap: 20px;
+            }
             h1 { font-size: 1.5em; } 
             .main-label { font-size: 1em; }
+            .description-box { padding: 15px; }
             .description-box h3 { font-size: 1.15em; } 
             .profile-section strong { font-size: 0.95em; } 
             .profile-section span { font-size: 0.85em; } 
-            #ai-character-trait { margin-bottom: 15px; }
+            #ai-character-trait { margin-bottom: 15px; padding: 10px; }
             #trait-icon { font-size: 2.2em; }
-            .trait-tag { font-size: 0.8em; padding: 3px 8px;}
-            .numerical-value-box { width: 70px; font-size: 0.9em;}
+            .trait-tag { font-size: 0.75em; padding: 3px 8px;} /* Slightly smaller tags */
+            .numerical-value-box { width: 65px; font-size: 0.85em;} /* Smaller numerical box */
             #quick-vibe-check { font-size: 0.9em;}  
             .tips-guide-container { padding: 15px; }
             .tips-guide-container h1 { font-size: 1.3em; } 
             .tips-guide-container h2 { font-size: 1.15em; } 
             .tips-guide-container h3 { font-size: 1.05em; } 
             .troubleshooting-table th, .troubleshooting-table td { padding: 6px 8px; font-size: 0.8em; } 
+            .action-buttons button { width: 95%; max-width: none; font-size: 0.85em; padding: 8px 10px;}
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -872,9 +881,8 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                 let afterAnchorHtmlParts = markdownContent.split('<div id="troubleshooting-section-anchor"></div>');
                 let afterAnchorHtml = "";
                 if (afterAnchorHtmlParts.length > 1) {
-                    afterAnchorHtml = marked.parse(afterAnchorHtmlParts[1]);
+                    afterAnchorHtml = marked.parse(afterAnchorHtmlParts[1]); // Parse the "Happy Shaping..." part
                 }
-
 
                 const troubleshootingTableHTML = `
                     <div id="troubleshooting-section-anchor"></div>
