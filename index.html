@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kyle's DreamJourney Tweaker</title> <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #1a1a2e; 
+            color: #e0e0e0; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.6;
+        }
+        .main-container {
+            display: flex;
+            flex-direction: row; 
+            gap: 30px;
+            width: 100%;
+            max-width: 1100px; 
+            background-color: #24243e; 
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 25px 35px 35px 35px;
+            border: 1px solid #3a3a5a;
+        }
+        .controls-column {
+            flex: 1; 
+            min-width: 300px; 
+            max-width: 400px; 
+        }
+        .profile-column {
+            flex: 1.5; 
+            min-width: 350px; 
+        }
+
+        h1 {
+            text-align: center;
+            color: #9bf6ff; 
+            margin-bottom: 10px; 
+            font-size: 1.9em;
+            font-weight: 600;
+            width: 100%; 
+        }
+        .disclaimer-note {
+            text-align: center;
+            color: #b0b0b0;
+            font-size: 0.85em;
+            font-style: italic;
+            margin-bottom: 25px;
+            max-width: 600px; 
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 28px; 
+        }
+        .control-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .control-group .label-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .main-label { 
+            font-weight: 600;
+            font-size: 1.1em; 
+            color: #c5c6c7;
+        }
+        .qualitative-value { 
+             font-weight: normal;
+             font-style: italic;
+             font-size: 0.9em;
+             color: #a9a9a9;
+        }
+        .control-group input[type="range"] {
+            width: 100%;
+            cursor: pointer;
+            accent-color: #6a0dad; 
+            background: #3a3a5a; 
+            border-radius: 5px;
+            height: 8px;
+            -webkit-appearance: none; 
+            appearance: none;
+        }
+        .control-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #6a0dad; 
+            border-radius: 50%;
+            border: 2px solid #1a1a2e; 
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .control-group input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #6a0dad; 
+            border-radius: 50%;
+            border: 2px solid #1a1a2e;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+         .control-group input[type="range"]::-webkit-slider-thumb:hover {
+            background: #800080; 
+        }
+        .control-group input[type="range"]::-moz-range-thumb:hover {
+            background: #800080; 
+        }
+
+        .numerical-value-box {
+            background-color: #1e1e36; 
+            color: #e0e0e0;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.95em;
+            text-align: center;
+            margin-top: 10px; 
+            border: 1px solid #3a3a5a;
+            width: 80px; 
+            margin-left: auto;
+            margin-right: auto; 
+            transition: background-color 0.3s ease, color 0.3s ease; 
+        }
+        .numerical-value-box.recommendation-warning { 
+            background-color: #FFD700; 
+            color: #332e00; 
+        }
+        .numerical-value-box.critical-warning { 
+            color: #1a1a2e; 
+            background-color: #ff6b6b; 
+            font-weight: bold;
+        }
+        .slider-ends {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8em; 
+            color: #8c8c8c; 
+            margin-top: 6px;
+        }
+        .setting-description {
+            font-size: 0.85em;
+            color: #b0b0b0;
+            margin-top: 8px;
+            line-height: 1.4;
+            text-align: left;
+        }
+        
+        #reset-button {
+            background-color: #6a0dad; 
+            color: #e0e0e0;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+            display: block;
+            margin: 25px auto 0 auto; 
+        }
+        #reset-button:hover {
+            background-color: #800080; 
+        }
+
+        .description-box {
+            padding: 25px;
+            background-color: #2a2a4a; 
+            border-radius: 12px;
+            border: 1px solid #4a4a6a;
+            height: 100%; 
+            display: flex;
+            flex-direction: column;
+        }
+        .description-box h3 {
+            margin-top: 0;
+            color: #9bf6ff; 
+            font-size: 1.3em; 
+            margin-bottom: 15px;
+            border-bottom: 1px solid #4a4a6a;
+            padding-bottom: 12px;
+            text-align: center;
+        }
+
+        #alert-section {
+            background-color: #5c2525; 
+            color: #ffcaca;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            border: 1px solid #a84f4f;
+        }
+        #alert-section strong {
+            color: #ffefef;
+            display: block; 
+            margin-bottom: 5px;
+        }
+        #alert-section.hidden {
+            display: none;
+        }
+        #alert-text ul {
+            margin: 0;
+            padding-left: 20px; 
+        }
+        #alert-text li {
+            margin-bottom: 3px;
+        }
+
+
+        #quick-vibe-check {
+            font-size: 1.0em; 
+            color: #b0e0e6; 
+            text-align: left; 
+            margin-bottom: 15px; 
+            padding: 12px;
+            background-color: #1e1e36;
+            border-radius: 6px;
+            line-height: 1.5;
+            border-bottom: 1px solid #3a3a5a; 
+        }
+        .vibe-emoji {
+            font-size: 1.3em; 
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        .vibe-analogy {
+            font-style: italic;
+            color: #c0d0e0; 
+            display: block;
+            margin-bottom: 5px;
+        }
+        .vibe-summary {
+            font-weight: 500;
+        }
+
+
+        .profile-section {
+            margin-bottom: 15px; 
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #3a3a5a; 
+        }
+        .profile-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .profile-section strong { 
+            color: #d0d0d0; 
+            font-weight: 600;
+            display: block; 
+            margin-bottom: 5px; 
+            font-size: 1.05em;
+        }
+        .profile-section span { 
+            color: #b0b0b0; 
+            font-size: 0.95em;
+            line-height: 1.55; 
+            text-align: left; 
+        }
+        .positive-spin { 
+            color: #a6ffcb; 
+            font-style: italic;
+            display: block; 
+            margin-top: 4px;
+            font-size: 0.9em;
+        }
+
+
+        .overall-style-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px; 
+            padding: 8px; 
+            background-color: #1e1e36;
+            border-radius: 8px;
+        }
+        .mini-compass {
+            display: grid;
+            grid-template-columns: repeat(3, 25px); 
+            grid-template-rows: repeat(3, 25px);
+            gap: 2px; 
+            border: 1px solid #4a4a6a;
+            margin-right: 15px;
+            background-color: #1a1a2e; 
+        }
+        .mini-compass-cell {
+            background-color: #33334f; 
+            transition: background-color 0.3s ease;
+            border-radius: 2px; 
+        }
+        .mini-compass-cell.active {
+            background-color: #6a0dad; 
+        }
+        #overall-style-text {
+            font-size: 1.05em; 
+            font-weight: 600;
+            color: #9bf6ff; 
+        }
+        #overall-style-text.problematic {
+            color: #ff8787; 
+            font-style: italic;
+        }
+
+
+         @media (max-width: 900px) { 
+            .main-container {
+                flex-direction: column;
+                max-width: 700px; 
+            }
+            .controls-column, .profile-column {
+                max-width: 100%; 
+            }
+            .profile-column {
+                 margin-top: 30px; 
+            }
+        }
+         @media (max-width: 600px) {
+            h1 { font-size: 1.6em; }
+            .main-label { font-size: 1em; }
+            .description-box h3 { font-size: 1.2em; }
+            .profile-section strong { font-size: 1em; }
+            .profile-section span { font-size: 0.9em; }
+            .overall-style-container { flex-direction: column; align-items: center; gap: 12px; text-align: center;}
+            .mini-compass { margin-right: 0; }
+            .numerical-value-box { width: 70px; font-size: 0.9em;}
+            #quick-vibe-check { font-size: 0.95em;} 
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1><span role="img" aria-label="Robot">🤖</span> Kyle's DreamJourney Tweaker <span role="img" aria-label="Robot">🤖</span></h1> <p class="disclaimer-note">Some models may vary and settings may have to be tweaked between models. Experiment to find what you like, or even adjust mid roleplay to change up the roleplay a bit!</p>
+    
+    <div class="main-container">
+        <div class="controls-column">
+            <div class="controls">
+                <div class="control-group">
+                    <div class="label-line">
+                        <span class="main-label">Temperature</span>
+                        <span id="temp-qualitative-text" class="qualitative-value">Balanced</span>
+                    </div>
+                    <input type="range" id="temp-slider" min="0.1" max="2.0" step="0.01" value="0.8">
+                    <div class="numerical-value-box" id="temp-numerical-container"><span id="temp-numerical-value">0.80</span></div>
+                    <div class="slider-ends">
+                        <span>Predictable</span> <span>Creative</span>
+                    </div>
+                    <p class="setting-description">Controls response creativity/randomness. Lower (0.1-0.7) is predictable. Recommended: 0.7-1.2 for balance. Higher (>1.2) is very creative/surprising.</p> 
+                </div>
+                <div class="control-group">
+                     <div class="label-line">
+                        <span class="main-label">Repetition Penalty</span>
+                        <span id="repPen-qualitative-text" class="qualitative-value">Balanced</span>
+                    </div>
+                    <input type="range" id="repPen-slider" min="1.0" max="2.0" step="0.01" value="1.08">
+                    <div class="numerical-value-box" id="repPen-numerical-container"><span id="repPen-numerical-value">1.08</span></div>
+                     <div class="slider-ends">
+                        <span>Disabled (1.0)</span> 
+                        <span>Strongly Avoids (2.0)</span>
+                    </div>
+                     <p class="setting-description">Discourages repeating words. 1.0 is neutral. Recommended: 1.0-1.4 for balanced control. Higher (>1.7) can degrade quality.</p> 
+                </div>
+                <div class="control-group">
+                     <div class="label-line">
+                        <span class="main-label">Min P</span>
+                        <span id="minP-qualitative-text" class="qualitative-value">Balanced</span>
+                    </div>
+                    <input type="range" id="minP-slider" min="0.0" max="1.0" step="0.001" value="0.06">
+                    <div class="numerical-value-box" id="minP-numerical-container"><span id="minP-numerical-value">0.06</span></div> 
+                     <div class="slider-ends">
+                        <span>Permissive (0.0)</span>
+                        <span>Very Strict (1.0)</span>
+                    </div>
+                    <p class="setting-description">Filters unlikely words. Higher values are more restrictive. Recommended: 0.04-0.1. Set to 0 to disable.</p>
+                </div>
+            </div>
+            <button id="reset-button">Reset to Defaults</button>
+        </div>
+
+        <div class="profile-column">
+            <div class="description-box">
+                <h3>Roleplay & Response Profile</h3>
+                <div id="alert-section" class="hidden">
+                    <strong>Potential Issue Alert:</strong>
+                    <div id="alert-text"></div> 
+                </div>
+                <div id="quick-vibe-check">
+                    <span class="vibe-emoji" role="img" aria-label="Vibe Emoji">🤔</span>
+                    <div>
+                        <span class="vibe-analogy">Analogy: Casting a net...</span>
+                        <span class="vibe-summary">Outcome: Balanced and engaging.</span>
+                    </div>
+                </div>
+                
+                <div class="overall-style-container">
+                    <div class="mini-compass" aria-hidden="true">
+                        <div class="mini-compass-cell" id="cell-00"></div> <div class="mini-compass-cell" id="cell-01"></div> <div class="mini-compass-cell" id="cell-02"></div>
+                        <div class="mini-compass-cell" id="cell-10"></div> <div class="mini-compass-cell" id="cell-11"></div> <div class="mini-compass-cell" id="cell-12"></div>
+                        <div class="mini-compass-cell" id="cell-20"></div> <div class="mini-compass-cell" id="cell-21"></div> <div class="mini-compass-cell" id="cell-22"></div>
+                    </div>
+                    <div id="overall-style-text">Overall Style: Balanced & Focused</div>
+                </div>
+                <div class="profile-section"><strong>Variance (Idea Pool):</strong> <span id="variance-text">Moderate</span></div>
+                <div class="profile-section"><strong>Coherence & Focus (Idea Selection):</strong> <span id="coherence-text">Good</span></div>
+                <div class="profile-section"><strong>Prompt Adherence (Following the Scene):</strong> <span id="adherence-text">Balanced</span></div>
+                <div class="profile-section"><strong>Word Choice & Tone (Dialogue Polish):</strong> <span id="repetition-text">Natural</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const tempSlider = document.getElementById('temp-slider');
+        const minPSlider = document.getElementById('minP-slider');
+        const repPenSlider = document.getElementById('repPen-slider');
+        const resetButton = document.getElementById('reset-button');
+        
+        const tempQualitativeText = document.getElementById('temp-qualitative-text');
+        const tempNumericalValue = document.getElementById('temp-numerical-value');
+        const tempNumericalContainer = document.getElementById('temp-numerical-container'); 
+        
+        const minPQualitativeText = document.getElementById('minP-qualitative-text');
+        const minPNumericalContainer = document.getElementById('minP-numerical-container');
+        const minPNumericalValue = document.getElementById('minP-numerical-value');
+
+        const repPenQualitativeText = document.getElementById('repPen-qualitative-text');
+        const repPenNumericalContainer = document.getElementById('repPen-numerical-container');
+        const repPenNumericalValue = document.getElementById('repPen-numerical-value');
+
+        const miniCompassCells = [
+            document.getElementById('cell-00'), document.getElementById('cell-01'), document.getElementById('cell-02'),
+            document.getElementById('cell-10'), document.getElementById('cell-11'), document.getElementById('cell-12'),
+            document.getElementById('cell-20'), document.getElementById('cell-21'), document.getElementById('cell-22')
+        ];
+
+        const alertSection = document.getElementById('alert-section');
+        const alertText = document.getElementById('alert-text'); 
+        const quickVibeCheckText = document.getElementById('quick-vibe-check'); 
+        const overallStyleText = document.getElementById('overall-style-text');
+        const varianceText = document.getElementById('variance-text');
+        const coherenceText = document.getElementById('coherence-text');
+        const adherenceText = document.getElementById('adherence-text');
+        const repetitionText = document.getElementById('repetition-text');
+
+        const tempEffectiveMinPPlotDomain = [0.0, 0.2]; 
+
+        const defaultSettings = {
+            temp: 0.8,
+            minP: 0.06,
+            repPen: 1.08
+        };
+
+        const recRanges = {
+            temp: { low: 0.7, high: 1.2 },
+            minP: { low: 0.04, high: 0.1 },
+            repPen: { low: 1.0, high: 1.4 } 
+        };
+
+        function applyDefaults() {
+            tempSlider.value = defaultSettings.temp;
+            minPSlider.value = defaultSettings.minP;
+            repPenSlider.value = defaultSettings.repPen;
+            updateUI();
+        }
+
+        function updateUI() {
+            const temp = parseFloat(tempSlider.value);
+            const minP = parseFloat(minPSlider.value);
+            const repPen = parseFloat(repPenSlider.value);
+
+            tempNumericalValue.textContent = temp.toFixed(2);
+            minPNumericalValue.textContent = minP.toFixed(2); 
+            repPenNumericalValue.textContent = repPen.toFixed(2);
+
+            // --- Qualitative Labels & Warnings for Sliders ---
+            tempNumericalContainer.classList.remove('recommendation-warning', 'critical-warning'); 
+            if (temp < recRanges.temp.low || temp > recRanges.temp.high) {
+                tempNumericalContainer.classList.add('recommendation-warning');
+            }
+            if (temp < 0.4) tempQualitativeText.textContent = "Very Rigid (XLow)"; 
+            else if (temp < 0.7) tempQualitativeText.textContent = "Predictable (Low)";
+            else if (temp <= 0.9) tempQualitativeText.textContent = "Slightly Predictable (Rec.)";
+            else if (temp <= 1.2) tempQualitativeText.textContent = "Balanced (Rec.)";
+            else if (temp <= 1.6) tempQualitativeText.textContent = "Creative";
+            else tempQualitativeText.textContent = "Very Creative (High)";
+
+            let minPCriticalWarningThreshold = 0.25; 
+            if (temp <= 0.5) { minPCriticalWarningThreshold = 0.5; } 
+            else if (temp > 0.5 && temp <= 1.2) { minPCriticalWarningThreshold = 0.25; } 
+            else { minPCriticalWarningThreshold = 0.15; } 
+            
+            minPNumericalContainer.classList.remove('recommendation-warning', 'critical-warning');
+            if (minP > minPCriticalWarningThreshold || minP > 0.2) {
+                 minPNumericalContainer.classList.add('critical-warning');
+            } else if (minP < recRanges.minP.low || minP > recRanges.minP.high) {
+                minPNumericalContainer.classList.add('recommendation-warning');
+            }
+            
+            if (minP < 0.04) minPQualitativeText.textContent = "Very Permissive (Low)";
+            else if (minP <= 0.07) minPQualitativeText.textContent = "Permissive (Rec.)";
+            else if (minP <= 0.1) minPQualitativeText.textContent = "Balanced (Rec.)";
+            else if (minP <= 0.15) minPQualitativeText.textContent = "Slightly Strict";
+            else if (minP <= minPCriticalWarningThreshold && minP <= 0.2) minPQualitativeText.textContent = "Strict"; 
+            else minPQualitativeText.textContent = "Very Strict (High)";
+            
+            const repPenCriticalWarningThreshold = 1.7; 
+            repPenNumericalContainer.classList.remove('recommendation-warning', 'critical-warning');
+            if (repPen > repPenCriticalWarningThreshold) { 
+                repPenNumericalContainer.classList.add('critical-warning');
+            } else if (repPen > recRanges.repPen.high) { 
+                 if (repPen !== 1.0) { 
+                    repPenNumericalContainer.classList.add('recommendation-warning');
+                 }
+            }
+
+            if (repPen === 1.0) repPenQualitativeText.textContent = "Disabled / Neutral";
+            else if (repPen <= 1.15) repPenQualitativeText.textContent = "Balanced Control (Rec.)"; 
+            else if (repPen <= 1.4) repPenQualitativeText.textContent = "Reduces Moderately (Rec.)";
+            else if (repPen <= repPenCriticalWarningThreshold) repPenQualitativeText.textContent = "Avoids Strongly"; 
+            else repPenQualitativeText.textContent = "Extremely Avoidant (High)";
+
+            // --- Enhanced Alert Section ---
+            let alertMessages = [];
+            if (temp < 0.3 && minP < 0.02) { 
+                alertMessages.push("Very low Temperature + very low Min P: Responses may become extremely dull, repetitive, overly simplistic, or get stuck in short loops. The AI has few ideas and no filter.");
+            } else if (temp < 0.5 && minP > 0.3) {
+                alertMessages.push("Very low Temperature + high Min P: May result in extremely short, highly repetitive, or even no responses. Creativity is severely stifled.");
+            } else if (temp < 0.6 && minP > 0.15 && minP > recRanges.minP.high) { 
+                 alertMessages.push("Low Temperature + stricter Min P: Can limit creative options and lead to brief, overly focused replies.");
+            }
+            if (temp > 1.7 && minP < 0.03) {
+                alertMessages.push("Extremely high Temperature + very low Min P: Significantly increases the chance of nonsensical, off-topic, or highly chaotic and unpredictable responses.");
+            } else if (temp > 1.5 && minP < 0.05) {
+                 alertMessages.push("High Temperature + permissive Min P: Can make responses less focused, more random, and potentially less coherent.");
+            }
+            if (repPenNumericalContainer.classList.contains('critical-warning')) { 
+                 if (repPen > 1.8) { 
+                    alertMessages.push("Extremely high Repetition Penalty (>1.8): May make language sound unnatural, robotic, or force the use of very obscure words.");
+                 } else if (repPen > repPenCriticalWarningThreshold) { 
+                    alertMessages.push("High Repetition Penalty (>" + repPenCriticalWarningThreshold.toFixed(1) + "): Can degrade response quality, making language feel forced or unnatural.");
+                 }
+            }
+            if (repPen > 1.6 && temp < 0.8) { 
+                 alertMessages.push("High Repetition Penalty + low Temperature: Might feel overly restrictive and make it hard for the AI to form natural sentences.");
+            }
+            if (minPNumericalContainer.classList.contains('critical-warning')) { 
+                if (minP > 0.4) { 
+                    alertMessages.push("Very high Min P (>0.4): Will severely filter word choices, likely breaking response generation or leading to extremely truncated outputs.");
+                } else if (minP > 0.2 && !alertMessages.some(msg => msg.includes("Min P") && msg.includes("Temperature"))) { 
+                    alertMessages.push("High Min P (>0.2): Can significantly restrict word choices, potentially impacting natural flow.");
+                }
+            }
+
+            if (alertMessages.length > 0) {
+                const uniqueAlertMessages = [...new Set(alertMessages)];
+                alertText.innerHTML = "<ul><li>" + uniqueAlertMessages.join("</li><li>") + "</li></ul>";
+                alertSection.classList.remove('hidden');
+            } else {
+                alertSection.classList.add('hidden');
+            }
+            
+            // --- Mini-Compass & Overall Style (with override for alerts) ---
+            let tempCategory = 1; 
+            if (temp < 0.7) tempCategory = 0; 
+            else if (temp > 1.2) tempCategory = 2; 
+            const effectiveMinPForStyle = Math.min(minP, tempEffectiveMinPPlotDomain[1]);
+            let minPCategory = 1; 
+            if (effectiveMinPForStyle < 0.05) minPCategory = 0; 
+            else if (effectiveMinPForStyle > 0.12) minPCategory = 2;  
+            
+            miniCompassCells.forEach(cell => cell.classList.remove('active'));
+            const activeCellIndex = tempCategory * 3 + minPCategory; 
+            if (miniCompassCells[activeCellIndex]) {
+                miniCompassCells[activeCellIndex].classList.add('active');
+            }
+            
+            overallStyleText.classList.remove('problematic');
+            if (alertMessages.length > 0) {
+                overallStyleText.textContent = "Style: Extreme Settings (See Alerts!)";
+                overallStyleText.classList.add('problematic');
+            } else {
+                const tempStyles = ["Predictable", "Balanced", "Creative"];
+                const minPStyles = ["Flexible", "Focused", "Precise"]; 
+                overallStyleText.textContent = `Style: ${tempStyles[tempCategory]} & ${minPStyles[minPCategory]}`;
+            }
+
+            // --- Quick Vibe Check (with Analogies & Summary) ---
+            let vibeAnalogy = "";
+            let vibeSummary = "";
+            let vibeEmoji = "🤔"; 
+
+            // Temperature Analogy (Idea Brainstormer / Spotlight) - More Granular
+            if (temp < 0.4) vibeAnalogy = "Brainstormer: Ultra-focused, laser beam on one idea.";
+            else if (temp < 0.7) vibeAnalogy = "Brainstormer: Focused, explores a few related ideas.";
+            else if (temp <= 0.9) vibeAnalogy = "Brainstormer: Slightly focused, mostly known ideas with a few new sparks.";
+            else if (temp <= 1.2) vibeAnalogy = "Brainstormer: Balanced, good mix of familiar & fresh ideas.";
+            else if (temp <= 1.6) vibeAnalogy = "Brainstormer: Expansive, often brings in novel & diverse ideas.";
+            else vibeAnalogy = "Brainstormer: Wild & vast, expect a flood of unexpected & unusual ideas!";
+
+            // Min P Analogy (Quality Control Filter)
+            if (minP < 0.02 && temp > 1.0) vibeAnalogy += " Filter: Practically off! Almost every idea, no matter how wild, gets through.";
+            else if (minP < 0.04) vibeAnalogy += " Filter: Very loose, lets most ideas pass, including many rough/unusual ones.";
+            else if (minP <= 0.1) vibeAnalogy += " Filter: Decent, catches obvious misfires but allows good creative range.";
+            else if (minP <= 0.2) vibeAnalogy += " Filter: Quite strict, prefers safer, more probable ideas, trims unique ones.";
+            else vibeAnalogy += " Filter: Extremely strict, risks very few (or no) ideas passing its high bar.";
+            
+            // Rep Pen Analogy (Dialogue Polisher)
+            if (repPen === 1.0) vibeAnalogy += " Polisher: Off - dialogue may repeat naturally.";
+            else if (repPen <= 1.2) vibeAnalogy += " Polisher: Gentle - encourages slight phrasing variety.";
+            else if (repPen <= 1.5) vibeAnalogy += " Polisher: Active - pushes for varied wording, keeping speech fresh.";
+            else vibeAnalogy += " Polisher: Intense - strongly forces new phrasing (may sound unnatural).";
+            
+            // Roleplay Summary based on categories & alerts
+            if (alertMessages.length > 0) {
+                vibeEmoji = "⚠️"; 
+                vibeSummary = "Heads up! These settings might lead to some tricky or unexpected responses (see alerts above).";
+            } else if (temp < 0.4 && minP < 0.03) { 
+                 vibeSummary = "Roleplay might feel very rigid, predictable, and possibly repetitive or stuck."; vibeEmoji = "🧱";
+            } else if (tempCategory === 0 && minPCategory === 2) { vibeSummary = "Roleplay will be highly controlled & specific, possibly terse."; vibeEmoji = "🧐";}
+            else if (tempCategory === 2 && minPCategory === 0) { vibeSummary = "Expect wild & unpredictable roleplay – great for chaos!"; vibeEmoji = "🤪";}
+            else if (tempCategory === 0 && minPCategory === 0) { vibeSummary = "Consistent roleplay, but can explore a bit."; vibeEmoji = "🙂";}
+            else if (tempCategory === 2 && minPCategory === 2) { vibeSummary = "Inventive & sharp ideas delivered with precision."; vibeEmoji = "💡";}
+            else if (tempCategory === 1 && minPCategory === 1) { vibeSummary = "Engaging & coherent – a sweet spot for roleplay."; vibeEmoji = "👍";}
+            else if (tempCategory === 1 && minPCategory === 0) { vibeSummary = "Balanced creativity with freedom to explore."; vibeEmoji = "😊";}
+            else if (tempCategory === 1 && minPCategory === 2) { vibeSummary = "Balanced but very focused; reliable for specific scenes."; vibeEmoji = "🎯";}
+            else if (tempCategory === 0 && minPCategory === 1) { vibeSummary = "Predictable & focused, good for straightforward interactions."; vibeEmoji = "📝";}
+            else if (tempCategory === 2 && minPCategory === 1) { vibeSummary = "Creative & focused, for imaginative but on-topic responses."; vibeEmoji = "✨";}
+            else {vibeSummary = "A balanced mix of creativity and coherence."; vibeEmoji = "⚖️";} 
+            
+            if (alertMessages.length === 0 && repPen > 1.5 && repPen <= 1.7) { 
+                vibeSummary += " Dialogue will be strongly varied, sometimes feeling a bit formal.";
+            } else if (alertMessages.length === 0 && repPen > 1.7) {
+                 vibeSummary += " Dialogue might sound forced or unnatural due to extreme avoidance of repeats.";
+            }
+            
+            quickVibeCheckText.innerHTML = `<span class="vibe-emoji" role="img" aria-label="Vibe Emoji">${vibeEmoji}</span><div><span class="vibe-analogy">${vibeAnalogy}</span><span class="vibe-summary">${vibeSummary}</span></div>`;
+
+            // --- Detailed Profile Sections (More Reactive to Extremes, direct language) ---
+            let varianceDesc = ""; 
+            if (temp > 1.8) varianceDesc = "Off the Charts: Expect extremely random and novel outputs. The AI is basically freestyling with a massive pool of ideas. <span class='positive-spin'>Perfect for pure brainstorming or maximum surprise!</span>";
+            else if (temp > 1.5) varianceDesc = "Very High: Highly diverse and surprising responses. The AI will explore many unusual paths and generate very unique content. <span class='positive-spin'>Great for breaking creative ruts or if you want the AI to truly shock you.</span>";
+            else if (temp > 1.2) varianceDesc = "High: Responses will often be surprising and different each time. Good for unexpected plot twists or when you want the AI to take more initiative.";
+            else if (temp >= 0.7) varianceDesc = "Moderate: A good mix of consistency and new ideas. Keeps things interesting but generally on track. The AI will explore a bit.";
+            else if (temp >= 0.4) varianceDesc = "Low: Expect very similar and predictable responses. Good for strict consistency, but little surprise. The AI prefers familiar paths.";
+            else varianceDesc = "Extremely Low: Responses will be almost identical and highly deterministic. Minimal to no variation. Can feel robotic or stuck. <span class='positive-spin'>Useful for very specific, controlled outputs if it doesn't get stuck, or for a very stoic character.</span>";
+            varianceText.innerHTML = varianceDesc;
+
+            let coherenceDesc = ""; 
+            if (minP > 0.5) coherenceDesc = "Critically Low: Min P is so high it's likely filtering out almost all words, leading to broken, nonsensical, or no responses at all.";
+            else if (temp > 1.5 && minP < 0.03) coherenceDesc = "Very Low: Extreme creativity and virtually no filter mean a high chance of nonsensical, random, or completely off-topic outputs. Expect chaos and a wild ride!";
+            else if (temp > 1.2 && minP < 0.05) coherenceDesc = "Lower: With high creativity and a very loose filter, responses might often drift, become illogical, or lose the plot more easily. Can be fun for randomness.";
+            else if (temp < 0.4 && minP < 0.03) coherenceDesc = "Rigidly Focused & Potentially Stuck: While technically coherent on its narrow path, it may get stuck in loops or produce overly simplistic, repetitive text due to extremely limited options. Can be very dull.";
+            else if (temp < 0.5 && minP > 0.15) coherenceDesc = "Artificially Constrained: May seem coherent but could be very short, stuck in loops, or fail due to extreme filtering of very few initial options. Output might feel 'strangled'.";
+            else if (temp < 0.7 && minP > 0.1) coherenceDesc = "Very High: Responses should be very logical, focused, and directly relevant. Unlikely to go off-topic.";
+            else if (minP > 0.2 && temp > 1.2) coherenceDesc = "Potentially Conflicting: High creativity (from Temp) clashes with strict filtering (from Min P), which may produce sparse, odd, or short results.";
+            else coherenceDesc = "Good: Generally sensible and stays on topic. Reliable for storytelling and consistent character interactions.";
+            if (repPen > 1.6) coherenceDesc += " (Note: Very high Repetition Penalty can also make responses feel less natural or coherent due to forced word choices.)"
+            coherenceText.innerHTML = coherenceDesc;
+
+            let adherenceDesc = ""; 
+            if (temp < 0.4 && minP < 0.03) adherenceDesc = "Literal & Potentially Unresponsive: AI will attempt to adhere but may only grasp the most basic interpretation and get stuck or provide minimal output due to limited options.";
+            else if (temp < 0.5 && minP > 0.1) adherenceDesc = "Extremely Strong: The AI will be rigidly bound to your prompt and character. Almost no creative deviation. Very robotic.";
+            else if (temp < 0.7 && minP > 0.08) adherenceDesc = "Very Strong: The AI will stick closely to your instructions and character details. Little deviation, good for precise control.";
+            else if (temp <= 1.0 && minP >= 0.05) adherenceDesc = "Strong: Follows instructions well, with minor creative interpretations fitting the context. Reliable for character voice.";
+            else if (temp > 1.6 || minP < 0.02) adherenceDesc = "Extremely Loose: The AI will likely disregard large parts of your prompt, following its own highly random path. <span class='positive-spin'>Can lead to completely unexpected scenarios!</span>";
+            else if (temp > 1.2 || minP < 0.04) adherenceDesc = "Loose: Expect free interpretation of your prompt. The AI may deviate significantly. <span class='positive-spin'>Good for letting the AI take the lead.</span>";
+            else adherenceDesc = "Balanced: Follows your lead but adds its own creative touches to enhance the roleplay.";
+            if (repPen > 1.7) adherenceDesc += " (Note: Extreme Repetition Penalty might make it hard for the AI to use specific keywords if your prompt requires them to be repeated.)";
+            adherenceText.innerHTML = adherenceDesc;
+            
+            let repDesc = ""; 
+            if (repPen === 1.0) repDesc = "Neutral: Allows natural repetition. Words/phrases might repeat if common or contextually fitting. Characters might have 'catchphrases'.";
+            else if (repPen <= 1.4) repDesc = "Reduced: Gently discourages obvious repetition, making dialogue feel fresher and more varied. Good for most uses.";
+            else if (repPen <= 1.7) repDesc = "Strongly Reduced: Actively avoids repeating words, pushing for more unique vocabulary. <span class='positive-spin'>Can result in more eloquent or distinct character voices.</span>";
+            else repDesc = `Extremely Reduced: Forces highly unique phrasing. Language might become unnatural or use rare words to avoid any repetition. This can make common expressions or character quirks difficult for the AI.`;
+            repetitionText.innerHTML = repDesc;
+        }
+        
+        tempSlider.addEventListener('input', updateUI);
+        minPSlider.addEventListener('input', updateUI);
+        repPenSlider.addEventListener('input', updateUI);
+        resetButton.addEventListener('click', applyDefaults);
+        
+        applyDefaults();
+    </script>
+</body>
+</html>
