@@ -6,287 +6,54 @@
     <title>Kyle's DreamJourney Tweaker</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> 
     <style>
-        /* --- CSS Variables for Theming --- */
         :root {
-            --bg-primary: #1a1a2e;
-            --bg-secondary: #24243e;
-            --bg-tertiary: #1e1e36;
-            --bg-accent: #2a2a4a;
-            --text-primary: #e0e0e0;
-            --text-secondary: #b0b0b0;
-            --text-highlight: #9bf6ff;
-            --text-muted: #8c8c8c;
-            --border-color: #3a3a5a;
-            --border-accent: #4a4a6a;
-            --slider-accent: #6a0dad;
-            --slider-thumb: #6a0dad;
-            --slider-thumb-hover: #800080;
-            --button-primary-bg: #6a0dad;
-            --button-primary-hover-bg: #800080;
-            --button-secondary-bg: #ffb74d;
-            --button-secondary-text: #1a1a2e;
-            --button-secondary-hover-bg: #ffa726;
-            --warning-recommendation-bg: #FFD700;
-            --warning-recommendation-text: #332e00;
-            --warning-critical-bg: #ff6b6b;
-            --warning-critical-text: #1a1a2e;
-            --alert-bg: #5c2525;
-            --alert-text: #ffcaca;
-            --alert-border: #a84f4f;
+            --bg-primary: #1a1a2e; --bg-secondary: #24243e; --bg-tertiary: #1e1e36; --bg-accent: #2a2a4a;
+            --text-primary: #e0e0e0; --text-secondary: #b0b0b0; --text-highlight: #9bf6ff; --text-muted: #8c8c8c;
+            --border-color: #3a3a5a; --border-accent: #4a4a6a;
+            --slider-accent: #6a0dad; --slider-thumb: #6a0dad; --slider-thumb-hover: #800080;
+            --button-primary-bg: #6a0dad; --button-primary-hover-bg: #800080;
+            --button-secondary-bg: #ffb74d; --button-secondary-text: #1a1a2e; --button-secondary-hover-bg: #ffa726;
+            --warning-recommendation-bg: #FFD700; --warning-recommendation-text: #332e00;
+            --warning-critical-bg: #ff6b6b; --warning-critical-text: #1a1a2e;
+            --alert-bg: #5c2525; --alert-text: #ffcaca; --alert-border: #a84f4f;
             --positive-spin-text: #a6ffcb;
-            --tag-positive-bg: #2a5c3d;
-            --tag-positive-border: #38761d;
-            --tag-positive-text: #d9ead3;
-            --tag-negative-bg: #702828;
-            --tag-negative-border: #990000;
-            --tag-negative-text: #f4cccc;
-            --tag-neutral-bg: #33334f;
-            --tag-neutral-border: #4a4a6a;
-            --tag-neutral-text: #b0b0b0;
-            --tag-critical-warning-bg: #ff6b6b;
-            --tag-critical-warning-border: #e06666;
-            --tag-critical-warning-text: #1a1a2e;
+            --tag-positive-bg: #2a5c3d; --tag-positive-border: #38761d; --tag-positive-text: #d9ead3;
+            --tag-negative-bg: #702828; --tag-negative-border: #990000; --tag-negative-text: #f4cccc;
+            --tag-neutral-bg: #33334f; --tag-neutral-border: #4a4a6a; --tag-neutral-text: #b0b0b0;
+            --tag-critical-warning-bg: #ff6b6b; --tag-critical-warning-border: #e06666; --tag-critical-warning-text: #1a1a2e;
+            --tooltip-bg: #33334f; --tooltip-text: #e0e0e0; --tooltip-border: #4a4a6a;
         }
-
         body.light-theme {
-            --bg-primary: #f4f7f6;
-            --bg-secondary: #ffffff;
-            --bg-tertiary: #e9ecef;
-            --bg-accent: #e9f5fe;
-            --text-primary: #212529;
-            --text-secondary: #495057;
-            --text-highlight: #007bff;
-            --text-muted: #6c757d;
-            --border-color: #dee2e6;
-            --border-accent: #ced4da;
-            --slider-accent: #581c87; /* Darker purple for light theme */
-            --slider-thumb: #581c87;
-            --slider-thumb-hover: #4a148c;
-            --button-primary-bg: #581c87;
-            --button-primary-hover-bg: #4a148c;
-            --button-secondary-bg: #fd7e14; /* Orange */
-            --button-secondary-text: #ffffff;
-            --button-secondary-hover-bg: #e8590c;
-            --warning-recommendation-bg: #fff3cd;
-            --warning-recommendation-text: #664d03;
-            --warning-critical-bg: #f8d7da;
-            --warning-critical-text: #58151c;
-            --alert-bg: #f8d7da;
-            --alert-text: #58151c;
-            --alert-border: #f1aeb5;
-            --positive-spin-text: #198754; /* Green for positive spin */
+            --bg-primary: #f4f7f6; --bg-secondary: #ffffff; --bg-tertiary: #e9ecef; --bg-accent: #e9f5fe;
+            --text-primary: #212529; --text-secondary: #495057; --text-highlight: #007bff; --text-muted: #6c757d;
+            --border-color: #dee2e6; --border-accent: #ced4da;
+            --slider-accent: #581c87; --slider-thumb: #581c87; --slider-thumb-hover: #4a148c;
+            --button-primary-bg: #581c87; --button-primary-hover-bg: #4a148c;
+            --button-secondary-bg: #fd7e14; --button-secondary-text: #ffffff; --button-secondary-hover-bg: #e8590c;
+            --warning-recommendation-bg: #fff3cd; --warning-recommendation-text: #664d03;
+            --warning-critical-bg: #f8d7da; --warning-critical-text: #58151c;
+            --alert-bg: #f8d7da; --alert-text: #58151c; --alert-border: #f1aeb5;
+            --positive-spin-text: #198754; 
             --tag-positive-bg: #d1e7dd; --tag-positive-border: #a3cfbb; --tag-positive-text: #0f5132;
             --tag-negative-bg: #f8d7da; --tag-negative-border: #f1aeb5; --tag-negative-text: #58151c;
             --tag-neutral-bg: #e9ecef; --tag-neutral-border: #ced4da; --tag-neutral-text: #495057;
             --tag-critical-warning-bg: #f8d7da; --tag-critical-warning-border: #f1aeb5; --tag-critical-warning-text: #58151c;
+            --tooltip-bg: #e9ecef; --tooltip-text: #212529; --tooltip-border: #ced4da;
         }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 10px; 
-            background-color: var(--bg-primary); 
-            color: var(--text-primary); 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .page-wrapper { 
-            width: 100%;
-            max-width: 1100px; 
-        }
-        .theme-toggle-button {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            padding: 8px 12px;
-            background-color: var(--button-primary-bg);
-            color: var(--text-primary);
-            border: 1px solid var(--border-accent);
-            border-radius: 6px;
-            cursor: pointer;
-            z-index: 1000;
-            font-size: 0.85em;
-        }
-        .theme-toggle-button:hover {
-            background-color: var(--button-primary-hover-bg);
-        }
-
-        /* ... other styles remain largely the same, but using CSS variables ... */
-        /* Example change: */
-        .main-container {
-            display: flex;
-            flex-direction: row; 
-            gap: 30px;
-            width: 100%;
-            background-color: var(--bg-secondary); 
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            padding: 25px; 
-            border: 1px solid var(--border-color);
-            margin-bottom: 30px; 
-        }
-        h1 {
-            text-align: center;
-            color: var(--text-highlight); 
-            margin-bottom: 10px; 
-            font-size: 1.8em; 
-            font-weight: 600;
-        }
-         .disclaimer-note {
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.85em;
-            font-style: italic;
-            margin-bottom: 25px;
-            max-width: 600px; 
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .control-group input[type="range"] {
-            accent-color: var(--slider-accent); 
-            background: var(--border-color); 
-        }
-        .control-group input[type="range"]::-webkit-slider-thumb {
-            background: var(--slider-thumb); 
-            border: 2px solid var(--bg-primary); 
-        }
-        .control-group input[type="range"]::-moz-range-thumb {
-            background: var(--slider-thumb); 
-            border: 2px solid var(--bg-primary);
-        }
-         .control-group input[type="range"]::-webkit-slider-thumb:hover {
-            background: var(--slider-thumb-hover); 
-        }
-        .control-group input[type="range"]::-moz-range-thumb:hover {
-            background: var(--slider-thumb-hover); 
-        }
-        .numerical-value-box {
-            background-color: var(--bg-tertiary); 
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-        }
-        .numerical-value-box.recommendation-warning { 
-            background-color: var(--warning-recommendation-bg); 
-            color: var(--warning-recommendation-text); 
-        }
-        .numerical-value-box.critical-warning { 
-            color: var(--warning-critical-text); 
-            background-color: var(--warning-critical-bg); 
-        }
-        .slider-ends { color: var(--text-muted); }
-        .setting-description { color: var(--text-secondary); }
-        
-        .action-buttons button { 
-            background-color: var(--button-primary-bg); 
-            color: var(--text-primary);
-        }
-        .action-buttons button:hover {
-            background-color: var(--button-primary-hover-bg); 
-        }
-        #jump-to-troubleshooting-btn { 
-            background-color: var(--button-secondary-bg); 
-            color: var(--button-secondary-text); 
-        }
-        #jump-to-troubleshooting-btn:hover {
-            background-color: var(--button-secondary-hover-bg);
-        }
-
-        .description-box {
-            background-color: var(--bg-accent); 
-            border: 1px solid var(--border-accent);
-        }
-        .description-box h3 {
-            color: var(--text-highlight); 
-            border-bottom: 1px solid var(--border-accent);
-        }
-        #alert-section {
-            background-color: var(--alert-bg); 
-            color: var(--alert-text);
-            border: 1px solid var(--alert-border);
-        }
-        #alert-section strong { color: var(--alert-text); } /* Adjusted for better contrast on light theme */
-        #quick-vibe-check {
-            color: var(--text-secondary); 
-            background-color: var(--bg-tertiary);
-        }
-         #quick-vibe-check h3 { 
-            color: var(--text-secondary); 
-            border-color: var(--border-color);
-        }
-        .vibe-persona { color: var(--text-primary);  }
-        .vibe-outcome { color: var(--text-secondary); }
-        .profile-section { border-bottom: 1px dashed var(--border-color);  }
-        .profile-section strong { color: var(--text-primary); }
-        .profile-section span { color: var(--text-secondary); }
-        .positive-spin { color: var(--positive-spin-text); }
-
-        #ai-character-trait { background-color: var(--bg-tertiary); }
-        .trait-tag { border: 1px solid var(--border-accent); }
-        .trait-tag.positive { background-color: var(--tag-positive-bg); border-color: var(--tag-positive-border); color: var(--tag-positive-text);}
-        .trait-tag.negative { background-color: var(--tag-negative-bg); border-color: var(--tag-negative-border); color: var(--tag-negative-text);}
-        .trait-tag.neutral { background-color: var(--tag-neutral-bg); border-color: var(--tag-neutral-border); color: var(--tag-neutral-text);}
-        .trait-tag.critical-warning { background-color: var(--tag-critical-warning-bg); border-color: var(--tag-critical-warning-border); color: var(--tag-critical-warning-text);}
-
-        .tips-guide-container {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-        }
-        #tips-guide-content h1, #tips-guide-content h2, #tips-guide-content h3 { 
-            color: var(--text-highlight);
-            border-bottom: 1px solid var(--border-accent);
-        }
-        #tips-guide-content p { color: var(--text-primary); }
-        #tips-guide-content strong { color: var(--text-primary); }
-        #tips-guide-content code { 
-            background-color: var(--bg-tertiary);
-            color: var(--alert-text); /* Re-using alert text color for code */
-        }
-        #tips-guide-content pre { 
-            background-color: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-        }
-        .troubleshooting-table { border: 1px solid var(--border-accent) !important; }
-        .troubleshooting-table th, 
-        .troubleshooting-table td { border: 1px solid var(--border-accent) !important; }
-        .troubleshooting-table th {
-            background-color: var(--tag-neutral-bg) !important; 
-            color: var(--text-highlight);
-        }
-        .troubleshooting-table tr:nth-child(even) td { background-color: var(--bg-tertiary); }
-        #tips-guide-content p.jump-to-troubleshooting a,
-        #tips-guide-content p.jump-to-troubleshooting a:link,
-        #tips-guide-content p.jump-to-troubleshooting a:visited {
-            color: var(--button-secondary-bg) !important;
-        }
-        #tips-guide-content p.jump-to-troubleshooting a:hover,
-        #tips-guide-content p.jump-to-troubleshooting a:active {
-            color: var(--button-secondary-hover-bg) !important;
-        }
-        
-        /* Rest of the CSS from v13 (media queries, specific element styles etc.) should be here, adjusted to use variables if possible */
-        /* For brevity, I'm not repeating all identical CSS, only showing the theming structure and key changes. */
-        /* Please ensure all previous CSS is carried over and updated with CSS variables where appropriate. */
-        /* Example of a previously defined style that now uses variables: */
-        .main-label { 
-            font-weight: 600;
-            font-size: 1.05em; 
-            color: var(--text-primary); /* Was #c5c6c7 */
-        }
-        .slider-ends {
-            color: var(--text-muted); /* Was #8c8c8c */
-        }
-        /* Ensure all color, background-color, border-color are switched to vars */
-        .controls-column { flex: 1; min-width: 280px; max-width: 400px; }
-        .profile-column { flex: 1.5; min-width: 320px; }
-        h1 { text-align: center; color: var(--text-highlight); margin-bottom: 10px; font-size: 1.8em; font-weight: 600;}
+        body { font-family: 'Inter', sans-serif; margin: 0; padding: 10px; background-color: var(--bg-primary); color: var(--text-primary); display: flex; flex-direction: column; align-items: center; line-height: 1.6; transition: background-color 0.3s, color 0.3s; }
+        .page-wrapper { width: 100%; max-width: 1100px; position: relative; }
+        .theme-toggle-button { position: absolute; top: 10px; right: 10px; padding: 8px 12px; background-color: var(--button-primary-bg); color: var(--text-primary); border: 1px solid var(--border-accent); border-radius: 6px; cursor: pointer; z-index: 1000; font-size: 0.85em; transition: background-color 0.2s, color 0.2s; }
+        body.light-theme .theme-toggle-button { color: #ffffff; }
+        .theme-toggle-button:hover { background-color: var(--button-primary-hover-bg); }
+        .main-container { display: flex; flex-direction: row; gap: 30px; width: 100%; background-color: var(--bg-secondary); border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); padding: 25px; border: 1px solid var(--border-color); margin-top: 60px; margin-bottom: 30px; }
+        h1 { text-align: center; color: var(--text-highlight); margin-bottom: 10px; font-size: 1.8em; font-weight: 600; }
         .disclaimer-note { text-align: center; color: var(--text-secondary); font-size: 0.85em; font-style: italic; margin-bottom: 25px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .controls-column { flex: 1; min-width: 280px; max-width: 400px; }
+        .profile-column { flex: 1.5; min-width: 320px; position: relative; } 
         .controls { display: flex; flex-direction: column; gap: 25px; }
         .control-group { display: flex; flex-direction: column; }
         .control-group .label-line { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .main-label { font-weight: 600; font-size: 1.05em; color: var(--text-primary); }
         .qualitative-value { font-weight: normal; font-style: italic; font-size: 0.85em; color: var(--text-secondary); }
         .control-group input[type="range"] { width: 100%; cursor: pointer; background: var(--border-color); border-radius: 5px; height: 8px; -webkit-appearance: none; appearance: none; accent-color: var(--slider-accent); }
         .control-group input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; background: var(--slider-thumb); border-radius: 50%; border: 2px solid var(--bg-primary); cursor: pointer; transition: background-color 0.2s ease; }
@@ -296,42 +63,71 @@
         .numerical-value-box { padding: 5px 10px; border-radius: 6px; font-size: 0.9em; text-align: center; margin-top: 8px; width: 75px; margin-left: auto; margin-right: auto; transition: background-color 0.3s ease, color 0.3s ease; background-color: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border-color); }
         .numerical-value-box.recommendation-warning { background-color: var(--warning-recommendation-bg); color: var(--warning-recommendation-text); }
         .numerical-value-box.critical-warning { color: var(--warning-critical-text); background-color: var(--warning-critical-bg); font-weight: bold; }
+        .slider-ends { display: flex; justify-content: space-between; font-size: 0.75em; color: var(--text-muted); margin-top: 5px; }
         .setting-description { font-size: 0.8em; color: var(--text-secondary); margin-top: 6px; line-height: 1.4; text-align: left; }
         .action-buttons button { border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-size: 0.9em; font-weight: 500; transition: background-color 0.2s ease; display: block; width: 90%; max-width: 280px; margin: 15px auto 0 auto; background-color: var(--button-primary-bg); color: var(--text-primary); }
+        body.light-theme .action-buttons button { color: #ffffff; } 
         .action-buttons button:hover { background-color: var(--button-primary-hover-bg); }
         #toggle-guide-button { margin-top: 10px; }
         #jump-to-troubleshooting-btn { font-weight: 600; margin: 20px auto; display: block; width: fit-content; padding: 8px 15px; background-color: var(--button-secondary-bg); color: var(--button-secondary-text); }
         #jump-to-troubleshooting-btn:hover { background-color: var(--button-secondary-hover-bg); }
+        .description-box { padding: 20px; background-color: var(--bg-accent); border: 1px solid var(--border-accent); height: 100%; display: flex; flex-direction: column; border-radius: 12px;}
         .description-box h3 { font-size: 1.25em; margin-bottom: 15px; border-bottom: 1px solid var(--border-accent); padding-bottom: 12px; text-align: center; margin-top: 0; color: var(--text-highlight); }
         #alert-section { padding: 10px 15px; border-radius: 6px; margin-bottom: 15px; background-color: var(--alert-bg); color: var(--alert-text); border: 1px solid var(--alert-border); }
-        #alert-section strong { display: block; margin-bottom: 5px; color: var(--alert-text); } /* Adjusted for better contrast on light theme */
+        #alert-section strong { display: block; margin-bottom: 5px; color: var(--alert-text); } 
         #alert-section.hidden { display: none; }
         #alert-text ul { margin: 0; padding-left: 20px; }
         #alert-text li { margin-bottom: 3px; }
-        #quick-vibe-check { font-size: 0.95em; text-align: center; margin-bottom: 15px; padding: 12px; border-radius: 6px; line-height: 1.5; background-color: var(--bg-tertiary); color: var(--text-secondary); }
+        #quick-vibe-check { font-size: 0.95em; text-align: center; margin-bottom: 15px; padding: 12px; border-radius: 6px; line-height: 1.5; background-color: var(--bg-tertiary); color: var(--text-secondary); border-top: 1px solid var(--border-color); padding-top: 15px;} /* Added border-top */
         #quick-vibe-check h3 { font-size: 1.05em; margin-top: 0; margin-bottom: 8px; padding-bottom: 5px; border-bottom-style: dashed; border-bottom-width: 1px; text-align: center; color: var(--text-secondary); border-color: var(--border-color); }
         .vibe-emoji { font-size: 1.4em; display: block; margin-bottom: 5px; }
         .vibe-persona { font-weight: bold; display: block; margin-bottom: 5px; font-size: 1em; color: var(--text-primary); }
         .vibe-outcome { font-style: italic; font-size: 0.9em; color: var(--text-secondary); }
         .profile-section { margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed var(--border-color); }
         .profile-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-        .profile-section strong { font-weight: 600; display: block; margin-bottom: 4px; font-size: 1em; color: var(--text-primary); }
+        .profile-section strong { font-weight: 600; display: block; margin-bottom: 4px; font-size: 1em; color: var(--text-primary); cursor: help; } 
         .profile-section .section-emoji { margin-right: 8px; font-size: 1.05em; }
         .profile-section span { font-size: 0.9em; line-height: 1.5; text-align: left; color: var(--text-secondary); }
         .positive-spin { font-style: italic; display: block; margin-top: 3px; font-size: 0.85em; color: var(--positive-spin-text); }
         #ai-character-trait { text-align: center; margin-bottom: 15px; padding: 12px; border-radius: 8px; background-color: var(--bg-tertiary); }
         #trait-icon { font-size: 2.5em; display: block; margin-bottom: 8px; }
         #trait-tags-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
-        .trait-tag { padding: 4px 10px; border-radius: 15px; font-size: 0.8em; color: var(--tag-neutral-text); background-color: var(--tag-neutral-bg); border: 1px solid var(--tag-neutral-border); }
+        .trait-tag { padding: 4px 10px; border-radius: 15px; font-size: 0.8em; color: var(--tag-neutral-text); background-color: var(--tag-neutral-bg); border: 1px solid var(--tag-neutral-border); cursor: help; }
         .trait-tag.positive { color: var(--tag-positive-text); background-color: var(--tag-positive-bg); border: 1px solid var(--tag-positive-border); }
         .trait-tag.negative { color: var(--tag-negative-text); background-color: var(--tag-negative-bg); border: 1px solid var(--tag-negative-border); }
         .trait-tag.critical-warning { font-weight: bold; color: var(--tag-critical-warning-text); background-color: var(--tag-critical-warning-bg); border: 1px solid var(--tag-critical-warning-border); }
+        
+        /* Custom Tooltip Styles */
+        .custom-tooltip {
+            position: absolute;
+            background-color: var(--tooltip-bg);
+            color: var(--tooltip-text);
+            border: 1px solid var(--tooltip-border);
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 0.85em;
+            line-height: 1.4;
+            z-index: 1001; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            max-width: 250px;
+            text-align: left;
+            opacity: 0; /* Hidden by default, JS will toggle */
+            pointer-events: none; /* Prevent tooltip from interfering with other clicks */
+            transition: opacity 0.2s ease-in-out;
+        }
+        .custom-tooltip.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+
+        /* Styles for Rendered Markdown Guide */
         .tips-guide-container { border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); padding: 20px; margin-top: 30px; background-color: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); }
         .tips-guide-container.hidden { display: none; }
         #tips-guide-content h1, #tips-guide-content h2, #tips-guide-content h3 { border-bottom: 1px solid var(--border-accent); padding-bottom: 8px; margin-top: 18px; margin-bottom: 12px; color: var(--text-highlight); }
-        #tips-guide-content h1 { font-size: 1.5em; text-align: center; }
-        #tips-guide-content h2 { font-size: 1.3em; }
-        #tips-guide-content h3 { font-size: 1.15em; }
+        #tips-guide-content h1 { font-size: 1.5em; text-align: center; } 
+        #tips-guide-content h2 { font-size: 1.3em; } 
+        #tips-guide-content h3 { font-size: 1.15em; } 
         #tips-guide-content p { margin-bottom: 10px; line-height: 1.65; color: var(--text-primary); }
         #tips-guide-content ul, #tips-guide-content ol { margin-left: 0px; margin-bottom: 12px; padding-left: 22px; }
         #tips-guide-content li { margin-bottom: 6px; }
@@ -348,7 +144,6 @@
 
         @media (max-width: 900px) { .main-container { flex-direction: column; max-width: 700px; } .controls-column, .profile-column { max-width: 100%; } .profile-column { margin-top: 30px; } }
         @media (max-width: 600px) { body { padding: 10px 5px; } .page-wrapper { padding-left: 5px; padding-right: 5px; } .main-container { padding: 15px; gap: 20px; } h1 { font-size: 1.5em; } .main-label { font-size: 1em; } .description-box { padding: 15px; } .description-box h3 { font-size: 1.15em; } .profile-section strong { font-size: 0.95em; } .profile-section span { font-size: 0.85em; } #ai-character-trait { margin-bottom: 15px; padding: 10px; } #trait-icon { font-size: 2.2em; } .trait-tag { font-size: 0.75em; padding: 3px 8px; } .numerical-value-box { width: 65px; font-size: 0.85em; } #quick-vibe-check { font-size: 0.9em; } .tips-guide-container { padding: 15px; } .tips-guide-container h1 { font-size: 1.3em; } .tips-guide-container h2 { font-size: 1.15em; } .tips-guide-container h3 { font-size: 1.05em; } .troubleshooting-table th, .troubleshooting-table td { padding: 6px 8px; font-size: 0.8em; } .action-buttons button { width: 95%; max-width: none; font-size: 0.85em; padding: 8px 10px; } }
-
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -439,10 +234,9 @@
         </div>
         
         <button id="jump-to-troubleshooting-btn" style="display:none;">Having Issues? Jump to Troubleshooting Tips 👇</button>
-
-
-        <div id="tips-guide-container" class="tips-guide-container hidden"> 
-            <div id="tips-guide-content"></div> </div>
+        <div id="custom-tooltip" class="custom-tooltip hidden"></div> <div id="tips-guide-container" class="tips-guide-container hidden"> 
+            <div id="tips-guide-content"></div> 
+        </div>
     </div>
 
     <script type="text/template" id="markdown-template">
@@ -485,7 +279,6 @@ Imagine your AI is a creative chef preparing a dish (the response):
 Happy Shaping, and may your AI Chef cook up some amazing stories!
     </script>
     <script>
-        // Main UI script (sliders, profile updates, etc.)
         const tempSlider = document.getElementById('temp-slider');
         const minPSlider = document.getElementById('minP-slider');
         const repPenSlider = document.getElementById('repPen-slider');
@@ -493,6 +286,7 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
         const toggleGuideButton = document.getElementById('toggle-guide-button'); 
         const jumpToTroubleshootingButton = document.getElementById('jump-to-troubleshooting-btn');
         const themeToggleButton = document.getElementById('theme-toggle-button');
+        const customTooltip = document.getElementById('custom-tooltip');
         
         const tempQualitativeText = document.getElementById('temp-qualitative-text');
         const tempNumericalValue = document.getElementById('temp-numerical-value');
@@ -541,6 +335,15 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
             repPenSlider.value = defaultSettings.repPen;
             updateUI();
         }
+
+        // Tooltip Data Store
+        const tooltipData = {
+            variance: "Variance describes how different or predictable the AI's ideas and phrasing will be. Temperature is the main driver here.",
+            coherence: "Coherence & Focus describe how logical, on-topic, and sensible the AI's responses are. Primarily influenced by Temperature and Min P; extreme Repetition Penalty can also negatively impact it.",
+            adherence: "Prompt Adherence describes how closely the AI is expected to follow your specific prompts, instructions, and character concepts. Lower Temperature and moderate-to-high Min P generally increase adherence.",
+            repetition: "Word Choice & Tone are primarily affected by Repetition Penalty, which influences how often the AI reuses words and phrases. This impacts the naturalness and variety of its dialogue."
+        };
+
 
         function updateUI() {
             const temp = parseFloat(tempSlider.value);
@@ -600,30 +403,29 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
 
             // --- Enhanced Alert Section ---
             let alertMessages = [];
-            // Positive Spin Notes
-            let positiveSpins = [];
+            let positiveSpins = []; 
 
             if (temp < 0.3 && minP < 0.02) { 
                 alertMessages.push("Very low Temperature + very low Min P: Responses may become extremely dull, repetitive, overly simplistic, or get stuck in short loops. The AI has few ideas and no filter.");
             } else if (temp < 0.5 && minP > 0.3) {
                 alertMessages.push("Very low Temperature + high Min P: May result in extremely short, highly repetitive, or even no responses. Creativity is severely stifled.");
-                 positiveSpins.push("Bright Side: If you need an AI that *only* says one specific thing (and almost nothing else), this might be it.");
+                 positiveSpins.push({for:"Very low Temperature + high Min P", text:"Bright Side: If you need an AI that *only* says one specific thing (and almost nothing else), this might be it."});
             } else if (temp < 0.6 && minP > 0.15 && minP > recRanges.minP.high) { 
                  alertMessages.push("Low Temperature + stricter Min P: Can limit creative options and lead to brief, overly focused replies.");
             }
 
             if (temp > 1.7 && minP < 0.03) {
                 alertMessages.push("Extremely high Temperature + very low Min P: Significantly increases the chance of nonsensical, off-topic, or highly chaotic and unpredictable responses.");
-                positiveSpins.push("Creative Use: Perfect for pure chaos, avant-garde poetry, or if you want the AI to generate completely unexpected, boundary-pushing ideas.");
+                positiveSpins.push({for:"Extremely high Temperature + very low Min P", text:"Creative Use: Perfect for pure chaos, avant-garde poetry, or if you want the AI to generate completely unexpected, boundary-pushing ideas."});
             } else if (temp > 1.5 && minP < 0.05) {
                  alertMessages.push("High Temperature + permissive Min P: Can make responses less focused, more random, and potentially less coherent.");
-                 positiveSpins.push("Creative Use: Good for brainstorming a wide array of ideas, even if some are tangents.");
+                 positiveSpins.push({for:"High Temperature + permissive Min P", text:"Creative Use: Good for brainstorming a wide array of ideas, even if some are tangents."});
             }
 
             if (repPenNumericalContainer.classList.contains('critical-warning')) { 
                  if (repPen > 1.8) { 
                     alertMessages.push("Extremely high Repetition Penalty (>1.8): May make language sound unnatural, robotic, or force the use of very obscure words.");
-                    positiveSpins.push("Bright Side: You'll almost certainly get unique phrasing for every sentence!");
+                    positiveSpins.push({for:"Extremely high Repetition Penalty", text:"Bright Side: You'll almost certainly get unique phrasing for every sentence!"});
                  } else if (repPen > repPenCriticalWarningThreshold) { 
                     alertMessages.push("High Repetition Penalty (>" + repPenCriticalWarningThreshold.toFixed(1) + "): Can degrade response quality, making language feel forced or unnatural.");
                  }
@@ -644,16 +446,8 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                 let alertHTML = "<ul>";
                 uniqueAlertMessages.forEach(msg => {
                     alertHTML += `<li>${msg}</li>`;
-                    // Add corresponding positive spin if any
-                    if (msg.includes("Extremely high Temperature + very low Min P") && positiveSpins.find(s => s.includes("pure chaos"))) {
-                        alertHTML += `<li><em style="color: #a6ffcb; font-size:0.9em;">${positiveSpins.find(s => s.includes("pure chaos"))}</em></li>`;
-                    } else if (msg.includes("High Temperature + permissive Min P") && positiveSpins.find(s => s.includes("brainstorming a wide array"))) {
-                        alertHTML += `<li><em style="color: #a6ffcb; font-size:0.9em;">${positiveSpins.find(s => s.includes("brainstorming a wide array"))}</em></li>`;
-                    } else if (msg.includes("Extremely high Repetition Penalty") && positiveSpins.find(s => s.includes("unique phrasing"))) {
-                         alertHTML += `<li><em style="color: #a6ffcb; font-size:0.9em;">${positiveSpins.find(s => s.includes("unique phrasing"))}</em></li>`;
-                    } else if (msg.includes("Very low Temperature + high Min P") && positiveSpins.find(s => s.includes("one specific thing"))) {
-                         alertHTML += `<li><em style="color: #a6ffcb; font-size:0.9em;">${positiveSpins.find(s => s.includes("one specific thing"))}</em></li>`;
-                    }
+                    const spin = positiveSpins.find(s => msg.startsWith(s.for.split(":")[0])); // Match based on start of message
+                    if(spin) alertHTML += `<li><em class="positive-spin">${spin.text}</em></li>`;
                 });
                 alertHTML += "</ul>";
                 alertText.innerHTML = alertHTML;
@@ -666,49 +460,35 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
             let currentTraitIcon = "⚖️"; 
             let currentTraitTags = [];
 
-            if (alertMessages.length > 0 && !(temp < 0.4 && minP < 0.03)) { // Don't override for just low/low stuck state
+            if (alertMessages.length > 0 && !(temp < 0.4 && minP < 0.03)) { 
                 currentTraitIcon = "⚠️";
-                currentTraitTags.push({text: "Extreme Settings!", type: "critical-warning"});
-                currentTraitTags.push({text: "See Alerts", type: "critical-warning"}); // Shortened
+                currentTraitTags.push({text: "Extreme Settings!", type: "critical-warning", title: "One or more settings are at a level that may cause issues."});
+                currentTraitTags.push({text: "See Alerts", type: "critical-warning", title: "Check the 'Potential Issue Alert' box above for details."}); 
             } else {
-                // Temperature-driven traits
-                if (temp > 1.7) { currentTraitIcon = "🔥"; currentTraitTags.push({text: "Wildly Creative", type: "positive"}); currentTraitTags.push({text: "Unpredictable", type: "neutral"});}
-                else if (temp > 1.2) { currentTraitIcon = "✨"; currentTraitTags.push({text: "Creative", type: "positive"}); }
-                else if (temp < 0.4) { currentTraitIcon = "🧊"; currentTraitTags.push({text: "Very Rigid", type: "negative"}); currentTraitTags.push({text: "Deterministic", type: "neutral"});}
-                else if (temp < 0.7) { currentTraitIcon = "🧐"; currentTraitTags.push({text: "Predictable", type: "neutral"}); }
-                else { currentTraitTags.push({text: "Balanced Ideas", type: "neutral"}); }
+                // Simplified categories for tags
+                let tempTagType = "neutral", tempTagText = "Balanced Temp";
+                if (temp > 1.5) {tempTagType = "positive"; tempTagText = "Very Creative"; currentTraitIcon = "🔥";}
+                else if (temp > 1.2) {tempTagType = "positive"; tempTagText = "Creative"; currentTraitIcon = "✨";}
+                else if (temp < 0.4) {tempTagType = "negative"; tempTagText = "Very Rigid"; currentTraitIcon = "🧊";}
+                else if (temp < 0.7) {tempTagType = "neutral"; tempTagText = "Predictable"; currentTraitIcon = "🧐";}
+                currentTraitTags.push({text: tempTagText, type: tempTagType, title: `Temperature is ${temp.toFixed(2)}`});
 
-                // Min P-driven traits 
-                let minPEffectiveThresholdStrict = 0.1 + (temp - 0.8) * 0.08; // Higher temp allows slightly higher "strict" MinP
-                let minPEffectiveThresholdExtreme = 0.18 + (temp - 0.8) * 0.12;
-
-                if (minP > Math.max(0.25, minPEffectiveThresholdExtreme) && minP > 0.1) { // MinP is definitively high
-                    currentTraitIcon = (currentTraitIcon === "⚖️" || currentTraitIcon === "⚠️" ? "🚧" : currentTraitIcon) ; currentTraitTags.push({text: "Extreme Filter", type: "negative"}); if(minP > 0.4) currentTraitTags.push({text: "Risks No Output", type: "negative"});
-                } else if (minP > Math.max(0.1, minPEffectiveThresholdStrict) && minP <=0.25) { // Stricter based on temp
-                    currentTraitTags.push({text: "Strict Filter", type: "negative"}); 
-                } else if (minP < 0.03) { 
-                    currentTraitTags.push({text: "Very Loose Filter", type: "neutral"}); 
-                } else { 
-                    currentTraitTags.push({text: "Moderate Filter", type: "neutral"});
-                }
+                let minPTagType = "neutral", minPTagText = "Balanced Filter";
+                if (minP > 0.3) {minPTagType = "negative"; minPTagText = "Extreme Filter"; if(minP > 0.4) currentTraitIcon = "🚧";}
+                else if (minP > 0.15) {minPTagType = "negative"; minPTagText = "Strict Filter";}
+                else if (minP < 0.03) {minPTagType = "neutral"; minPTagText = "Loose Filter";}
+                currentTraitTags.push({text: minPTagText, type: minPTagType, title: `Min P is ${minP.toFixed(2)}`});
                 
-                // Rep Pen-driven traits
-                if (repPen > 1.7) { currentTraitTags.push({text: "Forced Novelty", type: "negative"}); }
-                else if (repPen > 1.4) { currentTraitTags.push({text: "Varied Phrasing", type: "positive"});}
-                else if (repPen === 1.0 ) { currentTraitTags.push({text: "Allows Repetition", type: "neutral"});}
-                else { currentTraitTags.push({text: "Reduces Repetition", type: "neutral"});}
-
-                currentTraitTags = [...new Set(currentTraitTags.map(tag => JSON.stringify(tag)))].map(s => JSON.parse(s)); // Remove duplicates
-
-                if (currentTraitTags.length === 0 || (currentTraitTags.length >= 3 && currentTraitTags.every(t=>t.type === 'neutral'))) { 
-                     currentTraitTags = [{text: "Balanced Overall", type: "neutral"}]; 
-                     currentTraitIcon = "⚖️"; // Ensure balanced icon if tags are all neutral
-                } else if (currentTraitTags.length > 3) {
-                    currentTraitTags = currentTraitTags.slice(0,3); // Max 3 tags
-                }
+                let repPenTagType = "neutral", repPenTagText = "Balanced Rep Control";
+                if (repPen > 1.7) {repPenTagType = "negative"; repPenTagText = "Forced Novelty";}
+                else if (repPen > 1.4) {repPenTagType = "positive"; repPenTagText = "Varied Phrasing";}
+                else if (repPen === 1.0 ) {repPenTagType = "neutral"; repPenTagText = "Allows Repetition";}
+                currentTraitTags.push({text: repPenTagText, type: repPenTagType, title: `Rep Pen is ${repPen.toFixed(2)}`});
             }
             traitIconElement.textContent = currentTraitIcon;
-            traitTagsContainerElement.innerHTML = currentTraitTags.map(tag => `<span class="trait-tag ${tag.type}">${tag.text}</span>`).join('');
+            traitTagsContainerElement.innerHTML = currentTraitTags.map(tag => 
+                `<span class="trait-tag ${tag.type}" data-tooltip="${tag.title || tag.text}">${tag.text}</span>`
+            ).join('');
 
 
             // --- Quick Vibe Check (Persona-based) ---
@@ -718,22 +498,22 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
 
             if (alertMessages.length > 0) {
                 vibeEmoji = "⚠️"; 
-                vibePersona = "The Overwhelmed AI";
-                vibeOutcome = "Is struggling with these extreme settings! Check the alerts above for potential issues like broken responses or unexpected chaos.";
+                vibePersona = "The Alchemist of Extremes"; // Changed persona for alert state
+                vibeOutcome = "Is brewing a potent mix! Check the alerts above for potential side effects, both wondrous and wild.";
             } else if (temp < 0.4 && minP < 0.03) { 
-                 vibePersona = "The Stuck Record"; vibeOutcome = "Might say very little, or the same simple things over and over. Very rigid and potentially dull."; vibeEmoji = "🧱";
-            } else if (temp < 0.5 && minP > 0.2) { vibePersona = "The Silent Planner"; vibeOutcome = "Is thinking very hard but might not say much due to strict idea filtering. Expect short or no replies."; vibeEmoji = "🤫";}
-            else if (temp > 1.6 && minP < 0.03) { vibePersona = "The Wild Brainstormer"; vibeOutcome = "Is throwing out tons of unpredictable ideas! Expect a chaotic but potentially very novel experience."; vibeEmoji = "🤪";}
-            else if (temp > 1.3 && minP < 0.05) { vibePersona = "The Adventurous Explorer"; vibeOutcome = "Loves to explore novel ideas with a relaxed filter. Expect diverse and surprising turns."; vibeEmoji = "🗺️";}
-            else if (temp < 0.7 && minP > 0.12) { vibePersona = "The Precise Scholar"; vibeOutcome = "Delivers focused, logical, and carefully chosen words. Very controlled."; vibeEmoji = "🧐";}
-            // More granular "balanced" states
-            else if (temp >= 0.7 && temp <= 0.9 && minP >= 0.04 && minP <= 0.1) { vibePersona = "The Methodical Storyteller"; vibeOutcome = "Crafts responses with care, leaning towards consistency but open to some creativity."; vibeEmoji = "✍️";}
-            else if (temp > 0.9 && temp <= 1.2 && minP >= 0.04 && minP <= 0.1) { vibePersona = "The Engaging Collaborator"; vibeOutcome = "Aims for a great balance of creativity and coherence. Ideal for most roleplay!"; vibeEmoji = "👍";}
-            else if (temp > 0.9 && temp <= 1.2 && minP < 0.04) { vibePersona = "The Flexible Friend"; vibeOutcome = "Balanced creativity with a very open filter, allowing many ideas through."; vibeEmoji = "😊";}
-             else if (temp > 0.9 && temp <= 1.2 && minP > 0.1 && minP <=0.15) { vibePersona = "The Focused Creator"; vibeOutcome = "Generates creative ideas but keeps them tightly relevant and well-filtered."; vibeEmoji = "🎯";}
-            else { vibePersona = "The Balanced Storyteller"; vibeOutcome = "Offers a mix of predictability and creativity, generally staying on track."; vibeEmoji = "⚖️";} 
+                 vibePersona = "The Echo Chamber"; vibeOutcome = "Will likely produce very simple, repetitive, or even stuck phrases. Highly predictable, but lacks depth."; vibeEmoji = "🧱";
+            } else if (temp < 0.5 && minP > 0.2) { vibePersona = "The Meticulous Accountant"; vibeOutcome = "Calculates every word with extreme prejudice. Expect very short, possibly clipped or no replies."; vibeEmoji = "🤫";}
+            else if (temp > 1.6 && minP < 0.03) { vibePersona = "The Cosmic Joker"; vibeOutcome = "Is throwing out a universe of unpredictable ideas! Expect a chaotic, often nonsensical, but potentially hilarious journey."; vibeEmoji = "🤪";}
+            else if (temp > 1.3 && minP < 0.05) { vibePersona = "The Adventurous Bard"; vibeOutcome = "Loves to explore novel ideas with a relaxed filter. Expect diverse, surprising, and mostly coherent story beats."; vibeEmoji = "🗺️";}
+            else if (temp < 0.7 && minP > 0.12) { vibePersona = "The Scholarly Librarian"; vibeOutcome = "Delivers focused, logical, and carefully chosen words. Very controlled and factual in tone."; vibeEmoji = "🧐";}
             
-            // Capitalize first letter of vibeOutcome
+            // More Granular Vibe Personas for less extreme, more common settings
+            else if (temp >= 0.7 && temp <= 0.9 && minP >= 0.04 && minP <= 0.1) { vibePersona = "The Methodical Storyteller"; vibeOutcome = "Crafts responses with care, leaning towards consistency but is open to adding some creative sparks."; vibeEmoji = "✍️";}
+            else if (temp > 0.9 && temp <= 1.2 && minP >= 0.04 && minP <= 0.1) { vibePersona = "The Engaging Collaborator"; vibeOutcome = "Aims for a great balance of creativity and coherence. Ideal for most rich and interactive roleplay!"; vibeEmoji = "👍";}
+            else if (temp > 0.9 && temp <= 1.2 && minP < 0.04) { vibePersona = "The Flexible Friend"; vibeOutcome = "Offers balanced creativity with a very open filter, allowing many ideas to flow freely."; vibeEmoji = "😊";}
+             else if (temp > 0.9 && temp <= 1.2 && minP > 0.1 && minP <=0.15) { vibePersona = "The Focused Creator"; vibeOutcome = "Generates creative ideas but keeps them tightly relevant and well-polished for clarity."; vibeEmoji = "🎯";}
+            else { vibePersona = "The Balanced Narrator"; vibeOutcome = "Offers a standard mix of predictability and creativity, generally staying on track."; vibeEmoji = "⚖️";} 
+            
             vibeOutcome = vibeOutcome.charAt(0).toUpperCase() + vibeOutcome.slice(1);
 
             if (alertMessages.length === 0 && repPen > 1.5) {
@@ -747,15 +527,19 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
 
             // --- Detailed Profile Sections (More Reactive to Extremes, direct language) ---
             let varianceDesc = ""; 
+            // Add data-tooltip here
+            varianceText.parentElement.setAttribute('data-tooltip-text', "Variance describes how different or predictable the AI's ideas and phrasing will be. Temperature is the main driver here.");
             if (temp > 1.8) varianceDesc = "<span class='section-emoji'>💥</span>Off the Charts: Expect extremely random and novel outputs. The AI is basically freestyling. <span class='positive-spin'>Perfect for pure brainstorming or maximum surprise!</span>";
-            else if (temp > 1.5) varianceDesc = "<span class='section-emoji'>🔥</span>Very High: Highly diverse and surprising responses. The AI will explore many unusual paths. <span class='positive-spin'>Great for breaking creative ruts or if you want the AI to truly shock you.</span>";
-            else if (temp > 1.2) varianceDesc = "<span class='section-emoji'>✨</span>High: Responses will often be surprising and different each time. Good for unexpected plot twists or when you want the AI to take more initiative.";
+            else if (temp > 1.5) varianceDesc = "<span class='section-emoji'>🔥</span>Very High: Highly diverse and surprising responses. The AI will explore many unusual paths. <span class='positive-spin'>Great for breaking creative ruts. Use if you want the AI to truly shock you.</span>";
+            else if (temp > 1.2) varianceDesc = "<span class='section-emoji'>✨</span>High: Responses will often be surprising and different each time. Good for unexpected plot twists or when you want the AI to take more initiative. <span class='positive-spin'>Can spark new directions.</span>";
             else if (temp >= 0.7) varianceDesc = "<span class='section-emoji'>⚖️</span>Moderate: A good mix of consistency and new ideas. Keeps things interesting but generally on track. The AI will explore a bit.";
             else if (temp >= 0.4) varianceDesc = "<span class='section-emoji'>🧐</span>Low: Expect very similar and predictable responses. Good for strict consistency, but little surprise. The AI prefers familiar paths.";
             else varianceDesc = "<span class='section-emoji'>🧊</span>Extremely Low: Responses will be almost identical and highly deterministic. Minimal to no variation. Can feel robotic or stuck. <span class='positive-spin'>Useful for very specific, controlled outputs if it doesn't get stuck, or for a very stoic character.</span>";
             varianceText.innerHTML = varianceDesc;
+            
 
             let coherenceDesc = ""; 
+            coherenceText.parentElement.setAttribute('data-tooltip-text', "Coherence & Focus describe how logical, on-topic, and sensible the AI's responses are. Primarily influenced by Temperature and Min P; extreme Repetition Penalty can also negatively impact it.");
             if (minP > 0.5) coherenceDesc = "<span class='section-emoji'>🚫</span>Critically Low: Min P is so high it's likely filtering out almost all words, leading to broken, nonsensical, or no responses at all.";
             else if (temp > 1.5 && minP < 0.03) coherenceDesc = "<span class='section-emoji'>🤪</span>Very Low: Extreme creativity and virtually no filter mean a high chance of nonsensical, random, or completely off-topic outputs. Expect chaos!";
             else if (temp > 1.2 && minP < 0.05) coherenceDesc = "<span class='section-emoji'>🤯</span>Lower: With high creativity and a very loose filter, responses might often drift, become illogical, or lose the plot more easily. Can be fun for randomness.";
@@ -768,8 +552,10 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                  coherenceDesc += " (Note: Very high Repetition Penalty can also make responses feel less natural or coherent due to forced word choices.)"
             }
             coherenceText.innerHTML = coherenceDesc;
+            
 
             let adherenceDesc = ""; 
+            adherenceText.parentElement.setAttribute('data-tooltip-text', "Prompt Adherence describes how closely the AI is expected to follow your specific prompts, instructions, and character concepts. Lower Temperature and moderate-to-high Min P generally increase adherence, but extreme Repetition Penalty can interfere.");
             if (temp < 0.4 && minP < 0.03) adherenceDesc = "<span class='section-emoji'>⛓️</span>Literal & Potentially Unresponsive: AI will attempt to adhere but may only grasp the most basic interpretation and get stuck.";
             else if (temp < 0.5 && minP > 0.1) adherenceDesc = "<span class='section-emoji'>🤖</span>Extremely Strong: The AI will be rigidly bound to your prompt and character. Almost no creative deviation. Very robotic.";
             else if (temp < 0.7 && minP > 0.08) adherenceDesc = "<span class='section-emoji'>👍</span>Very Strong: The AI will stick closely to your instructions and character details. Little deviation.";
@@ -780,21 +566,76 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
             if (repPen > 1.7) adherenceDesc += " (Note: Extreme Repetition Penalty might make it hard for the AI to use specific keywords if your prompt requires them to be repeated.)";
             adherenceText.innerHTML = adherenceDesc;
             
+            
             let repDesc = ""; 
+            repetitionText.parentElement.setAttribute('data-tooltip-text', "Word Choice & Tone are primarily affected by Repetition Penalty, which influences how often the AI reuses words and phrases. This impacts the naturalness and variety of its dialogue.");
             if (repPen === 1.0) repDesc = "<span class='section-emoji'>💬</span>Neutral: Allows natural repetition. Words/phrases might repeat if common or contextually fitting.";
             else if (repPen <= 1.4) repDesc = "<span class='section-emoji'>🍃</span>Reduced: Gently discourages obvious repetition, making dialogue feel fresher and more varied.";
             else if (repPen <= 1.7) repDesc = "<span class='section-emoji'>✍️</span>Strongly Reduced: Actively avoids repeating words, pushing for more unique vocabulary. <span class='positive-spin'>Can result in more eloquent or distinct character voices.</span>";
             else repDesc = `<span class='section-emoji'>🚫</span>Extremely Reduced: Forces highly unique phrasing. Language might become unnatural or use rare words to avoid any repetition.`;
             repetitionText.innerHTML = repDesc;
+            
         }
         
+        // --- Custom Tooltip Logic ---
+        document.body.addEventListener('click', function(event) {
+            let target = event.target;
+            let tooltipText = null;
+
+            // Check if the clicked element or its parent (for profile sections) has a data-tooltip-text
+            if (target.hasAttribute('data-tooltip-text')) {
+                tooltipText = target.getAttribute('data-tooltip-text');
+            } else if (target.parentElement && target.parentElement.hasAttribute('data-tooltip-text')) {
+                target = target.parentElement; // Tooltip is on the parent
+                tooltipText = target.getAttribute('data-tooltip-text');
+            } else if (target.classList.contains('trait-tag') && target.hasAttribute('data-tooltip')) {
+                 tooltipText = target.getAttribute('data-tooltip');
+            }
+
+
+            if (tooltipText) {
+                customTooltip.innerHTML = tooltipText;
+                customTooltip.classList.remove('hidden');
+
+                const targetRect = target.getBoundingClientRect();
+                const tooltipRect = customTooltip.getBoundingClientRect();
+                
+                let top = targetRect.top - tooltipRect.height - 10; // Position above by default
+                let left = targetRect.left + (targetRect.width / 2) - (tooltipRect.width / 2);
+
+                // Adjust if going off-screen
+                if (top < 0) { // If too high, position below
+                    top = targetRect.bottom + 10;
+                }
+                if (left < 0) left = 5; // Prevent left overflow
+                if (left + tooltipRect.width > window.innerWidth) left = window.innerWidth - tooltipRect.width - 5; // Prevent right overflow
+                
+                customTooltip.style.top = `${top + window.scrollY}px`;
+                customTooltip.style.left = `${left + window.scrollX}px`;
+                
+                event.stopPropagation(); // Prevent click from immediately hiding if it's also on body
+            } else {
+                // Hide tooltip if clicking anywhere else that's not a tooltip trigger
+                if (!customTooltip.contains(event.target) && !event.target.hasAttribute('data-tooltip-text') && !(event.target.parentElement && event.target.parentElement.hasAttribute('data-tooltip-text')) && !event.target.classList.contains('trait-tag')) {
+                    customTooltip.classList.add('hidden');
+                }
+            }
+        });
+
+
         document.addEventListener('DOMContentLoaded', (event) => {
             const guideContentElement = document.getElementById('tips-guide-content'); 
             const markdownTemplate = document.getElementById('markdown-template'); 
             
             if (guideContentElement && markdownTemplate && typeof marked !== 'undefined') { 
                 let markdownContent = markdownTemplate.textContent;
-                
+                let mainGuideHtml = marked.parse(markdownContent.split('<div id="troubleshooting-section-anchor"></div>')[0]);
+                let afterAnchorHtmlParts = markdownContent.split('<div id="troubleshooting-section-anchor"></div>');
+                let afterAnchorHtml = "";
+                if (afterAnchorHtmlParts.length > 1) {
+                    afterAnchorHtml = marked.parse(afterAnchorHtmlParts[1]); 
+                }
+
                 const troubleshootingTableHTML = `
                     <div id="troubleshooting-section-anchor"></div>
                     <h2>Common Issues & Troubleshooting Tips</h2>
@@ -840,22 +681,33 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                             </tr>
                         </tbody>
                     </table>
+                    ${afterAnchorHtml} 
                 `; 
-                
-                // Parse the main markdown, then append the HTML table and the rest of the markdown
-                let markdownParts = markdownContent.split('<div id="troubleshooting-section-anchor"></div>');
-                let mainGuideHtml = marked.parse(markdownParts[0]);
-                let afterAnchorHtml = "";
-                if (markdownParts.length > 1) {
-                    afterAnchorHtml = marked.parse(markdownParts[1]); 
-                }
-                guideContentElement.innerHTML = mainGuideHtml + troubleshootingTableHTML + afterAnchorHtml;
+                guideContentElement.innerHTML = mainGuideHtml + troubleshootingTableHTML;
 
             } else if (guideContentElement && markdownTemplate) {
                 guideContentElement.innerHTML = '<h2>Tips & Troubleshooting Guide (Raw Markdown - Marked.js failed to load)</h2><pre>' + markdownTemplate.textContent + '</pre>';
                 console.error("Marked.js library FAILED to load. Displaying raw Markdown for guide.");
             }
             
+            // Theme Toggle
+            if(themeToggleButton) {
+                 themeToggleButton.addEventListener('click', () => {
+                    document.body.classList.toggle('light-theme');
+                    const isLight = document.body.classList.contains('light-theme');
+                    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+                    themeToggleButton.textContent = isLight ? "Switch to Dark Theme 🌙" : "Switch to Light Theme ☀️";
+                });
+                // Apply saved theme on load
+                if (localStorage.getItem('theme') === 'light') {
+                    document.body.classList.add('light-theme');
+                    themeToggleButton.textContent = "Switch to Dark Theme 🌙";
+                } else {
+                     themeToggleButton.textContent = "Switch to Light Theme ☀️";
+                }
+            }
+
+
             if(toggleGuideButton) {
                 toggleGuideButton.addEventListener('click', () => {
                     if(guideContainerDiv) {
@@ -864,8 +716,11 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                         if (jumpToTroubleshootingButton) {
                             jumpToTroubleshootingButton.style.display = isHidden ? 'none' : 'block';
                         }
-                        if (!isHidden && document.getElementById('troubleshooting-section-anchor')) { // If showing guide, make jump button work
-                             // No auto-scroll here, user clicks separate button to jump
+                        // Scroll to guide if showing
+                        if (!isHidden && guideContainerDiv) { // ensure guideContainerDiv exists
+                             setTimeout(() => { // Timeout to ensure element is visible before scrolling
+                                guideContainerDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }, 0);
                         }
                     }
                 });
@@ -882,7 +737,7 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
                             if (troubleshootingAnchor) {
                                 troubleshootingAnchor.scrollIntoView({ behavior: 'smooth' });
                             }
-                        }, 100); // Small delay to ensure section is visible
+                        }, 100); 
                     } else if (troubleshootingAnchor) {
                          troubleshootingAnchor.scrollIntoView({ behavior: 'smooth' });
                     }
