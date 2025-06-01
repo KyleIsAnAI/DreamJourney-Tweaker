@@ -497,7 +497,7 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
             // --- Quick Vibe Check (Persona-based) ---
             let vibePersona = "";
             let vibeOutcome = "";
-            let vibeEmoji = "�"; 
+            let vibeEmoji = "🤔"; 
 
             if (alertMessages.length > 0) {
                 vibeEmoji = "⚠️"; 
@@ -529,7 +529,7 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
 
             // --- Detailed Profile Sections (More Reactive to Extremes, direct language) ---
             let varianceDesc = ""; 
-            varianceText.parentElement.setAttribute('data-tooltip-text', tooltipData.variance); 
+            varianceText.parentElement.setAttribute('data-tooltip', tooltipData.variance); // Changed to data-tooltip
             if (temp > 1.8) varianceDesc = "<span class='section-emoji'>💥</span>Off the Charts: Expect extremely random and novel outputs. The AI is basically freestyling. <span class='positive-spin'>Perfect for pure brainstorming or maximum surprise!</span>";
             else if (temp > 1.5) varianceDesc = "<span class='section-emoji'>🔥</span>Very High: Highly diverse and surprising responses. The AI will explore many unusual paths. <span class='positive-spin'>Great for breaking creative ruts. Use if you want the AI to truly shock you.</span>";
             else if (temp > 1.2) varianceDesc = "<span class='section-emoji'>✨</span>High: Responses will often be surprising and different. Good for unexpected plot twists or when you want the AI to take more initiative. <span class='positive-spin'>Can spark new directions.</span>";
@@ -540,7 +540,7 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
             
 
             let coherenceDesc = ""; 
-            coherenceText.parentElement.setAttribute('data-tooltip-text', tooltipData.coherence);
+            coherenceText.parentElement.setAttribute('data-tooltip', tooltipData.coherence); // Changed to data-tooltip
             if (minP > 0.5) coherenceDesc = "<span class='section-emoji'>🚫</span>Critically Low: Min P is so high it's likely filtering out almost all words, leading to broken, nonsensical, or no responses at all.";
             else if (temp > 1.5 && minP < 0.03) coherenceDesc = "<span class='section-emoji'>🤪</span>Very Low: Extreme creativity and virtually no filter mean a high chance of nonsensical, random, or completely off-topic outputs. Expect chaos!";
             else if (temp > 1.2 && minP < 0.05) coherenceDesc = "<span class='section-emoji'>🤯</span>Lower: With high creativity and a very loose filter, responses might often drift, become illogical, or lose the plot more easily. Can be fun for randomness.";
@@ -556,7 +556,7 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
             
 
             let adherenceDesc = ""; 
-            adherenceText.parentElement.setAttribute('data-tooltip-text', tooltipData.adherence);
+            adherenceText.parentElement.setAttribute('data-tooltip', tooltipData.adherence); // Changed to data-tooltip
             if (temp < 0.4 && minP < 0.03) adherenceDesc = "<span class='section-emoji'>⛓️</span>Literal & Potentially Unresponsive: AI will attempt to adhere but may only grasp the most basic interpretation and get stuck.";
             else if (temp < 0.5 && minP > 0.1) adherenceDesc = "<span class='section-emoji'>🤖</span>Extremely Strong: The AI will be rigidly bound to your prompt and character. Almost no creative deviation. Very robotic.";
             else if (temp < 0.7 && minP > 0.08) adherenceDesc = "<span class='section-emoji'>👍</span>Very Strong: The AI will stick closely to your instructions and character details. Little deviation.";
@@ -569,7 +569,7 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
             
             
             let repDesc = ""; 
-            repetitionText.parentElement.setAttribute('data-tooltip-text', tooltipData.repetition);
+            repetitionText.parentElement.setAttribute('data-tooltip', tooltipData.repetition); // Changed to data-tooltip
             if (repPen === 1.0) repDesc = "<span class='section-emoji'>💬</span>Neutral: Allows natural repetition. Words/phrases might repeat if common or contextually fitting.";
             else if (repPen <= 1.4) repDesc = "<span class='section-emoji'>🍃</span>Reduced: Gently discourages obvious repetition, making dialogue feel fresher and more varied.";
             else if (repPen <= 1.7) repDesc = "<span class='section-emoji'>✍️</span>Strongly Reduced: Actively avoids repeating words, pushing for more unique vocabulary. <span class='positive-spin'>Can result in more eloquent or distinct character voices.</span>";
@@ -583,58 +583,58 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
 
         document.body.addEventListener('click', function(event) {
             let clickedElement = event.target;
-            let newTooltipTarget = null;
-            let tooltipTextContent = null;
+            let tooltipTriggerElement = clickedElement.closest('[data-tooltip]');
 
-            const profileStrongTag = clickedElement.closest('.profile-section strong[data-tooltip-text]');
-            const traitTag = clickedElement.closest('.trait-tag[data-tooltip]');
+            if (tooltipTriggerElement) {
+                event.stopPropagation();
+                const tooltipTextContent = tooltipTriggerElement.getAttribute('data-tooltip');
 
-            if (profileStrongTag) {
-                newTooltipTarget = profileStrongTag;
-                tooltipTextContent = profileStrongTag.getAttribute('data-tooltip-text');
-            } else if (traitTag) {
-                newTooltipTarget = traitTag;
-                tooltipTextContent = traitTag.getAttribute('data-tooltip');
-            }
-
-            if (newTooltipTarget) {
-                event.stopPropagation(); 
-
-                if (newTooltipTarget !== currentTooltipTarget || !customTooltip.classList.contains('visible')) {
+                if (tooltipTriggerElement !== currentTooltipTarget || !customTooltip.classList.contains('visible')) {
                     customTooltip.innerHTML = tooltipTextContent;
-                    customTooltip.style.visibility = 'hidden'; 
-                    customTooltip.classList.remove('hidden'); // Should be remove 'visible' then add 'visible'
                     
-                    const targetRect = newTooltipTarget.getBoundingClientRect();
-                    customTooltip.style.opacity = '0'; 
-                    customTooltip.style.visibility = 'visible'; 
+                    // Make it part of layout for measurement, but start transparent
+                    customTooltip.classList.add('visible'); 
+                    customTooltip.style.opacity = '0';      
 
+                    const targetRect = tooltipTriggerElement.getBoundingClientRect();
                     const tooltipHeight = customTooltip.offsetHeight;
                     const tooltipWidth = customTooltip.offsetWidth;
 
                     let top = targetRect.top + window.scrollY - tooltipHeight - 10; 
                     let left = targetRect.left + window.scrollX + (targetRect.width / 2) - (tooltipWidth / 2); 
 
-                    if (top - window.scrollY < 5) { 
+                    if (top - window.scrollY < 10) { 
                         top = targetRect.bottom + window.scrollY + 10; 
                     }
-                    if (left - window.scrollX < 5) left = window.scrollX + 5;
-                    if (left - window.scrollX + tooltipWidth > window.innerWidth - 5) {
-                        left = window.innerWidth + window.scrollX - tooltipWidth - 5;
+                    if (left - window.scrollX < 10) left = window.scrollX + 10;
+                    if (left - window.scrollX + tooltipWidth > window.innerWidth - 10) {
+                        left = window.innerWidth + window.scrollX - tooltipWidth - 10;
                     }
                     
                     customTooltip.style.top = `${top}px`;
                     customTooltip.style.left = `${left}px`;
-                    customTooltip.classList.add('visible'); 
-                    currentTooltipTarget = newTooltipTarget;
-                } else { 
-                    customTooltip.classList.remove('visible');
-                    customTooltip.style.visibility = 'hidden'; 
+                    
+                    requestAnimationFrame(() => { 
+                        customTooltip.style.opacity = '1';
+                    });
+                    
+                    currentTooltipTarget = tooltipTriggerElement;
+                } else {
+                    customTooltip.style.opacity = '0';
+                    setTimeout(() => {
+                        if (customTooltip.style.opacity === '0') { 
+                           customTooltip.classList.remove('visible');
+                        }
+                    }, 200); 
                     currentTooltipTarget = null;
                 }
-            } else if (customTooltip && !customTooltip.contains(event.target)) { 
-                customTooltip.classList.remove('visible');
-                customTooltip.style.visibility = 'hidden'; 
+            } else if (customTooltip.classList.contains('visible') && !customTooltip.contains(event.target)) {
+                customTooltip.style.opacity = '0';
+                 setTimeout(() => {
+                    if (customTooltip.style.opacity === '0') {
+                       customTooltip.classList.remove('visible');
+                    }
+                }, 200);
                 currentTooltipTarget = null;
             }
         });
@@ -774,4 +774,3 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
     </script>
 </body>
 </html>
-�
