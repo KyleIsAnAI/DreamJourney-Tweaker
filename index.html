@@ -236,7 +236,9 @@
         </div>
         
         <button id="jump-to-troubleshooting-btn" style="display:none;">Having Issues? Jump to Troubleshooting Tips 👇</button>
-        <div id="custom-tooltip" class="custom-tooltip"></div> <div id="tips-guide-container" class="tips-guide-container hidden"> 
+        <div id="custom-tooltip" class="custom-tooltip"></div> 
+
+        <div id="tips-guide-container" class="tips-guide-container hidden"> 
             <div id="tips-guide-content"></div> 
         </div>
     </div>
@@ -495,7 +497,7 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
             // --- Quick Vibe Check (Persona-based) ---
             let vibePersona = "";
             let vibeOutcome = "";
-            let vibeEmoji = "🤔"; 
+            let vibeEmoji = "�"; 
 
             if (alertMessages.length > 0) {
                 vibeEmoji = "⚠️"; 
@@ -532,7 +534,7 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
             else if (temp > 1.5) varianceDesc = "<span class='section-emoji'>🔥</span>Very High: Highly diverse and surprising responses. The AI will explore many unusual paths. <span class='positive-spin'>Great for breaking creative ruts. Use if you want the AI to truly shock you.</span>";
             else if (temp > 1.2) varianceDesc = "<span class='section-emoji'>✨</span>High: Responses will often be surprising and different. Good for unexpected plot twists or when you want the AI to take more initiative. <span class='positive-spin'>Can spark new directions.</span>";
             else if (temp >= 0.7) varianceDesc = "<span class='section-emoji'>⚖️</span>Moderate: A good mix of consistency and new ideas. Keeps things interesting but generally on track. The AI will explore a bit.";
-            else if (temp >= 0.4) varianceDesc = "<span class='section-emoji'>🧐</span>Low: Expect very similar and predictable responses. Good for strict consistency, little surprise. The AI prefers familiar paths.";
+            else if (temp >= 0.4) varianceDesc = "<span class='section-emoji'>🧐</span>Low: Expect very similar and predictable responses. Good for strict consistency, but little surprise. The AI prefers familiar paths.";
             else varianceDesc = "<span class='section-emoji'>🧊</span>Extremely Low: Responses will be almost identical and highly deterministic. Minimal to no variation. Can feel robotic or stuck. <span class='positive-spin'>Useful for very specific, controlled outputs if it doesn't get stuck, or for a very stoic character.</span>";
             varianceText.innerHTML = varianceDesc;
             
@@ -584,18 +586,15 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
             let newTooltipTarget = null;
             let tooltipTextContent = null;
 
-            // Check for profile section strong tags
-            const profileStrongTag = clickedElement.closest('.profile-section strong');
-            if (profileStrongTag && profileStrongTag.getAttribute('data-tooltip-text')) {
+            const profileStrongTag = clickedElement.closest('.profile-section strong[data-tooltip-text]');
+            const traitTag = clickedElement.closest('.trait-tag[data-tooltip]');
+
+            if (profileStrongTag) {
                 newTooltipTarget = profileStrongTag;
                 tooltipTextContent = profileStrongTag.getAttribute('data-tooltip-text');
-            } else {
-                // Check for trait tags
-                const traitTag = clickedElement.closest('.trait-tag');
-                if (traitTag && traitTag.getAttribute('data-tooltip')) { // Ensure it's data-tooltip for trait tags
-                    newTooltipTarget = traitTag;
-                    tooltipTextContent = traitTag.getAttribute('data-tooltip');
-                }
+            } else if (traitTag) {
+                newTooltipTarget = traitTag;
+                tooltipTextContent = traitTag.getAttribute('data-tooltip');
             }
 
             if (newTooltipTarget) {
@@ -603,13 +602,12 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
 
                 if (newTooltipTarget !== currentTooltipTarget || !customTooltip.classList.contains('visible')) {
                     customTooltip.innerHTML = tooltipTextContent;
-                    customTooltip.style.visibility = 'hidden'; // Temporarily hide for measurement
-                    customTooltip.classList.remove('hidden'); // Remove this if it was causing issues
+                    customTooltip.style.visibility = 'hidden'; 
+                    customTooltip.classList.remove('hidden'); // Should be remove 'visible' then add 'visible'
                     
                     const targetRect = newTooltipTarget.getBoundingClientRect();
-                    // Force reflow to get accurate dimensions of the tooltip *after* content is set
-                    customTooltip.style.opacity = '0'; // Keep it transparent for measurement
-                    customTooltip.style.visibility = 'visible'; // Make it part of layout for measurement
+                    customTooltip.style.opacity = '0'; 
+                    customTooltip.style.visibility = 'visible'; 
 
                     const tooltipHeight = customTooltip.offsetHeight;
                     const tooltipWidth = customTooltip.offsetWidth;
@@ -776,3 +774,4 @@ Happy Shaping, and may your AI Chef cook up some amazing stories!
     </script>
 </body>
 </html>
+�
